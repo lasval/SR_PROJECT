@@ -5,6 +5,7 @@
 #include "Prototype_Manager.h"
 #include "Object_Manager.h"
 #include "Renderer.h"
+#include "Timer_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -13,6 +14,7 @@ CGameInstance::CGameInstance()
 
 }
 
+#pragma region ENGINE
 HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut)
 {
     m_pGraphic_Device = CGraphic_Device::Create(EngineDesc.hWnd, EngineDesc.eWinMode, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY, ppOut);
@@ -33,6 +35,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
 
     m_pRenderer = CRenderer::Create(*ppOut);
     if (nullptr == m_pRenderer)
+        return E_FAIL;
+
+    m_pTimer_Manager = CTimer_Manager::Create();
+    if (nullptr == m_pTimer_Manager)
         return E_FAIL;
 
     return S_OK;
@@ -81,7 +87,9 @@ void CGameInstance::Render_End(HWND hWnd)
     if (nullptr != m_pGraphic_Device)
         m_pGraphic_Device->Render_End();
 }
+#pragma endregion
 
+#pragma region LEVEL_MANAGER
 HRESULT CGameInstance::Open_Level(_uint iLevelID, CLevel* pNewLevel)
 {
     if (nullptr == m_pLevel_Manager)
@@ -89,7 +97,9 @@ HRESULT CGameInstance::Open_Level(_uint iLevelID, CLevel* pNewLevel)
 
     return m_pLevel_Manager->Open_Level(iLevelID, pNewLevel);
 }
+#pragma endregion
 
+#pragma region PROTOTYPE_MANAGER
 HRESULT CGameInstance::Add_Prototype(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, CBase* pPrototype)
 {
     if (nullptr == m_pPrototype_Manager)
@@ -105,7 +115,9 @@ CBase* CGameInstance::Clone_Prototype(PROTOTYPE ePrototype, _uint iPrototypeLeve
 
     return m_pPrototype_Manager->Clone_Prototype(ePrototype, iPrototypeLevelIndex, strPrototypeTag, pArg);
 }
+#pragma endregion
 
+#pragma region OBJECT_MANAGER
 HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag, _uint iPrototypeLevelIndex, const _wstring strPrototypeTag, void* pArg)
 {
     if (nullptr == m_pObject_Manager)
@@ -113,7 +125,9 @@ HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wst
 
     return m_pObject_Manager->Add_GameObject_ToLayer(iLayerLevelIndex, strLayerTag, iPrototypeLevelIndex, strPrototypeTag, pArg);
 }
+#pragma endregion
 
+#pragma region RENDERER
 HRESULT CGameInstance::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pRenderObject)
 {
     if (nullptr == m_pRenderer)
@@ -121,6 +135,24 @@ HRESULT CGameInstance::Add_RenderGroup(RENDERGROUP eRenderGroup, CGameObject* pR
 
     return m_pRenderer->Add_RenderGroup(eRenderGroup, pRenderObject);
 }
+#pragma endregion
+
+#pragma region TIMER_MANAGER
+_float CGameInstance::Get_TimeDelta(const _wstring& strTimerTag)
+{
+    return m_pTimer_Manager->Get_TimeDelta(strTimerTag);
+}
+
+HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)
+{
+    return m_pTimer_Manager->Add_Timer(strTimerTag);
+}
+
+void CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
+{
+    m_pTimer_Manager->Compute_TimeDelta(strTimerTag);
+}
+#pragma endregion
 
 void CGameInstance::Release_Engine()
 {
