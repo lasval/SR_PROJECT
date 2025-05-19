@@ -56,6 +56,9 @@ public:
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void Scaling(_float fScaleX, _float fScaleY, _float fScaleZ);
 
+	//void StartShake(_float fDuration, _float fStrength, _float fTime);
+
+
 public:
 	void Bind_Matrix();
 
@@ -64,6 +67,12 @@ private:
 	_float4x4					m_WorldMatrixInverse = { };
 	_float						m_fSpeedPerSec = { };
 	_float						m_fRotationPerSec = { };
+
+	// 카메라 쉐이킹용 멤버변수
+	/*_bool						m_bIsShaking = { };
+	_float						m_fShakeDuration = { };
+	_float						m_fShakeTime = { };
+	_float						m_fShakeStrength = { };*/
 
 public:
 	static CTransform* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

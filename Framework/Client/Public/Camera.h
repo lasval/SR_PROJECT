@@ -12,6 +12,7 @@ public:
 	{
 		_float3			vEye{}, vAt{};
 		_float			fFovy{}, fNear{}, fFar{};
+		CTransform*		pTargetTransform{ nullptr };
 	}CAMERA_DESC;
 
 private:
@@ -31,6 +32,9 @@ private:
 	CTransform* m_pTransformCom = { nullptr };
 	_float4x4	m_ProjMatrix = { };
 	_float		m_fFovy{}, m_fAspect{}, m_fNear{}, m_fFar{};
+
+	// 카메라 따라갈 대상의 Transform
+	CTransform* m_pTargetTransformCom = { nullptr };
 
 private:
 	HRESULT Ready_Components(void* pArg);

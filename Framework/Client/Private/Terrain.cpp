@@ -55,6 +55,7 @@ HRESULT CTerrain::Render()
 	m_pVIBufferCom->Bind_Buffers();
 
 	m_pVIBufferCom->Render();
+	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 	return S_OK;
 }
