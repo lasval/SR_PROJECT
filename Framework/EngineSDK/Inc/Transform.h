@@ -53,6 +53,7 @@ public:
 	void Move_To(const _float3& vTarget, _float fTimeDelta, _float fLimitRange);
 	
 	void Rotation(const _float3& vAxis, _float fRadian);
+	void RotationAccumulate(const _float3& vAxis, _float fRadian);
 	void Turn(const _float3& vAxis, _float fTimeDelta);
 	void Scaling(_float fScaleX, _float fScaleY, _float fScaleZ);
 

@@ -49,7 +49,7 @@ private:
 
 private:
 	void	Mouse_Move(_float fTimeDelta);
-	void	Move_Angle(_float fAngle);
+	void	Move_Angle(_float fAngle, _float fTimeDelta);
 	void	Follow_Target();
 
 public:

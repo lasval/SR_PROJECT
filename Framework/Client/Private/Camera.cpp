@@ -37,6 +37,7 @@ HRESULT CCamera::Initialize(void* pArg)
 	m_pTargetTransformCom = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Player"), TEXT("Com_Transform")));
 	if (m_pTargetTransformCom == nullptr)
 		return E_FAIL;
+	Safe_AddRef(m_pTargetTransformCom);
 
 	m_OldPoint.x = g_iWinSizeX >> 1;
 	m_OldPoint.y = g_iWinSizeY >> 1;
@@ -46,7 +47,7 @@ HRESULT CCamera::Initialize(void* pArg)
 
 	SetCursorPos(ptMouse.x, ptMouse.y);
 
-	m_vOffset = _float3(-10.f, 10.f, -10.f);
+	m_vOffset = _float3(0.f, 8.f, -8.f);
 	m_fCurrentAngle = 0.f;
 
 	return S_OK;
@@ -77,7 +78,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	//Mouse_Move(fTimeDelta);
 	//m_pTargetTransform->Get_State(STATE::POSITION);
 
-	Move_Angle(45.f);
+	Move_Angle(90.f, fTimeDelta);
 	Follow_Target();
 	
 
@@ -141,13 +142,15 @@ void CCamera::Mouse_Move(_float fTimeDelta)
 	m_OldPoint = ptMouse;
 }
 
-void CCamera::Move_Angle(_float fAngle)
+void CCamera::Move_Angle(_float fAngle, _float fTimeDelta)
 {
 	if (m_pGameInstance->IsKeyPressedOnce('Q'))
 	{
 		m_fCurrentAngle += fAngle;
 		if (m_fCurrentAngle >= 360.f)
 			m_fCurrentAngle -= 360.f;
+
+		m_pTargetTransformCom->RotationAccumulate(_float3{ 0.f, 1.f, 0.f }, D3DXToRadian(fAngle));
 	}
 
 	if (m_pGameInstance->IsKeyPressedOnce('E'))
@@ -155,6 +158,8 @@ void CCamera::Move_Angle(_float fAngle)
 		m_fCurrentAngle -= fAngle;
 		if (m_fCurrentAngle < 0.f)
 			m_fCurrentAngle += 360.f;
+
+		m_pTargetTransformCom->RotationAccumulate(_float3{ 0.f, 1.f, 0.f }, D3DXToRadian(fAngle) * -1.f);
 	}
 }
 
@@ -205,4 +210,5 @@ void CCamera::Free()
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTargetTransformCom);
 }

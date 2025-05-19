@@ -44,12 +44,12 @@ void CPlayer::Update(_float fTimeDelta)
 
     if (GetKeyState('A') < 0)
     {
-        m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta * -1.f);
+        m_pTransformCom->Go_Left(fTimeDelta);
     }
 
     if (GetKeyState('D') < 0)
     {
-        m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), fTimeDelta);
+        m_pTransformCom->Go_Right(fTimeDelta);
     }
 }
 
