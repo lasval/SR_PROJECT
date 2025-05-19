@@ -45,6 +45,9 @@ HRESULT CCamera::Initialize(void* pArg)
 
 void CCamera::Priority_Update(_float fTimeDelta)
 {
+	_float3 vPos = { 0.f,0.f,0.f };
+
+	m_pTransformCom->Look_At(vPos);
 	if (GetKeyState('W') < 0)
 	{
 		m_pTransformCom->Go_Straight(fTimeDelta);
@@ -55,16 +58,37 @@ void CCamera::Priority_Update(_float fTimeDelta)
 		m_pTransformCom->Go_Backward(fTimeDelta);
 	}
 
-	if (GetKeyState('A') < 0)
+	if (m_bRange == false)
 	{
-		m_pTransformCom->Go_Left(fTimeDelta);
-	}
+		if (GetKeyState('A') < 0)
+		{
+			m_bRange = true;
+			m_bRight = false;
+		}
 
-	if (GetKeyState('D') < 0)
+		if (GetKeyState('D') < 0)
+		{
+			m_bRange = true;
+			m_bRight = true;
+		}
+	}
+	else
 	{
-		m_pTransformCom->Go_Right(fTimeDelta);
-	}
+		if (m_iRangeAcc <= 90)
+		{
+			if(m_bRight)
+				m_pTransformCom->Go_Right(fTimeDelta);
+			else
+				m_pTransformCom->Go_Left(fTimeDelta);
 
+			++m_iRangeAcc;
+		}	
+		else
+		{
+			m_bRange = false;
+			m_iRangeAcc = 0;
+		}
+	}
 	POINT	ptMouse{};
 
 	GetCursorPos(&ptMouse);
@@ -79,14 +103,12 @@ void CCamera::Priority_Update(_float fTimeDelta)
 	//	m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * m_fMouseSensor);
 
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION,
-		D3DXMatrixPerspectiveFovLH(
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(
 			&m_ProjMatrix, 
 			m_fFovy, 
 			m_fAspect, 
 			m_fNear, 
-			m_fFar
-		)
+			m_fFar)
 	);
 
 	m_OldPoint = ptMouse;

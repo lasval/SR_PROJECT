@@ -29,6 +29,26 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
+	if (GetKeyState(VK_UP) < 0)
+	{
+		m_pTransformCom->Go_Straight(fTimeDelta);
+	}
+
+	if (GetKeyState(VK_DOWN) < 0)
+	{
+		m_pTransformCom->Go_Backward(fTimeDelta);
+	}
+
+	if (GetKeyState(VK_LEFT) < 0)
+	{
+		m_pTransformCom->Go_Left(fTimeDelta);
+	}
+
+	if (GetKeyState(VK_RIGHT) < 0)
+	{
+		m_pTransformCom->Go_Right(fTimeDelta);
+	}
+	
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)

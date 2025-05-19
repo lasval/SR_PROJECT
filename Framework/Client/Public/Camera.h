@@ -29,13 +29,16 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CTransform* m_pTransformCom = { nullptr };
-	_float4x4	m_ProjMatrix = { };
-	_float		m_fFovy{}, m_fAspect{}, m_fNear{}, m_fFar{};
+	CTransform*		m_pTransformCom = { nullptr };
+	_float4x4		m_ProjMatrix = { };
+	_float			m_fFovy{}, m_fAspect{}, m_fNear{}, m_fFar{};
 
-	POINT		m_OldPoint = {};
-	_float		m_fMouseSensor = {};
+	POINT			m_OldPoint = {};
+	_float			m_fMouseSensor = {};
 
+	_float			m_iRangeAcc = {0};
+	bool			m_bRange = { false };
+	bool			m_bRight = { true };
 private:
 	HRESULT Ready_Components(void* pArg);
 
