@@ -12,7 +12,7 @@ public:
 	{
 		_float3			vEye{}, vAt{};
 		_float			fFovy{}, fNear{}, fFar{};
-		CTransform*		pTargetTransform{ nullptr };
+		_float			fMouseSensor{};
 	}CAMERA_DESC;
 
 private:
@@ -33,11 +33,16 @@ private:
 	_float4x4	m_ProjMatrix = { };
 	_float		m_fFovy{}, m_fAspect{}, m_fNear{}, m_fFar{};
 
-	// 카메라 따라갈 대상의 Transform
-	CTransform* m_pTargetTransformCom = { nullptr };
+private:
+	POINT		m_OldPoint = {};
+	_float		m_fMouseSensor = {};
+	
 
 private:
 	HRESULT Ready_Components(void* pArg);
+
+private:
+	void	Mouse_Move(_float fTimeDelta);
 
 public:
 	static CCamera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

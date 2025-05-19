@@ -30,7 +30,15 @@ HRESULT CCamera::Initialize(void* pArg)
 	m_fAspect = static_cast<_float>(g_iWinSizeX) / g_iWinSizeY;
 	m_fNear = pDesc->fNear;
 	m_fFar = pDesc->fFar;
+	m_fMouseSensor = pDesc->fMouseSensor;
 
+	m_OldPoint.x = g_iWinSizeX >> 1;
+	m_OldPoint.y = g_iWinSizeY >> 1;
+
+	POINT	ptMouse = m_OldPoint;
+	ClientToScreen(g_hWnd, &ptMouse);
+
+	SetCursorPos(ptMouse.x, ptMouse.y);
 
 	return S_OK;
 }
@@ -57,8 +65,8 @@ void CCamera::Priority_Update(_float fTimeDelta)
 		m_pTransformCom->Go_Right(fTimeDelta);
 	}
 
-
-
+	Mouse_Move(fTimeDelta);
+	
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION,
 		D3DXMatrixPerspectiveFovLH(
@@ -94,6 +102,27 @@ HRESULT CCamera::Ready_Components(void* pArg)
 
 
 	return S_OK;
+}
+
+void CCamera::Mouse_Move(_float fTimeDelta)
+{
+	POINT			ptMouse{};
+
+	GetCursorPos(&ptMouse);
+	ScreenToClient(g_hWnd, &ptMouse);
+
+	_int		iMouseMove = {};
+
+	if (iMouseMove = ptMouse.x - m_OldPoint.x)
+	{
+		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), iMouseMove * fTimeDelta * m_fMouseSensor);
+	}
+
+	if (iMouseMove = ptMouse.y - m_OldPoint.y)
+	{
+		m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * m_fMouseSensor);
+	}
+	m_OldPoint = ptMouse;
 }
 
 CCamera* CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
