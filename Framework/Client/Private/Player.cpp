@@ -27,6 +27,7 @@ HRESULT CPlayer::Initialize(void* pArg)
 
 void CPlayer::Priority_Update(_float fTimeDelta)
 {
+
 }
 
 void CPlayer::Update(_float fTimeDelta)
@@ -54,13 +55,14 @@ void CPlayer::Update(_float fTimeDelta)
 
 void CPlayer::Late_Update(_float fTimeDelta)
 {
-    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_PRIORITY, this);
+    m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_BLEND, this);
 }
 
 HRESULT CPlayer::Render()
 {
 
     m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+
     m_pTransformCom->Bind_Matrix();
 
     if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -71,7 +73,6 @@ HRESULT CPlayer::Render()
     m_pVIBufferCom->Render();
 
     return S_OK;
-	return S_OK;
 }
 
 HRESULT CPlayer::Ready_Components()

@@ -23,7 +23,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(EngineDesc, &m_pGraphic_Device)))
 		return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	if (FAILED(Ready_Default_Setting()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Prototype_ForStatic()))
 		return E_FAIL;
@@ -46,6 +47,20 @@ HRESULT CMainApp::Render()
 	m_pGameInstance->Draw();
 
 	m_pGameInstance->Render_End();
+
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Default_Setting()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 	return S_OK;
 }

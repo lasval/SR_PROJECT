@@ -27,9 +27,9 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CVIBuffer_Rect* m_pVIBufferCom = { nullptr };
-	CTransform* m_pTransformCom = { nullptr };
-	CTexture* m_pTextureCom = { nullptr };
+	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
+	CTransform*				m_pTransformCom = { nullptr };
+	CTexture*				m_pTextureCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();

@@ -45,7 +45,6 @@ void CTerrain::Late_Update(_float fTimeDelta)
 
 HRESULT CTerrain::Render()
 {
-	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);
 	m_pTransformCom->Bind_Matrix();
 
 	if (FAILED(m_pTextureCom->Bind_Texture(0)))
@@ -55,7 +54,6 @@ HRESULT CTerrain::Render()
 	m_pVIBufferCom->Bind_Buffers();
 
 	m_pVIBufferCom->Render();
-	m_pGraphic_Device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
 
 	return S_OK;
 }
