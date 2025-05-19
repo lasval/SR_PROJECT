@@ -19,7 +19,7 @@ CGameObject::CGameObject(const CGameObject& Prototype)
 	Safe_AddRef(m_pGameInstance);
 }
 
-CComponent* CGameObject::Get_Component(const _wstring& strComponentTag)
+CComponent* CGameObject::Find_Component(const _wstring& strComponentTag)
 {
 	auto iter = m_Components.find(strComponentTag);
 	if (iter == m_Components.end())
@@ -57,7 +57,7 @@ HRESULT CGameObject::Render()
 
 HRESULT CGameObject::Add_Component(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, const _wstring& strComponentTag, CComponent** ppOut, void* pArg)
 {
-	if (nullptr != Get_Component(strComponentTag))
+	if (nullptr != Find_Component(strComponentTag))
 		return E_FAIL;
 
 	CComponent* pComponent = dynamic_cast<CComponent*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::COMPONENT, iPrototypeLevelIndex, strPrototypeTag, pArg));

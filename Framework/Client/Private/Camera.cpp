@@ -31,6 +31,12 @@ HRESULT CCamera::Initialize(void* pArg)
 	m_fNear = pDesc->fNear;
 	m_fFar = pDesc->fFar;
 	m_fMouseSensor = pDesc->fMouseSensor;
+	/*if(pDesc->pTargetTransform != nullptr)
+		m_pTargetTransform = pDesc->pTargetTransform;*/
+
+	m_pTargetTransformCom = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Player"), TEXT("Com_Transform")));
+	if (m_pTargetTransformCom == nullptr)
+		return E_FAIL;
 
 	m_OldPoint.x = g_iWinSizeX >> 1;
 	m_OldPoint.y = g_iWinSizeY >> 1;
@@ -40,33 +46,41 @@ HRESULT CCamera::Initialize(void* pArg)
 
 	SetCursorPos(ptMouse.x, ptMouse.y);
 
+	m_vOffset = _float3(-10.f, 10.f, -10.f);
+	m_fCurrentAngle = 0.f;
+
 	return S_OK;
 }
 
 void CCamera::Priority_Update(_float fTimeDelta)
 {
-	if (GetKeyState('W') < 0)
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
+	//if (GetKeyState('W') < 0)
+	//{
+	//	m_pTransformCom->Go_Straight(fTimeDelta);
+	//}
 
-	if (GetKeyState('S') < 0)
-	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
+	//if (GetKeyState('S') < 0)
+	//{
+	//	m_pTransformCom->Go_Backward(fTimeDelta);
+	//}
 
-	if (GetKeyState('A') < 0)
-	{
-		m_pTransformCom->Go_Left(fTimeDelta);
-	}
+	//if (GetKeyState('A') < 0)
+	//{
+	//	m_pTransformCom->Go_Left(fTimeDelta);
+	//}
 
-	if (GetKeyState('D') < 0)
-	{
-		m_pTransformCom->Go_Right(fTimeDelta);
-	}
+	//if (GetKeyState('D') < 0)
+	//{
+	//	m_pTransformCom->Go_Right(fTimeDelta);
+	//}
 
-	Mouse_Move(fTimeDelta);
+	//Mouse_Move(fTimeDelta);
+	//m_pTargetTransform->Get_State(STATE::POSITION);
+
+	Move_Angle(45.f);
+	Follow_Target();
 	
+
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION,
 		D3DXMatrixPerspectiveFovLH(
@@ -77,6 +91,8 @@ void CCamera::Priority_Update(_float fTimeDelta)
 			m_fFar
 		)
 	);
+
+
 }
 
 void CCamera::Update(_float fTimeDelta)
@@ -123,6 +139,39 @@ void CCamera::Mouse_Move(_float fTimeDelta)
 		m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * m_fMouseSensor);
 	}
 	m_OldPoint = ptMouse;
+}
+
+void CCamera::Move_Angle(_float fAngle)
+{
+	if (m_pGameInstance->IsKeyPressedOnce('Q'))
+	{
+		m_fCurrentAngle += fAngle;
+		if (m_fCurrentAngle >= 360.f)
+			m_fCurrentAngle -= 360.f;
+	}
+
+	if (m_pGameInstance->IsKeyPressedOnce('E'))
+	{
+		m_fCurrentAngle -= fAngle;
+		if (m_fCurrentAngle < 0.f)
+			m_fCurrentAngle += 360.f;
+	}
+}
+
+void CCamera::Follow_Target()
+{
+	_float3		vPlayerPosition = m_pTargetTransformCom->Get_State(STATE::POSITION);
+	_float3		vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	_float4x4	matRotY;
+	D3DXMatrixRotationY(&matRotY, D3DXToRadian(m_fCurrentAngle));
+
+	_float3 vRotatedOffset;
+	D3DXVec3TransformCoord(&vRotatedOffset, &m_vOffset, &matRotY);
+
+	_float3 vCameraPos = vPlayerPosition + vRotatedOffset;
+	m_pTransformCom->Set_State(STATE::POSITION, vCameraPos);
+	m_pTransformCom->Look_At(vPlayerPosition);
 }
 
 CCamera* CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)

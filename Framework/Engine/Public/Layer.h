@@ -11,6 +11,9 @@ private:
 	virtual ~CLayer() = default;
 
 public:
+	class CComponent* Find_Component(const _wstring& strComponentTag, _uint iIndex);
+
+public:
 	HRESULT Add_GameObject(class CGameObject* pGameObject) {
 		m_GameObjects.push_back(pGameObject);
 		return S_OK;

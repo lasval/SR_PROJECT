@@ -13,6 +13,7 @@ public:
 		_float3			vEye{}, vAt{};
 		_float			fFovy{}, fNear{}, fFar{};
 		_float			fMouseSensor{};
+		CTransform*		pTargetTransform{ nullptr };
 	}CAMERA_DESC;
 
 private:
@@ -29,13 +30,18 @@ public:
 	virtual HRESULT Render() override;
 
 private:
-	CTransform* m_pTransformCom = { nullptr };
-	_float4x4	m_ProjMatrix = { };
-	_float		m_fFovy{}, m_fAspect{}, m_fNear{}, m_fFar{};
+	CTransform*		m_pTransformCom = { nullptr };
+	_float4x4		m_ProjMatrix = { };
+	_float			m_fFovy{}, m_fAspect{}, m_fNear{}, m_fFar{};
+	_float3			m_vOffset{};
+	_float			m_fCurrentAngle{};
 
 private:
-	POINT		m_OldPoint = {};
-	_float		m_fMouseSensor = {};
+	POINT			m_OldPoint = {};
+	_float			m_fMouseSensor = {};
+
+private:
+	CTransform* m_pTargetTransformCom = { nullptr };
 	
 
 private:
@@ -43,6 +49,8 @@ private:
 
 private:
 	void	Mouse_Move(_float fTimeDelta);
+	void	Move_Angle(_float fAngle);
+	void	Follow_Target();
 
 public:
 	static CCamera* Create(LPDIRECT3DDEVICE9 pGraphic_Device);

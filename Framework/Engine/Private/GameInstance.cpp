@@ -6,6 +6,7 @@
 #include "Object_Manager.h"
 #include "Renderer.h"
 #include "Timer_Manager.h"
+#include "Key_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -41,6 +42,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
     if (nullptr == m_pTimer_Manager)
         return E_FAIL;
 
+    m_pKey_Manager = CKey_Manager::Create();
+    if (nullptr == m_pKey_Manager)
+        return E_FAIL;
+
     return S_OK;
 }
 
@@ -49,6 +54,8 @@ void CGameInstance::Update_Engine(_float fTimeDelta)
     m_pObject_Manager->Priority_Update(fTimeDelta);
     m_pObject_Manager->Update(fTimeDelta);
     m_pObject_Manager->Late_Update(fTimeDelta);
+    
+    m_pKey_Manager->Update(fTimeDelta);
 
     m_pLevel_Manager->Update(fTimeDelta);
 }
@@ -125,6 +132,10 @@ HRESULT CGameInstance::Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wst
 
     return m_pObject_Manager->Add_GameObject_ToLayer(iLayerLevelIndex, strLayerTag, iPrototypeLevelIndex, strPrototypeTag, pArg);
 }
+CComponent* CGameInstance::Get_Component(_uint iLayerLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex)
+{
+    return m_pObject_Manager->Get_Component(iLayerLevelIndex, strLayerTag, strComponentTag, iIndex);
+}
 #pragma endregion
 
 #pragma region RENDERER
@@ -151,6 +162,25 @@ HRESULT CGameInstance::Add_Timer(const _wstring& strTimerTag)
 void CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
 {
     m_pTimer_Manager->Compute_TimeDelta(strTimerTag);
+}
+#pragma endregion
+
+#pragma region KEY_MANAGER
+bool CGameInstance::IsKeyDown(int iKey)
+{
+    return m_pKey_Manager->IsKeyDown(iKey);
+}
+bool CGameInstance::IsKeyUp(int iKey)
+{
+    return m_pKey_Manager->IsKeyUp(iKey);
+}
+bool CGameInstance::IsKeyPressedOnce(int iKey)
+{
+    return m_pKey_Manager->IsKeyPressedOnce(iKey);
+}
+bool CGameInstance::IsKeyHeld(int iKey, float fHoldThresholdSec)
+{
+    return m_pKey_Manager->IsKeyHeld(iKey, fHoldThresholdSec);
 }
 #pragma endregion
 
