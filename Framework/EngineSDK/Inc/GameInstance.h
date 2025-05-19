@@ -11,6 +11,7 @@ private:
 	CGameInstance();
 	virtual ~CGameInstance() = default;
 
+#pragma region ENGINE
 public:
 	HRESULT Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT3DDEVICE9* ppOut);
 	void Update_Engine(_float fTimeDelta);
@@ -20,19 +21,34 @@ public:
 	void Render_Begin(D3DXCOLOR Color);
 	HRESULT Draw();
 	void Render_End(HWND hWnd = 0);
+#pragma endregion
 
+#pragma region LEVEL_MANAGER
 public:
 	HRESULT Open_Level(_uint iLevelID, class CLevel* pNewLevel);
+#pragma endregion
 
+#pragma region PROTOTYPE_MANAGER
 public:
 	HRESULT Add_Prototype(_uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, class CBase* pPrototype);
 	class CBase* Clone_Prototype(PROTOTYPE ePrototype, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg = nullptr);
+#pragma endregion
 
+#pragma region OBJECT_MANAGER
 public:
 	HRESULT Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag, _uint iPrototypeLevelIndex, const _wstring strPrototypeTag, void* pArg = nullptr);
+#pragma endregion
 
+#pragma region RENDERER
 public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
+#pragma endregion
+
+#pragma region Timer_Manager
+	_float	Get_TimeDelta(const _wstring& strTimerTag);
+	HRESULT	Add_Timer(const _wstring& strTimerTag);
+	void	Compute_TimeDelta(const _wstring& strTimerTag);
+#pragma endregion
 
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -40,7 +56,7 @@ private:
 	class CObject_Manager*		m_pObject_Manager = { nullptr };
 	class CPrototype_Manager*	m_pPrototype_Manager = { nullptr };
 	class CRenderer*			m_pRenderer = { nullptr };
-
+	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
 public:
 	void Release_Engine();
 	virtual void Free() override;

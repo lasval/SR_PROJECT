@@ -5,7 +5,7 @@
 #include "Client.h"
 
 #include "MainApp.h"
-
+#include "GameInstance.h"
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
@@ -54,7 +54,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     if (nullptr == pMainApp)
         return E_FAIL;
 
-    // 기본 메시지 루프입니다:
+    CGameInstance* pGameInstance = CGameInstance::GetInstance();
+    Safe_AddRef(pGameInstance);
+
+    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Default"))))
+        return E_FAIL;
+    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
+        return E_FAIL;
+
+    _float fTimeAcc = {};
 
     while (true)
     {
@@ -70,13 +78,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
 
-        pMainApp->Update(0.0016f);
+        pGameInstance->Compute_TimeDelta(TEXT("Timer_Default"));
+        fTimeAcc += pGameInstance->Get_TimeDelta(TEXT("Timer_Default"));
 
-        if (FAILED(pMainApp->Render()))
-            break;
+        if (fTimeAcc >= 1.f / 60.f)
+        {
+            pGameInstance->Compute_TimeDelta(TEXT("Timer_60"));
+           
+            pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
 
+            if (FAILED(pMainApp->Render()))
+                break;
+
+            fTimeAcc = 0.f;
+        }
     }
 
+    Safe_Release(pGameInstance);
     Safe_Release(pMainApp);
     
     return (int) msg.wParam;

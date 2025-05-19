@@ -22,7 +22,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(EngineDesc, &m_pGraphic_Device)))
 		return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	if (FAILED(Ready_Default_Setting()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Prototype_ForStatic()))
 		return E_FAIL;
@@ -46,6 +47,30 @@ HRESULT CMainApp::Render()
 
 	m_pGameInstance->Render_End();
 
+	return S_OK;
+}
+
+HRESULT CMainApp::Ready_Default_Setting()
+{
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	//알파 테스트
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	//알파 블렌딩
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+ 	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 	return S_OK;
 }
 

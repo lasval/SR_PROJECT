@@ -37,6 +37,9 @@
     <Filter Include="02.GameObject\Camera">
       <UniqueIdentifier>{6397a250-9b6c-449d-9c7b-9c6cbe58c6e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\Player">
+      <UniqueIdentifier>{7b3755f4-11df-4fbd-b232-d5ea9b542212}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -77,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="..\public\Camera.h">
       <Filter>02.GameObject\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Player.h">
+      <Filter>02.GameObject\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -119,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Camera.cpp">
       <Filter>02.GameObject\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Player.cpp">
+      <Filter>02.GameObject\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
