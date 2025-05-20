@@ -13,6 +13,7 @@
 #include <string>
 #include <unordered_map>
 #include <ctime>
+#include <iostream>
 using namespace std;
 
 #include "Engine_Enum.h"
@@ -21,6 +22,19 @@ using namespace std;
 #include "Engine_Typedef.h"
 #include "Engine_Function.h"
 
+//boost
+#include <boost/beast/core.hpp>
+#include <boost/beast/http.hpp>
+#include <boost/beast/version.hpp>
+#include <boost/asio/connect.hpp>
+#include <boost/asio/ip/tcp.hpp>
+#include <nlohmann/json.hpp>
+
+namespace beast = boost::beast;
+namespace http = beast::http;
+namespace net = boost::asio;
+using tcp = net::ip::tcp;
+using json = nlohmann::json;
 
 
 #ifdef _DEBUG
