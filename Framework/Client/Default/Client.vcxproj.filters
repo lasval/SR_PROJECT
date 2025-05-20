@@ -40,6 +40,21 @@
     <Filter Include="02.GameObject\Player">
       <UniqueIdentifier>{7b3755f4-11df-4fbd-b232-d5ea9b542212}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\UI">
+      <UniqueIdentifier>{fea7be5e-8545-48c2-8dfa-b103e1f5d1c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UI\Player_States">
+      <UniqueIdentifier>{b762dac5-c101-4d4a-86bd-f5905bd4c386}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UI\Player_States\Player_HP">
+      <UniqueIdentifier>{690daa54-a401-40e3-9cd5-82df07b3a990}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UI\Player_States\Freame">
+      <UniqueIdentifier>{9126bd4f-24f5-430f-8e96-d6489eb389cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UI\Player_States\Player_MP">
+      <UniqueIdentifier>{13677f00-17dc-4864-9a5d-a1f9d2b577db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -83,6 +98,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player.h">
       <Filter>02.GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hp_Player.h">
+      <Filter>02.GameObject\UI\Player_States\Player_HP</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hud_States_Frame.h">
+      <Filter>02.GameObject\UI\Player_States\Freame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mp_Player.h">
+      <Filter>02.GameObject\UI\Player_States\Player_MP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +152,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
       <Filter>02.GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Hp_Player.cpp">
+      <Filter>02.GameObject\UI\Player_States\Player_HP</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Hud_States_Frame.cpp">
+      <Filter>02.GameObject\UI\Player_States\Freame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mp_Player.cpp">
+      <Filter>02.GameObject\UI\Player_States\Player_MP</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
