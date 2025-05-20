@@ -14,6 +14,7 @@ CPlayer::CPlayer(const CPlayer& Prototype)
 
 HRESULT CPlayer::Initialize_Prototype()
 {
+
 	return S_OK;
 }
 
@@ -60,19 +61,15 @@ void CPlayer::Late_Update(_float fTimeDelta)
 
 HRESULT CPlayer::Render()
 {
+	m_pTransformCom->Bind_Matrix();
 
-    m_pGraphic_Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	if (FAILED(m_pTextureCom->Bind_Texture(0)))
+		return E_FAIL;
 
-    m_pTransformCom->Bind_Matrix();
+	m_pVIBufferCom->Bind_Buffers();
+	m_pVIBufferCom->Render();
 
-    if (FAILED(m_pTextureCom->Bind_Texture(0)))
-        return E_FAIL;
-
-    m_pVIBufferCom->Bind_Buffers();
-
-    m_pVIBufferCom->Render();
-
-    return S_OK;
+	return S_OK;
 }
 
 HRESULT CPlayer::Ready_Components()

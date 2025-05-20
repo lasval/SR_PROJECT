@@ -2,12 +2,12 @@
 #include "GameInstance.h"
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject {pGraphic_Device}
+	: CGameObject{ pGraphic_Device }
 {
 }
 
 CCamera::CCamera(const CCamera& Prototype)
-	: CGameObject { Prototype }
+	: CGameObject{ Prototype }
 {
 }
 
@@ -80,15 +80,15 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 	Move_Angle(90.f, fTimeDelta);
 	Follow_Target();
-	
+
 
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
 	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION,
 		D3DXMatrixPerspectiveFovLH(
-			&m_ProjMatrix, 
-			m_fFovy, 
-			m_fAspect, 
-			m_fNear, 
+			&m_ProjMatrix,
+			m_fFovy,
+			m_fAspect,
+			m_fNear,
 			m_fFar
 		)
 	);
@@ -98,7 +98,7 @@ void CCamera::Priority_Update(_float fTimeDelta)
 
 void CCamera::Update(_float fTimeDelta)
 {
-	
+
 }
 
 void CCamera::Late_Update(_float fTimeDelta)
@@ -212,3 +212,4 @@ void CCamera::Free()
 	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pTargetTransformCom);
 }
+ 

@@ -42,7 +42,6 @@ private:
 
 private:
 	CTransform* m_pTargetTransformCom = { nullptr };
-	
 
 private:
 	HRESULT Ready_Components(void* pArg);
