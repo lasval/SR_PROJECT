@@ -22,9 +22,6 @@
     <Filter Include="01.Levels\01.Logo">
       <UniqueIdentifier>{de282568-7c3a-4b47-aafb-7562c87502a8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Levels\02.GamePlay">
-      <UniqueIdentifier>{7b5c17bd-eff1-43d7-aee5-93d48946b2bf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02.GameObject">
       <UniqueIdentifier>{f01476d4-271b-4e61-8d77-9cc8d67a8203}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,21 @@
     </Filter>
     <Filter Include="02.GameObject\Player">
       <UniqueIdentifier>{7982a67f-267c-4a74-89ad-6ef720f81363}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\02.Profile">
+      <UniqueIdentifier>{2fd39052-4bd4-407c-9ca5-30054c1789ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\03.Tutorial">
+      <UniqueIdentifier>{7fcc1053-a6be-46b6-bc32-0d43a89da86a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\99.GamePlay">
+      <UniqueIdentifier>{7b5c17bd-eff1-43d7-aee5-93d48946b2bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\04.Town">
+      <UniqueIdentifier>{0b2640e3-a705-4324-8e5e-b43a51712418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Levels\05.Dungeon">
+      <UniqueIdentifier>{a41076b6-6c3c-430f-8604-f9870827c0ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +85,7 @@
       <Filter>02.GameObject\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_GamePlay.h">
-      <Filter>01.Levels\02.GamePlay</Filter>
+      <Filter>01.Levels\99.GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Terrain.h">
       <Filter>02.GameObject\Terrain</Filter>
@@ -118,7 +130,7 @@
       <Filter>02.GameObject\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_GamePlay.cpp">
-      <Filter>01.Levels\02.GamePlay</Filter>
+      <Filter>01.Levels\99.GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Terrain.cpp">
       <Filter>02.GameObject\Terrain</Filter>
