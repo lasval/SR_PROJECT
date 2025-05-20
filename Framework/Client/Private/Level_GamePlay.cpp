@@ -1,7 +1,7 @@
 #include "Level_GamePlay.h"
 
 #include "GameInstance.h"
-#include "Camera.h"
+#include "Camera_Free.h"
 #include "Player.h"
 
 CLevel_GamePlay::CLevel_GamePlay(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -39,19 +39,8 @@ HRESULT CLevel_GamePlay::Render()
 
 HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _wstring& strLayerTag)
 {
-	CCamera::CAMERA_DESC CameraDesc{};
-
-	CameraDesc.vEye = _float3(0.f, 10.f, -10.f);
-	CameraDesc.vAt = _float3(10.f, 0.f, 10.f);
-	CameraDesc.fFovy = D3DXToRadian(60.f);
-	CameraDesc.fNear = 0.1f;
-	CameraDesc.fFar = 1000.f;
-	CameraDesc.fSpeedPerSec = 10.f;
-	CameraDesc.fRotationPerSec = D3DXToRadian(90.f);
-	CameraDesc.fMouseSensor = 0.3f;
-
 	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Camera"), &CameraDesc)))
+		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_Camera_Follow"))))
 		return E_FAIL;
 
 	return S_OK;
