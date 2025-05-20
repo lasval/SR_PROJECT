@@ -69,6 +69,21 @@ HRESULT CRenderer::Render_NonBlend()
 
 HRESULT CRenderer::Render_Blend()
 {
+	// 알파 테스트
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAREF, 125);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
+
+	// 색을 섞어서 처리(알파블렌딩)
+	/*m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLENDOP_ADD);*/
 	for (auto& pRenderObject : m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_BLEND)])
 	{
 		if (nullptr != pRenderObject)
@@ -78,6 +93,11 @@ HRESULT CRenderer::Render_Blend()
 	}
 
 	m_RenderObjects[ENUM_CLASS(RENDERGROUP::RG_BLEND)].clear();
+	// 알파 테스트
+	m_pGraphic_Device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+
+	// 색을 섞어서 처리(알파블렌딩)
+	//m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 
 	return S_OK;
 }

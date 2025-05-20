@@ -2,6 +2,7 @@
 #include "GameInstance.h"
 
 #include "Level_Loading.h"
+#include "Player.h"
 
 CMainApp::CMainApp()
 	: m_pGameInstance{ CGameInstance::GetInstance() }
@@ -22,7 +23,8 @@ HRESULT CMainApp::Initialize()
 	if (FAILED(m_pGameInstance->Initialize_Engine(EngineDesc, &m_pGraphic_Device)))
 		return E_FAIL;
 
-	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+	if (FAILED(Ready_Default_Setting()))
+		return E_FAIL;
 
 	if (FAILED(Ready_Prototype_ForStatic()))
 		return E_FAIL;
@@ -49,6 +51,22 @@ HRESULT CMainApp::Render()
 	return S_OK;
 }
 
+HRESULT CMainApp::Ready_Default_Setting()
+{
+	g_hCursor = LoadCursorFromFile(L"Resources/Sephiria/UI/Cursor/Cursor_Arrow.cur");
+
+	m_pGraphic_Device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSU, D3DTADDRESS_WRAP);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_ADDRESSV, D3DTADDRESS_WRAP);
+
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
+	m_pGraphic_Device->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
+
+	return S_OK;
+}
+
 HRESULT CMainApp::Ready_Prototype_ForStatic()
 {
 	
@@ -56,6 +74,14 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 		return E_FAIL;
 
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"), CTransform::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	/* Prototype_Component_Texture_Player */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Player"),
+		CTexture::Create(m_pGraphic_Device, TEXTURE::RECT, TEXT("../Bin/Resources/Textures/Player/Player_Basic_Roll00.png"), 1))))
+		return E_FAIL;
+
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_GameObject_Player"), CPlayer::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
 	return S_OK;

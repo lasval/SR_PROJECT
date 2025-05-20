@@ -25,6 +25,7 @@ private:
 	LPDIRECT3DDEVICE9	m_pGraphic_Device = { nullptr };
 
 private:
+	HRESULT Ready_Default_Setting();
 	HRESULT Ready_Prototype_ForStatic();
 	HRESULT Start_Level(LEVEL eStartLevelID);
 

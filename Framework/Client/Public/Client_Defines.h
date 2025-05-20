@@ -13,4 +13,5 @@ namespace Client
 }
 
 extern HWND g_hWnd;
+extern HCURSOR g_hCursor;
 using namespace Client;
