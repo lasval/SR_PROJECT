@@ -37,6 +37,7 @@ public:
 #pragma region OBJECT_MANAGER
 public:
 	HRESULT Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag, _uint iPrototypeLevelIndex, const _wstring strPrototypeTag, void* pArg = nullptr);
+	CComponent* Get_Component(_uint iLayerLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex = 0);
 #pragma endregion
 
 #pragma region RENDERER
@@ -44,10 +45,19 @@ public:
 	HRESULT Add_RenderGroup(RENDERGROUP eRenderGroup, class CGameObject* pRenderObject);
 #pragma endregion
 
-#pragma region Timer_Manager
+#pragma region TIMER_MANAGER
+public:
 	_float	Get_TimeDelta(const _wstring& strTimerTag);
 	HRESULT	Add_Timer(const _wstring& strTimerTag);
 	void	Compute_TimeDelta(const _wstring& strTimerTag);
+#pragma endregion
+
+#pragma region KEY_MANAGER
+	bool IsKeyDown(int iKey);                           // 지금 눌리고 있는가
+	bool IsKeyUp(int iKey);                             // 이번 프레임에 떼졌는가
+	bool IsKeyPressedOnce(int iKey);                    // 눌린 순간만 감지 (짧게)
+	bool IsKeyHeld(int iKey, float fHoldThresholdSec);   // 특정 시간 이상 눌렸는가
+
 #pragma endregion
 
 private:
@@ -57,6 +67,8 @@ private:
 	class CPrototype_Manager*	m_pPrototype_Manager = { nullptr };
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
+	class CKey_Manager*			m_pKey_Manager = { nullptr };
+
 public:
 	void Release_Engine();
 	virtual void Free() override;

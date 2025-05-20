@@ -12,7 +12,7 @@ protected:
 	virtual ~CGameObject() = default;
 
 public:
-	class CComponent* Get_Component(const _wstring& strComponentTag);
+	class CComponent* Find_Component(const _wstring& strComponentTag);
 
 public:
 	virtual HRESULT Initialize_Prototype();

@@ -2,12 +2,12 @@
 #include "GameInstance.h"
 
 CCamera::CCamera(LPDIRECT3DDEVICE9 pGraphic_Device)
-	: CGameObject {pGraphic_Device}
+	: CGameObject{ pGraphic_Device }
 {
 }
 
 CCamera::CCamera(const CCamera& Prototype)
-	: CGameObject { Prototype }
+	: CGameObject{ Prototype }
 {
 }
 
@@ -30,93 +30,75 @@ HRESULT CCamera::Initialize(void* pArg)
 	m_fAspect = static_cast<_float>(g_iWinSizeX) / g_iWinSizeY;
 	m_fNear = pDesc->fNear;
 	m_fFar = pDesc->fFar;
+	m_fMouseSensor = pDesc->fMouseSensor;
+	/*if(pDesc->pTargetTransform != nullptr)
+		m_pTargetTransform = pDesc->pTargetTransform;*/
 
-	m_fMouseSensor = pDesc->fMouserSensor;
+	m_pTargetTransformCom = dynamic_cast<CTransform*>(m_pGameInstance->Get_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Layer_Player"), TEXT("Com_Transform")));
+	if (m_pTargetTransformCom == nullptr)
+		return E_FAIL;
+	Safe_AddRef(m_pTargetTransformCom);
 
 	m_OldPoint.x = g_iWinSizeX >> 1;
 	m_OldPoint.y = g_iWinSizeY >> 1;
 
-	POINT ptMouse = m_OldPoint;
+	POINT	ptMouse = m_OldPoint;
 	ClientToScreen(g_hWnd, &ptMouse);
+
 	SetCursorPos(ptMouse.x, ptMouse.y);
+
+	m_vOffset = _float3(0.f, 8.f, -8.f);
+	m_fCurrentAngle = 0.f;
 
 	return S_OK;
 }
 
 void CCamera::Priority_Update(_float fTimeDelta)
 {
-	_float3 vPos = { 0.f,0.f,0.f };
+	//if (GetKeyState('W') < 0)
+	//{
+	//	m_pTransformCom->Go_Straight(fTimeDelta);
+	//}
 
-	m_pTransformCom->Look_At(vPos);
-	if (GetKeyState('W') < 0)
-	{
-		m_pTransformCom->Go_Straight(fTimeDelta);
-	}
+	//if (GetKeyState('S') < 0)
+	//{
+	//	m_pTransformCom->Go_Backward(fTimeDelta);
+	//}
 
-	if (GetKeyState('S') < 0)
-	{
-		m_pTransformCom->Go_Backward(fTimeDelta);
-	}
+	//if (GetKeyState('A') < 0)
+	//{
+	//	m_pTransformCom->Go_Left(fTimeDelta);
+	//}
 
-	if (m_bRange == false)
-	{
-		if (GetKeyState('A') < 0)
-		{
-			m_bRange = true;
-			m_bRight = false;
-		}
+	//if (GetKeyState('D') < 0)
+	//{
+	//	m_pTransformCom->Go_Right(fTimeDelta);
+	//}
 
-		if (GetKeyState('D') < 0)
-		{
-			m_bRange = true;
-			m_bRight = true;
-		}
-	}
-	else
-	{
-		if (m_iRangeAcc <= 90)
-		{
-			if(m_bRight)
-				m_pTransformCom->Go_Right(fTimeDelta);
-			else
-				m_pTransformCom->Go_Left(fTimeDelta);
+	//Mouse_Move(fTimeDelta);
+	//m_pTargetTransform->Get_State(STATE::POSITION);
 
-			++m_iRangeAcc;
-		}	
-		else
-		{
-			m_bRange = false;
-			m_iRangeAcc = 0;
-		}
-	}
-	POINT	ptMouse{};
+	Move_Angle(90.f, fTimeDelta);
+	Follow_Target();
 
-	GetCursorPos(&ptMouse);
-	ScreenToClient(g_hWnd, &ptMouse);
-
-	_int	iMouseMove = {};
-
-	//if (iMouseMove = ptMouse.x - m_OldPoint.x)
-	//	m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), iMouseMove * fTimeDelta * m_fMouseSensor);
-
-	//if (iMouseMove = ptMouse.y - m_OldPoint.y)
-	//	m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * m_fMouseSensor);
 
 	m_pGraphic_Device->SetTransform(D3DTS_VIEW, m_pTransformCom->Get_WorldMatrix_Inverse());
-	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, D3DXMatrixPerspectiveFovLH(
-			&m_ProjMatrix, 
-			m_fFovy, 
-			m_fAspect, 
-			m_fNear, 
-			m_fFar)
+	m_pGraphic_Device->SetTransform(D3DTS_PROJECTION,
+		D3DXMatrixPerspectiveFovLH(
+			&m_ProjMatrix,
+			m_fFovy,
+			m_fAspect,
+			m_fNear,
+			m_fFar
+		)
 	);
 
-	m_OldPoint = ptMouse;
+
 }
 
 void CCamera::Update(_float fTimeDelta)
 {
-	
+
 }
 
 void CCamera::Late_Update(_float fTimeDelta)
@@ -137,6 +119,64 @@ HRESULT CCamera::Ready_Components(void* pArg)
 
 
 	return S_OK;
+}
+
+void CCamera::Mouse_Move(_float fTimeDelta)
+{
+	POINT			ptMouse{};
+
+	GetCursorPos(&ptMouse);
+	ScreenToClient(g_hWnd, &ptMouse);
+
+	_int		iMouseMove = {};
+
+	if (iMouseMove = ptMouse.x - m_OldPoint.x)
+	{
+		m_pTransformCom->Turn(_float3(0.f, 1.f, 0.f), iMouseMove * fTimeDelta * m_fMouseSensor);
+	}
+
+	if (iMouseMove = ptMouse.y - m_OldPoint.y)
+	{
+		m_pTransformCom->Turn(m_pTransformCom->Get_State(STATE::RIGHT), iMouseMove * fTimeDelta * m_fMouseSensor);
+	}
+	m_OldPoint = ptMouse;
+}
+
+void CCamera::Move_Angle(_float fAngle, _float fTimeDelta)
+{
+	if (m_pGameInstance->IsKeyPressedOnce('Q'))
+	{
+		m_fCurrentAngle += fAngle;
+		if (m_fCurrentAngle >= 360.f)
+			m_fCurrentAngle -= 360.f;
+
+		m_pTargetTransformCom->RotationAccumulate(_float3{ 0.f, 1.f, 0.f }, D3DXToRadian(fAngle));
+	}
+
+	if (m_pGameInstance->IsKeyPressedOnce('E'))
+	{
+		m_fCurrentAngle -= fAngle;
+		if (m_fCurrentAngle < 0.f)
+			m_fCurrentAngle += 360.f;
+
+		m_pTargetTransformCom->RotationAccumulate(_float3{ 0.f, 1.f, 0.f }, D3DXToRadian(fAngle) * -1.f);
+	}
+}
+
+void CCamera::Follow_Target()
+{
+	_float3		vPlayerPosition = m_pTargetTransformCom->Get_State(STATE::POSITION);
+	_float3		vPosition = m_pTransformCom->Get_State(STATE::POSITION);
+
+	_float4x4	matRotY;
+	D3DXMatrixRotationY(&matRotY, D3DXToRadian(m_fCurrentAngle));
+
+	_float3 vRotatedOffset;
+	D3DXVec3TransformCoord(&vRotatedOffset, &m_vOffset, &matRotY);
+
+	_float3 vCameraPos = vPlayerPosition + vRotatedOffset;
+	m_pTransformCom->Set_State(STATE::POSITION, vCameraPos);
+	m_pTransformCom->Look_At(vPlayerPosition);
 }
 
 CCamera* CCamera::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -170,4 +210,6 @@ void CCamera::Free()
 	__super::Free();
 
 	Safe_Release(m_pTransformCom);
+	Safe_Release(m_pTargetTransformCom);
 }
+ 

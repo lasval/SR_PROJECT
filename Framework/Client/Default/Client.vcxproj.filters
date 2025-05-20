@@ -40,9 +40,6 @@
     <Filter Include="02.GameObject\Player">
       <UniqueIdentifier>{7b3755f4-11df-4fbd-b232-d5ea9b542212}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\UI_Test">
-      <UniqueIdentifier>{58f4422c-dacc-4a21-9c06-b23b0659beaf}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -86,9 +83,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Player.h">
       <Filter>02.GameObject\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\UI_Test.h">
-      <Filter>02.GameObject\UI_Test</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -134,9 +128,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
       <Filter>02.GameObject\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="..\private\UI_Test.cpp">
-      <Filter>02.GameObject\UI_Test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

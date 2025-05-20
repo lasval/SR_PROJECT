@@ -6,11 +6,12 @@
 
 #include "MainApp.h"
 #include "GameInstance.h"
+
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
 HWND g_hWnd;
-
+HCURSOR g_hCursor;
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
@@ -57,12 +58,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     CGameInstance* pGameInstance = CGameInstance::GetInstance();
     Safe_AddRef(pGameInstance);
 
-    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_Default"))))
+    if(FAILED(pGameInstance->Add_Timer(TEXT("Timer_Default"))))
         return E_FAIL;
-    if (FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
+    if(FAILED(pGameInstance->Add_Timer(TEXT("Timer_60"))))
         return E_FAIL;
-
-    _float fTimeAcc = {};
+    
+    _float      fTimeAcc = {};
 
     while (true)
     {
@@ -79,12 +80,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         }
 
         pGameInstance->Compute_TimeDelta(TEXT("Timer_Default"));
+
         fTimeAcc += pGameInstance->Get_TimeDelta(TEXT("Timer_Default"));
 
-        if (fTimeAcc >= 1.f / 60.f)
-        {
+        if (fTimeAcc >= 1.f / 60.f) {
             pGameInstance->Compute_TimeDelta(TEXT("Timer_60"));
-           
+
             pMainApp->Update(pGameInstance->Get_TimeDelta(TEXT("Timer_60")));
 
             if (FAILED(pMainApp->Render()))
@@ -177,6 +178,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
+    case WM_SETCURSOR:
+        SetCursor(g_hCursor);
+        return TRUE;
+
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);

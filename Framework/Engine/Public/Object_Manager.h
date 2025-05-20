@@ -11,6 +11,9 @@ private:
 	virtual ~CObject_Manager() = default;
 
 public:
+	class CComponent* Get_Component(_uint iLayerLevelIndex, const _wstring& strLayerTag, const _wstring& strComponentTag, _uint iIndex);
+
+public:
 	HRESULT Initialize(_uint iNumLevels);
 	HRESULT Add_GameObject_ToLayer(_uint iLayerLevelIndex, const _wstring& strLayerTag, _uint iPrototypeLevelIndex, const _wstring& strPrototypeTag, void* pArg);
 	void Priority_Update(_float fTimeDelta);
