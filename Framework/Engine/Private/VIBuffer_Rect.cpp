@@ -66,6 +66,68 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
     return S_OK;
 }
 
+HRESULT CVIBuffer_Rect::Initialize_Prototype(D3DXCOLOR vColor)
+{
+	m_iNumVertices = 4;
+	m_iVertexStride = sizeof(VTXPOSCOL);
+	m_iFVF = D3DFVF_XYZ | D3DFVF_DIFFUSE;
+	m_ePrimitiveType = D3DPT_TRIANGLELIST;
+	m_iNumPrimitive = 2;
+	m_iIndexStride = 2;
+	m_iNumIndices = 6;
+	m_eIndexFormat = D3DFMT_INDEX16;
+	if (FAILED(m_pGraphic_Device->CreateVertexBuffer(m_iVertexStride * m_iNumVertices, 0, m_iFVF, D3DPOOL_MANAGED, &m_pVB, nullptr)))
+		return E_FAIL;
+
+	VTXPOSCOL* pVertices = { nullptr };
+
+	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
+
+	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
+	pVertices[0].dwColor = vColor;
+
+	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
+	pVertices[1].dwColor = vColor;
+
+	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
+	pVertices[2].dwColor = vColor;
+
+	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	pVertices[3].dwColor = vColor;
+
+	/*pVertices[0].vPosition = _float3(0.f, 1.f, 0.f);
+	pVertices[0].dwColor = vColor;
+
+	pVertices[1].vPosition = _float3(1.f, 1.f, 0.f);
+	pVertices[1].dwColor = vColor;
+
+	pVertices[2].vPosition = _float3(1.f, 0.f, 0.f);
+	pVertices[2].dwColor = vColor;
+
+	pVertices[3].vPosition = _float3(0.f, 0.f, 0.f);
+	pVertices[3].dwColor = vColor;*/
+	m_pVB->Unlock();
+
+	if (FAILED(m_pGraphic_Device->CreateIndexBuffer(m_iIndexStride * m_iNumIndices, 0, m_eIndexFormat, D3DPOOL_MANAGED, &m_pIB, nullptr)))
+		return E_FAIL;
+
+	_ushort* pIndices = { nullptr };
+
+	m_pIB->Lock(0, 0, reinterpret_cast<void**>(&pIndices), 0);
+
+	pIndices[0] = 0;
+	pIndices[1] = 1;
+	pIndices[2] = 2;
+
+	pIndices[3] = 0;
+	pIndices[4] = 2;
+	pIndices[5] = 3;
+
+	m_pIB->Unlock();
+
+	return S_OK;
+}
+
 HRESULT CVIBuffer_Rect::Initialize(void* pArg)
 {
     return S_OK;
@@ -78,6 +140,18 @@ CComponent* CVIBuffer_Rect::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	if (FAILED(pInstance->Initialize_Prototype()))
 	{
 		MSG_BOX(TEXT("Failed to Created : CVIBuffer_Rect"));
+		Safe_Release(pInstance);
+	}
+	return pInstance;
+}
+
+CComponent* CVIBuffer_Rect::Create(LPDIRECT3DDEVICE9 pGraphic_Device, D3DXCOLOR vColor)
+{
+	CVIBuffer_Rect* pInstance = new CVIBuffer_Rect(pGraphic_Device);
+
+	if (FAILED(pInstance->Initialize_Prototype(vColor)))
+	{
+		MSG_BOX(TEXT("Failed to Created : CVIBuffer_Rect_Color"));
 		Safe_Release(pInstance);
 	}
 	return pInstance;
