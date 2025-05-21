@@ -144,16 +144,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\BackGround.h" />
-    <ClInclude Include="..\public\Camera.h" />
+    <ClInclude Include="..\Public\Camera_Follow.h" />
+    <ClInclude Include="..\public\Camera_Free.h" />
+    <ClInclude Include="..\Public\Camera_Mouse.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
-    <ClInclude Include="..\public\Hp_Player.h" />
-    <ClInclude Include="..\public\Hud_States_Frame.h" />
+    <ClInclude Include="..\Public\Hp_Player.h" />
+    <ClInclude Include="..\Public\Hud_States_Frame.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
     <ClInclude Include="..\Public\Level_Logo.h" />
     <ClInclude Include="..\Public\Loader.h" />
     <ClInclude Include="..\Public\MainApp.h" />
-    <ClInclude Include="..\public\Mp_Player.h" />
+    <ClInclude Include="..\Public\Mp_Player.h" />
     <ClInclude Include="..\Public\Player.h" />
     <ClInclude Include="..\public\Terrain.h" />
     <ClInclude Include="Client.h" />
@@ -163,15 +165,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\BackGround.cpp" />
-    <ClCompile Include="..\private\Camera.cpp" />
-    <ClCompile Include="..\private\Hp_Player.cpp" />
-    <ClCompile Include="..\private\Hud_States_Frame.cpp" />
+    <ClCompile Include="..\Private\Camera_Follow.cpp" />
+    <ClCompile Include="..\private\Camera_Free.cpp" />
+    <ClCompile Include="..\Private\Camera_Mouse.cpp" />
+    <ClCompile Include="..\Private\Hp_Player.cpp" />
+    <ClCompile Include="..\Private\Hud_States_Frame.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />
     <ClCompile Include="..\Private\Level_Logo.cpp" />
     <ClCompile Include="..\Private\Loader.cpp" />
     <ClCompile Include="..\Private\MainApp.cpp" />
-    <ClCompile Include="..\private\Mp_Player.cpp" />
+    <ClCompile Include="..\Private\Mp_Player.cpp" />
     <ClCompile Include="..\Private\Player.cpp" />
     <ClCompile Include="..\private\Terrain.cpp" />
     <ClCompile Include="Client.cpp" />

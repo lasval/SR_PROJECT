@@ -40,20 +40,26 @@
     <Filter Include="02.GameObject\Player">
       <UniqueIdentifier>{7b3755f4-11df-4fbd-b232-d5ea9b542212}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\Camera\Free">
+      <UniqueIdentifier>{926017ed-9374-426d-9e84-e28f0b80f595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\Camera\Mouse">
+      <UniqueIdentifier>{de3fdc61-642d-4078-bb8c-92c770f4bb49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\Camera\Follow">
+      <UniqueIdentifier>{b9e32268-3279-4950-bbbf-5d1f1716ecd8}</UniqueIdentifier>
+    </Filter>
     <Filter Include="02.GameObject\UI">
-      <UniqueIdentifier>{fea7be5e-8545-48c2-8dfa-b103e1f5d1c2}</UniqueIdentifier>
+      <UniqueIdentifier>{e6d7c12a-d7d8-4fe3-af69-87edc5b0144e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\UI\Player_States">
-      <UniqueIdentifier>{b762dac5-c101-4d4a-86bd-f5905bd4c386}</UniqueIdentifier>
+    <Filter Include="02.GameObject\UI\HUD_Status">
+      <UniqueIdentifier>{f8d004cb-9406-40ee-ba0a-6af95eef93e0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\UI\Player_States\Player_HP">
-      <UniqueIdentifier>{690daa54-a401-40e3-9cd5-82df07b3a990}</UniqueIdentifier>
+    <Filter Include="02.GameObject\UI\MP_Player">
+      <UniqueIdentifier>{59dac64d-ad42-4536-88e4-edd48c842b50}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02.GameObject\UI\Player_States\Freame">
-      <UniqueIdentifier>{9126bd4f-24f5-430f-8e96-d6489eb389cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02.GameObject\UI\Player_States\Player_MP">
-      <UniqueIdentifier>{13677f00-17dc-4864-9a5d-a1f9d2b577db}</UniqueIdentifier>
+    <Filter Include="02.GameObject\UI\HP_Player">
+      <UniqueIdentifier>{9112940e-6718-4fa9-9729-3b1171dcb3cb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -93,20 +99,26 @@
     <ClInclude Include="..\public\Terrain.h">
       <Filter>02.GameObject\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Camera.h">
-      <Filter>02.GameObject\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Player.h">
       <Filter>02.GameObject\Player</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Hp_Player.h">
-      <Filter>02.GameObject\UI\Player_States\Player_HP</Filter>
+    <ClInclude Include="..\public\Camera_Free.h">
+      <Filter>02.GameObject\Camera\Free</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Hud_States_Frame.h">
-      <Filter>02.GameObject\UI\Player_States\Freame</Filter>
+    <ClInclude Include="..\Public\Camera_Mouse.h">
+      <Filter>02.GameObject\Camera\Mouse</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Mp_Player.h">
-      <Filter>02.GameObject\UI\Player_States\Player_MP</Filter>
+    <ClInclude Include="..\Public\Camera_Follow.h">
+      <Filter>02.GameObject\Camera\Follow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mp_Player.h">
+      <Filter>02.GameObject\UI\MP_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hp_Player.h">
+      <Filter>02.GameObject\UI\HP_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hud_States_Frame.h">
+      <Filter>02.GameObject\UI\HUD_Status</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,20 +159,26 @@
     <ClCompile Include="..\private\Terrain.cpp">
       <Filter>02.GameObject\Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Camera.cpp">
-      <Filter>02.GameObject\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
       <Filter>02.GameObject\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Hp_Player.cpp">
-      <Filter>02.GameObject\UI\Player_States\Player_HP</Filter>
+    <ClCompile Include="..\private\Camera_Free.cpp">
+      <Filter>02.GameObject\Camera\Free</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Hud_States_Frame.cpp">
-      <Filter>02.GameObject\UI\Player_States\Freame</Filter>
+    <ClCompile Include="..\Private\Camera_Mouse.cpp">
+      <Filter>02.GameObject\Camera\Mouse</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Mp_Player.cpp">
-      <Filter>02.GameObject\UI\Player_States\Player_MP</Filter>
+    <ClCompile Include="..\Private\Camera_Follow.cpp">
+      <Filter>02.GameObject\Camera\Follow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mp_Player.cpp">
+      <Filter>02.GameObject\UI\MP_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hp_Player.cpp">
+      <Filter>02.GameObject\UI\HP_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hud_States_Frame.cpp">
+      <Filter>02.GameObject\UI\HUD_Status</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

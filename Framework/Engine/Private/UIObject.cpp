@@ -1,18 +1,20 @@
 #include "UIObject.h"
 
 CUIObject::CUIObject(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : CGameObject { pGraphic_Device }
+	: CGameObject{ pGraphic_Device }
 {
 }
 
 CUIObject::CUIObject(const CUIObject& Prototype)
-    : CGameObject { Prototype }
+	: CGameObject{ Prototype }
 {
 }
 
 HRESULT CUIObject::Initialize_Prototype()
 {
-    return S_OK;
+
+
+	return S_OK;
 }
 
 HRESULT CUIObject::Initialize(void* pArg)
@@ -52,9 +54,8 @@ void CUIObject::Late_Update(_float fTimeDelta)
 
 HRESULT CUIObject::Render()
 {
-    return S_OK;
+	return S_OK;
 }
-
 void CUIObject::Begin()
 {
     //현재 뷰, 투영 행렬 저장
@@ -64,7 +65,6 @@ void CUIObject::Begin()
     //UI 행렬 적용
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_ViewMatrix);
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_ProjMatrix);
-
 }
 
 void CUIObject::End()
@@ -72,12 +72,17 @@ void CUIObject::End()
     //이전 행렬로 되돌리기
     m_pGraphic_Device->SetTransform(D3DTS_VIEW, &m_OldViewMatrix);
     m_pGraphic_Device->SetTransform(D3DTS_PROJECTION, &m_OldProjMatrix);
-
 }
 
 _bool CUIObject::isPick(HWND hWnd)
 {
-    return _bool();
+	POINT			ptMouse{};
+	GetCursorPos(&ptMouse);
+	ScreenToClient(hWnd, &ptMouse);
+
+	RECT			rcUI = { m_fX - m_fSizeX * 0.5f, m_fY - m_fSizeY * 0.5f, m_fX + m_fSizeX * 0.5f, m_fY + m_fSizeY * 0.5f };
+
+	return PtInRect(&rcUI, ptMouse);
 }
 
 void CUIObject::Free()
