@@ -88,6 +88,15 @@
     <Filter Include="00.System\03.Network\Manager">
       <UniqueIdentifier>{76865f20-b6db-4748-9f45-51ad639b57a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\05.Component\Stats">
+      <UniqueIdentifier>{bb5f73cc-f4b1-4178-8877-b0be0b1f347e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Stats\PlayerStats">
+      <UniqueIdentifier>{0c9d0bb9-1128-40af-ab7d-de2704539757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Stats\MobStats">
+      <UniqueIdentifier>{c86f13f8-f4d7-414c-b5ba-c6261a697172}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Macro.h">
@@ -174,6 +183,9 @@
     <ClInclude Include="..\Public\Network_Manager.h">
       <Filter>00.System\03.Network\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\PlayerStats.h">
+      <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -241,6 +253,9 @@
     </ClCompile>
     <ClCompile Include="..\Private\Network_Manager.cpp">
       <Filter>00.System\03.Network\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerStats.cpp">
+      <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

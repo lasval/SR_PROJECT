@@ -1,3 +1,4 @@
+#include "Network_Manager.h"
 #include "GameInstance.h"
 
 #include "Graphic_Device.h"
@@ -7,7 +8,7 @@
 #include "Renderer.h"
 #include "Timer_Manager.h"
 #include "Key_Manager.h"
-//#include "Network_Manager.h"
+
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -47,9 +48,9 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
     if (nullptr == m_pKey_Manager)
         return E_FAIL;
 
-    /*m_pNetwork_Manager = CNetwork_Manager::Create();
+    m_pNetwork_Manager = CNetwork_Manager::Create();
     if (nullptr == m_pNetwork_Manager)
-        return E_FAIL;*/
+        return E_FAIL;
 
     return S_OK;
 }
@@ -168,7 +169,7 @@ void CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
 {
     m_pTimer_Manager->Compute_TimeDelta(strTimerTag);
 }
-#pragma endregion
+#pragma endregion 
 
 #pragma region KEY_MANAGER
 bool CGameInstance::IsKeyDown(int iKey)

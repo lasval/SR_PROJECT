@@ -33,25 +33,47 @@ void CPlayer::Priority_Update(_float fTimeDelta)
 
 void CPlayer::Update(_float fTimeDelta)
 {
-    if (GetKeyState('W') < 0)
-    {
+    if (m_pGameInstance->IsKeyDown('W'))
         m_pTransformCom->Go_Straight(fTimeDelta);
-    }
 
-    if (GetKeyState('S') < 0)
-    {
+    if (m_pGameInstance->IsKeyDown('S'))
         m_pTransformCom->Go_Backward(fTimeDelta);
-    }
 
-    if (GetKeyState('A') < 0)
-    {
+    if (m_pGameInstance->IsKeyDown('A'))
         m_pTransformCom->Go_Left(fTimeDelta);
+
+    if (m_pGameInstance->IsKeyDown('D'))
+        m_pTransformCom->Go_Right(fTimeDelta);
+
+
+    if (m_pGameInstance->IsKeyDown(VK_LBUTTON) < 0)
+    {
+        CPlayerStats::PLAYERSTAT_DESC PlayerStats = m_pPlayerStatsCom->Get_Stats();
+        PlayerStats.fHp--;
+        
+        m_pPlayerStatsCom->Set_Stats(PlayerStats);
+
+#ifdef _DEBUG
+        std::cout << "[CPlayer::Update] Player HP : " << static_cast<int>(m_pPlayerStatsCom->Get_Stats().fHp) << std::endl;
+#endif // _DEBUG
+    
+    }
+    
+    if (m_pGameInstance->IsKeyDown(VK_RBUTTON) < 0)
+    {
+        CPlayerStats::PLAYERSTAT_DESC PlayerStats = m_pPlayerStatsCom->Get_Stats();
+        PlayerStats.fMp--;
+    
+        m_pPlayerStatsCom->Set_Stats(PlayerStats);
+
+#ifdef _DEBUG
+        std::cout << "[CPlayer::Update] Player MP : " << static_cast<int>(m_pPlayerStatsCom->Get_Stats().fMp) << std::endl;
+#endif // _DEBUG
+    
     }
 
-    if (GetKeyState('D') < 0)
-    {
-        m_pTransformCom->Go_Right(fTimeDelta);
-    }
+
+
 }
 
 void CPlayer::Late_Update(_float fTimeDelta)
@@ -74,6 +96,7 @@ HRESULT CPlayer::Render()
 
 HRESULT CPlayer::Ready_Components()
 {
+    /* For Com_VIBuffer */
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_VIBuffer_Rect"),
         TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
         return E_FAIL;
@@ -83,6 +106,7 @@ HRESULT CPlayer::Ready_Components()
         TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
         return E_FAIL;
 
+    /* For Com_Transform */
     CTransform::TRANSFORM_DESC TransformDesc{};
     TransformDesc.fSpeedPerSec = 5.f;
     TransformDesc.fRotationPerSec = D3DXToRadian(90.f);
@@ -91,7 +115,32 @@ HRESULT CPlayer::Ready_Components()
         TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom), &TransformDesc)))
         return E_FAIL;
 
-	return S_OK;
+    /* For Com_PlayerStats */
+    CPlayerStats::PLAYERSTAT_DESC PlayerStatDesc{};
+
+    // 만약 기존 플레이 저장 정보가 존재한다면
+    // 해당 정보를 불러오도록 나중에 수정
+    PlayerStatDesc.strName  = L"테스트";
+    PlayerStatDesc.iLevel   = 1;
+    PlayerStatDesc.iExp     = 0;
+    PlayerStatDesc.fHp      = 50.f;
+    PlayerStatDesc.fMp      = 50.f;
+    PlayerStatDesc.fDash    = 2.f;
+    PlayerStatDesc.fAtkSpeed    = 1.0f;
+    PlayerStatDesc.fMoveSpeed   = 1.0f;
+    PlayerStatDesc.fHpRegen     = 0.f;
+    PlayerStatDesc.fMpRegen     = 0.f;
+    PlayerStatDesc.fDashRegen   = 0.f;
+    PlayerStatDesc.fEvade   = 0.f;
+    PlayerStatDesc.fDef     = 0.f;
+    PlayerStatDesc.fExpMultiply     = 1.0f;
+    PlayerStatDesc.fGoldMultiply    = 1.0f;
+
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_PlayerStats"),
+        TEXT("Com_PlayerStats"), reinterpret_cast<CComponent**>(&m_pPlayerStatsCom), &PlayerStatDesc)))
+        return E_FAIL;
+
+    return S_OK;
 }
 
 CPlayer* CPlayer::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
