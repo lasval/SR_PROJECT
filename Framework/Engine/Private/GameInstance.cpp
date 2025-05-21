@@ -9,6 +9,7 @@
 #include "Renderer.h"
 #include "Timer_Manager.h"
 #include "Key_Manager.h"
+#include "Picking.h"
 
 
 IMPLEMENT_SINGLETON(CGameInstance)
@@ -53,12 +54,19 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
     if (nullptr == m_pNetwork_Manager)
         return E_FAIL;
 
+    m_pPicking = CPicking::Create(*ppOut, EngineDesc.hWnd, EngineDesc.iWinSizeX, EngineDesc.iWinSizeY);
+    if (nullptr == m_pPicking)
+        return E_FAIL;
+
     return S_OK;
 }
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
     m_pObject_Manager->Priority_Update(fTimeDelta);
+    
+    m_pPicking->Update();
+
     m_pObject_Manager->Update(fTimeDelta);
     m_pObject_Manager->Late_Update(fTimeDelta);
 
@@ -100,6 +108,14 @@ void CGameInstance::Render_End(HWND hWnd)
 {
     if (nullptr != m_pGraphic_Device)
         m_pGraphic_Device->Render_End();
+}
+_float CGameInstance::Compute_Random_Normal()
+{
+    return rand() / static_cast<_float>(RAND_MAX);
+}
+_float CGameInstance::Compute_Random(_float fMin, _float fMax)
+{
+    return fMin + (fMax - fMin) * Compute_Random_Normal();
 }
 #pragma endregion
 
@@ -189,6 +205,9 @@ bool CGameInstance::IsKeyHeld(int iKey, float fHoldThresholdSec)
 {
     return m_pKey_Manager->IsKeyHeld(iKey, fHoldThresholdSec);
 }
+#pragma endregion
+
+#pragma region NETWORK_MANAGER
 TEST* CGameInstance::Ping()
 {
     return m_pNetwork_Manager->Ping();
@@ -196,6 +215,21 @@ TEST* CGameInstance::Ping()
 list<USER*> CGameInstance::Get_AllUsers()
 {
     return m_pNetwork_Manager->Get_AllUsers();
+}
+#pragma endregion
+
+#pragma region PICKING
+void CGameInstance::Transform_Picking_ToLocalSpace(const _float4x4& WorldMatrixInverse)
+{
+    m_pPicking->Transform_ToLocalSpace(WorldMatrixInverse);
+}
+_bool CGameInstance::Picking_InWorld(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
+{
+    return m_pPicking->Picking_InWorld(vPickedPos, vPointA, vPointB, vPointC);
+}
+_bool CGameInstance::Picking_InLocal(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC)
+{
+    return m_pPicking->Picking_InLocal(vPickedPos, vPointA, vPointB, vPointC);
 }
 #pragma endregion
 
@@ -211,6 +245,8 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pRenderer);
     Safe_Release(m_pTimer_Manager);
     Safe_Release(m_pKey_Manager);
+    Safe_Release(m_pNetwork_Manager);
+    Safe_Release(m_pPicking);
 }
 
 void CGameInstance::Free()

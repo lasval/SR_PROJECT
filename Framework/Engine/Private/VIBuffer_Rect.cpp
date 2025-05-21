@@ -21,6 +21,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 	m_iNumIndices = 6;
 	m_eIndexFormat = D3DFMT_INDEX16;
 
+	m_pVertexPositions = new _float3[m_iNumVertices];
+
 	if (FAILED(m_pGraphic_Device->CreateVertexBuffer(m_iVertexStride * m_iNumVertices, 0, m_iFVF, D3DPOOL_MANAGED, &m_pVB, nullptr)))
 		return E_FAIL;
 
@@ -30,22 +32,24 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 
 	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
+	m_pVertexPositions[0] = pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].vTexcoord = _float2(0.f, 0.f);
 
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
+	m_pVertexPositions[1] = pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
 	pVertices[1].vTexcoord = _float2(1.f, 0.f);
 
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
+	m_pVertexPositions[2] = pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].vTexcoord = _float2(1.f, 1.f);
 
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].vTexcoord = _float2(0.f, 1.f);
 
 	m_pVB->Unlock();
 
 
 	// ÀÎµ¦½º ¹öÆÛ
+	m_pIndices = new _uint[m_iNumIndices];
+
 	if (FAILED(m_pGraphic_Device->CreateIndexBuffer(m_iIndexStride * m_iNumIndices, 0, m_eIndexFormat, D3DPOOL_MANAGED, &m_pIB, nullptr)))
 		return E_FAIL;
 
@@ -63,6 +67,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype()
 
 	m_pIB->Unlock();
 
+	memcpy(m_pIndices, pIndices, m_iIndexStride * m_iNumIndices);
+
     return S_OK;
 }
 
@@ -76,6 +82,10 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype(D3DXCOLOR vColor)
 	m_iIndexStride = 2;
 	m_iNumIndices = 6;
 	m_eIndexFormat = D3DFMT_INDEX16;
+
+
+	m_pVertexPositions = new _float3[m_iNumVertices];
+
 	if (FAILED(m_pGraphic_Device->CreateVertexBuffer(m_iVertexStride * m_iNumVertices, 0, m_iFVF, D3DPOOL_MANAGED, &m_pVB, nullptr)))
 		return E_FAIL;
 
@@ -83,16 +93,16 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype(D3DXCOLOR vColor)
 
 	m_pVB->Lock(0, 0, reinterpret_cast<void**>(&pVertices), 0);
 
-	pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
+	m_pVertexPositions[0] = pVertices[0].vPosition = _float3(-0.5f, 0.5f, 0.f);
 	pVertices[0].dwColor = vColor;
 
-	pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
+	m_pVertexPositions[1] = pVertices[1].vPosition = _float3(0.5f, 0.5f, 0.f);
 	pVertices[1].dwColor = vColor;
 
-	pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
+	m_pVertexPositions[2] = pVertices[2].vPosition = _float3(0.5f, -0.5f, 0.f);
 	pVertices[2].dwColor = vColor;
 
-	pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
+	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].dwColor = vColor;
 
 	/*pVertices[0].vPosition = _float3(0.f, 1.f, 0.f);
@@ -108,6 +118,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype(D3DXCOLOR vColor)
 	pVertices[3].dwColor = vColor;*/
 	m_pVB->Unlock();
 
+	m_pIndices = new _uint[m_iNumIndices];
+
 	if (FAILED(m_pGraphic_Device->CreateIndexBuffer(m_iIndexStride * m_iNumIndices, 0, m_eIndexFormat, D3DPOOL_MANAGED, &m_pIB, nullptr)))
 		return E_FAIL;
 
@@ -124,6 +136,8 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype(D3DXCOLOR vColor)
 	pIndices[5] = 3;
 
 	m_pIB->Unlock();
+
+	memcpy(m_pIndices, pIndices, m_iIndexStride * m_iNumIndices);
 
 	return S_OK;
 }

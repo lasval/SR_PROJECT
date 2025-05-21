@@ -1,8 +1,6 @@
 #include "Level_Logo.h"
 #include "GameInstance.h"
 #include "Level_Loading.h"
-#include "nlohmann/json.hpp"
-using json = nlohmann::json;
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CLevel { pGraphic_Device }
@@ -25,30 +23,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
 	{
 		if(FAILED(m_pGameInstance->Open_Level(ENUM_CLASS(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_GAMEPLAY))))
 			return;
-	}
-
-	if (m_pGameInstance->IsKeyPressedOnce('P'))
-	{
-		TEST* a = m_pGameInstance->Ping();
-		string c = a->title;
-		string d = a->desc;
-		int b = 1;
-	}
-
-	if (m_pGameInstance->IsKeyPressedOnce('U'))
-	{
-		list<USER*> a = m_pGameInstance->Get_AllUsers();
-		for (auto& user : a)
-		{
-			int id = user->iId;
-			string name = user->sName;
-			string nickname = user->sNickname;
-			string password = user->sPassword;
-		}
-		int b = 1;
-	}
-
-		
+	}	
 
 	return;
 }
