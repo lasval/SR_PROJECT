@@ -14,3 +14,7 @@ Lib/
 
 Resources/
 copy.bat
+
+*.vcxproj merge=union
+*.vcxproj.filters merge=union
+*.sln merge=union

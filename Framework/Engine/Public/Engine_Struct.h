@@ -19,6 +19,11 @@ namespace Engine
 		D3DXVECTOR2		vTexcoord;
 	}VTXPOSTEX;
 	
+	typedef struct tagVertexPosColor
+	{
+		D3DXVECTOR3		vPosition;
+		unsigned long	dwColor;
+	}VTXPOSCOL;
 }
 
 
