@@ -2,6 +2,12 @@
 
 #pragma warning(disable : 4251)
 
+//#define _WIN32_WINNT 0x0601
+//#ifndef _WIN32_WINNT
+//#define _WIN32_WINNT 0x0A00
+//#endif
+
+
 #include <d3d9.h>
 #include <d3dx9.h>
 
@@ -21,20 +27,6 @@ using namespace std;
 #include "Engine_Struct.h"
 #include "Engine_Typedef.h"
 #include "Engine_Function.h"
-
-//boost
-#include <boost/beast/core.hpp>
-#include <boost/beast/http.hpp>
-#include <boost/beast/version.hpp>
-#include <boost/asio/connect.hpp>
-#include <boost/asio/ip/tcp.hpp>
-#include <nlohmann/json.hpp>
-
-namespace beast = boost::beast;
-namespace http = beast::http;
-namespace net = boost::asio;
-using tcp = net::ip::tcp;
-using json = nlohmann::json;
 
 
 #ifdef _DEBUG

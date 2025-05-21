@@ -7,6 +7,7 @@
 #include "Renderer.h"
 #include "Timer_Manager.h"
 #include "Key_Manager.h"
+//#include "Network_Manager.h"
 
 IMPLEMENT_SINGLETON(CGameInstance)
 
@@ -45,6 +46,10 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
     m_pKey_Manager = CKey_Manager::Create();
     if (nullptr == m_pKey_Manager)
         return E_FAIL;
+
+    /*m_pNetwork_Manager = CNetwork_Manager::Create();
+    if (nullptr == m_pNetwork_Manager)
+        return E_FAIL;*/
 
     return S_OK;
 }
@@ -182,6 +187,10 @@ bool CGameInstance::IsKeyHeld(int iKey, float fHoldThresholdSec)
 {
     return m_pKey_Manager->IsKeyHeld(iKey, fHoldThresholdSec);
 }
+//string CGameInstance::Ping()
+//{
+//    return m_pNetwork_Manager->Ping();
+//}
 #pragma endregion
 
 void CGameInstance::Release_Engine()
