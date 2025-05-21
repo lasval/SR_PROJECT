@@ -40,6 +40,15 @@
     <Filter Include="02.GameObject\Player">
       <UniqueIdentifier>{7b3755f4-11df-4fbd-b232-d5ea9b542212}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\Camera\Free">
+      <UniqueIdentifier>{926017ed-9374-426d-9e84-e28f0b80f595}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\Camera\Mouse">
+      <UniqueIdentifier>{de3fdc61-642d-4078-bb8c-92c770f4bb49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\Camera\Follow">
+      <UniqueIdentifier>{b9e32268-3279-4950-bbbf-5d1f1716ecd8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -78,11 +87,17 @@
     <ClInclude Include="..\public\Terrain.h">
       <Filter>02.GameObject\Terrain</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Camera.h">
-      <Filter>02.GameObject\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Player.h">
       <Filter>02.GameObject\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Camera_Free.h">
+      <Filter>02.GameObject\Camera\Free</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Mouse.h">
+      <Filter>02.GameObject\Camera\Mouse</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Camera_Follow.h">
+      <Filter>02.GameObject\Camera\Follow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -123,11 +138,17 @@
     <ClCompile Include="..\private\Terrain.cpp">
       <Filter>02.GameObject\Terrain</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Camera.cpp">
-      <Filter>02.GameObject\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Player.cpp">
       <Filter>02.GameObject\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Camera_Free.cpp">
+      <Filter>02.GameObject\Camera\Free</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Mouse.cpp">
+      <Filter>02.GameObject\Camera\Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Camera_Follow.cpp">
+      <Filter>02.GameObject\Camera\Follow</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

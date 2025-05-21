@@ -6,6 +6,11 @@ BEGIN(Engine)
 
 class ENGINE_DLL CUIObject abstract : public CGameObject
 {
+public:
+	typedef struct tagUIObjectDesc
+	{
+		_float		fX, fY, fSizeX, fSizeY;
+	}UIOBJECT_DESC;
 protected:
 	CUIObject(LPDIRECT3DDEVICE9 pGraphic_Device);
 	CUIObject(const CUIObject& Prototype);
@@ -20,16 +25,16 @@ public:
 	virtual HRESULT Render();
 
 protected:
-	_float			m_fX = {};
-	_float			m_fY = {};
-	_float			m_fSizeX = {};
-	_float			m_fSizeY = {};
+	_float				m_fX = {};
+	_float				m_fY = {};
+	_float				m_fSizeX = {};
+	_float				m_fSizeY = {};
 
-	_float4x4		m_ViewMatrix = {};
-	_float4x4		m_ProjMatrix = {};
-	
-	_float4x4		m_OldViewMatrix = {};
-	_float4x4		m_OldProjMatrix = {};
+	_float4x4			m_ViewMatrix = {};
+	_float4x4			m_ProjMatrix = {};
+
+	_float4x4			m_OldViewMatrix = {};
+	_float4x4			m_OldProjMatrix = {};
 
 protected:
 	void Begin();

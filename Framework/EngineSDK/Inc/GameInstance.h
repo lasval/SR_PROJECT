@@ -57,7 +57,10 @@ public:
 	bool IsKeyUp(int iKey);                             // 이번 프레임에 떼졌는가
 	bool IsKeyPressedOnce(int iKey);                    // 눌린 순간만 감지 (짧게)
 	bool IsKeyHeld(int iKey, float fHoldThresholdSec);   // 특정 시간 이상 눌렸는가
+#pragma endregion
 
+#pragma region NETWORK_MANAGER
+	string Ping();
 #pragma endregion
 
 private:
@@ -68,6 +71,7 @@ private:
 	class CRenderer*			m_pRenderer = { nullptr };
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
 	class CKey_Manager*			m_pKey_Manager = { nullptr };
+	class CNetwork_Manager*		m_pNetwork_Manager = { nullptr };
 
 public:
 	void Release_Engine();

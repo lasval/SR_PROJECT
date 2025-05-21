@@ -2,6 +2,12 @@
 
 #pragma warning(disable : 4251)
 
+//#define _WIN32_WINNT 0x0601
+//#ifndef _WIN32_WINNT
+//#define _WIN32_WINNT 0x0A00
+//#endif
+
+
 #include <d3d9.h>
 #include <d3dx9.h>
 
@@ -13,6 +19,7 @@
 #include <string>
 #include <unordered_map>
 #include <ctime>
+#include <iostream>
 using namespace std;
 
 #include "Engine_Enum.h"
@@ -20,7 +27,6 @@ using namespace std;
 #include "Engine_Struct.h"
 #include "Engine_Typedef.h"
 #include "Engine_Function.h"
-
 
 
 #ifdef _DEBUG
