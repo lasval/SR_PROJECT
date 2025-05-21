@@ -1,9 +1,6 @@
 #pragma once
 
-#include "VIBuffer_Rect.h"
-#include "VIBuffer_Terrain.h"
-#include "Transform.h"
-#include "Texture.h"
+#include "GameInstance.h"
 
 BEGIN(Engine)
 
