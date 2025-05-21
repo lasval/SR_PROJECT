@@ -49,6 +49,18 @@
     <Filter Include="02.GameObject\Camera\Follow">
       <UniqueIdentifier>{b9e32268-3279-4950-bbbf-5d1f1716ecd8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\UI">
+      <UniqueIdentifier>{e6d7c12a-d7d8-4fe3-af69-87edc5b0144e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UI\HUD_Status">
+      <UniqueIdentifier>{f8d004cb-9406-40ee-ba0a-6af95eef93e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UI\MP_Player">
+      <UniqueIdentifier>{59dac64d-ad42-4536-88e4-edd48c842b50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UI\HP_Player">
+      <UniqueIdentifier>{9112940e-6718-4fa9-9729-3b1171dcb3cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -98,6 +110,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Camera_Follow.h">
       <Filter>02.GameObject\Camera\Follow</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Mp_Player.h">
+      <Filter>02.GameObject\UI\MP_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hp_Player.h">
+      <Filter>02.GameObject\UI\HP_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Hud_States_Frame.h">
+      <Filter>02.GameObject\UI\HUD_Status</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +170,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Camera_Follow.cpp">
       <Filter>02.GameObject\Camera\Follow</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Mp_Player.cpp">
+      <Filter>02.GameObject\UI\MP_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hp_Player.cpp">
+      <Filter>02.GameObject\UI\HP_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Hud_States_Frame.cpp">
+      <Filter>02.GameObject\UI\HUD_Status</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
