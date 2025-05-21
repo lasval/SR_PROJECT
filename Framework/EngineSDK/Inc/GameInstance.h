@@ -60,7 +60,8 @@ public:
 #pragma endregion
 
 #pragma region NETWORK_MANAGER
-	string Ping();
+	TEST* Ping();
+	list<USER*> Get_AllUsers();
 #pragma endregion
 
 private:

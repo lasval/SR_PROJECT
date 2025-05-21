@@ -24,6 +24,25 @@ namespace Engine
 		D3DXVECTOR3		vPosition;
 		unsigned long	dwColor;
 	}VTXPOSCOL;
+
+
+
+	//////////////////////
+	// Network Struct
+	
+	typedef struct test
+	{
+		string	title;
+		string	desc;
+	}TEST;
+
+	typedef struct tagUser
+	{
+		int	iId;
+		string	sName;
+		string	sNickname;
+		string	sPassword;
+	}USER;
 }
 
 
