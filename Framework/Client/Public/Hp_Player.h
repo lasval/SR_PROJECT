@@ -22,7 +22,6 @@ public:
 	virtual HRESULT			Render() override;
 
 private:					
-	CTransform*				m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
 private:
 	int						m_iMaxHp = {};
@@ -31,8 +30,8 @@ private:
 	
 private:
 	HRESULT					Ready_Components();
-
 	void					Update_Hp();
+
 public:
 	static CHp_Player*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CUIObject*		Clone(void* pArg) override;
