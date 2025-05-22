@@ -184,7 +184,7 @@ void CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
 {
     m_pTimer_Manager->Compute_TimeDelta(strTimerTag);
 }
-#pragma endregion
+#pragma endregion 
 
 #pragma region KEY_MANAGER
 bool CGameInstance::IsKeyDown(int iKey)

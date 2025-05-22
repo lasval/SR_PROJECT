@@ -1,7 +1,6 @@
 #pragma once
 #include "Client_Defines.h"
 #include "GameObject.h"
-#include "Transform.h"
 #include "Camera.h"
 
 BEGIN(Client)
