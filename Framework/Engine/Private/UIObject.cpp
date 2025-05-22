@@ -1,5 +1,5 @@
 #include "UIObject.h"
-
+#include "GameInstance.h"
 CUIObject::CUIObject(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: CGameObject{ pGraphic_Device }
 {
@@ -12,8 +12,6 @@ CUIObject::CUIObject(const CUIObject& Prototype)
 
 HRESULT CUIObject::Initialize_Prototype()
 {
-
-
 	return S_OK;
 }
 
@@ -33,6 +31,7 @@ HRESULT CUIObject::Initialize(void* pArg)
 
     m_fX = pDesc->fX;
     m_fY = pDesc->fY;
+    m_fZ = pDesc->fZ;
     m_fSizeX = pDesc->fSizeX;
     m_fSizeY = pDesc->fSizeY;
 
@@ -41,15 +40,20 @@ HRESULT CUIObject::Initialize(void* pArg)
 
 void CUIObject::Priority_Update(_float fTimeDelta)
 {
-    
+    for (auto child : m_vecChildren)
+        child->Priority_Update(fTimeDelta);
 }
 
 void CUIObject::Update(_float fTimeDelta)
 {
+    for (auto child : m_vecChildren)
+        child->Update(fTimeDelta);
 }
 
 void CUIObject::Late_Update(_float fTimeDelta)
 {
+    for (auto child : m_vecChildren)
+        child->Late_Update(fTimeDelta);
 }
 
 HRESULT CUIObject::Render()
@@ -85,7 +89,56 @@ _bool CUIObject::isPick(HWND hWnd)
 	return PtInRect(&rcUI, ptMouse);
 }
 
+void CUIObject::Update_Position(const _uint iWinX, const _uint iWinY)
+{
+    if (m_pParent)
+    {
+        m_fWorldPos.x = m_pParent->m_fX + m_fX;
+        m_fWorldPos.y = m_pParent->m_fY + m_fY;
+        m_fWorldPos.z = m_pParent->m_fZ;
+    }
+    else
+    {
+        m_fWorldPos.x = m_fX;
+        m_fWorldPos.y= m_fY;
+        m_fWorldPos.z = m_fZ;
+    }
+    
+    m_pTransformCom->Set_State(STATE::POSITION, _float3(m_fWorldPos.x - iWinX * 0.5f, -m_fWorldPos.y + iWinY * 0.5f, m_fWorldPos.z));
+    for (auto child : m_vecChildren)
+        child->Update_Position(iWinX, iWinY);
+}
+
+void CUIObject::Add_Child(CUIObject* pChildUI, const _uint iWinX, const _uint iWinY)
+{
+    pChildUI->m_pParent = this;
+    m_vecChildren.push_back(pChildUI);
+    
+    pChildUI->Update_Position(iWinX, iWinY);
+   
+}
+
+HRESULT CUIObject::Ready_Components()
+{
+    return S_OK;
+}
+
+HRESULT CUIObject::Ready_Children()
+{
+    return S_OK;
+}
+
+
+
 void CUIObject::Free()
 {
+    for (auto& pChildren : m_vecChildren)
+        Safe_Release(pChildren);
+    m_vecChildren.clear();
+
+    m_pParent = nullptr;
+
     __super::Free();
+   
+    
 }

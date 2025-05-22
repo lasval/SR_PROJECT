@@ -105,17 +105,6 @@ HRESULT CVIBuffer_Rect::Initialize_Prototype(D3DXCOLOR vColor)
 	m_pVertexPositions[3] = pVertices[3].vPosition = _float3(-0.5f, -0.5f, 0.f);
 	pVertices[3].dwColor = vColor;
 
-	/*pVertices[0].vPosition = _float3(0.f, 1.f, 0.f);
-	pVertices[0].dwColor = vColor;
-
-	pVertices[1].vPosition = _float3(1.f, 1.f, 0.f);
-	pVertices[1].dwColor = vColor;
-
-	pVertices[2].vPosition = _float3(1.f, 0.f, 0.f);
-	pVertices[2].dwColor = vColor;
-
-	pVertices[3].vPosition = _float3(0.f, 0.f, 0.f);
-	pVertices[3].dwColor = vColor;*/
 	m_pVB->Unlock();
 
 	m_pIndices = new _uint[m_iNumIndices];
