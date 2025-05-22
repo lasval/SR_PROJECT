@@ -16,25 +16,65 @@ HRESULT CProgressBar::Initialize_Prototype()
 
 HRESULT CProgressBar::Initialize(void* pArg)
 {
-	return S_OK;
-}
-
-HRESULT CProgressBar::Setting_Componets(class CTransform* pTransform, const _uint iCulNumber, const _uint iMaxNumber)
-{
-	if (pTransform == nullptr)
-	{
-		MSG_BOX(TEXT("Failed to Setting : CProgressBar"));
+	if (nullptr == pArg)
 		return E_FAIL;
-	}
-	m_pTransformCom = pTransform;
+	PROGRESSBAR_DESC* pDesc = static_cast<PROGRESSBAR_DESC*>(pArg);
+
+	m_iMaxValue = pDesc->iMaxValue;
+	m_iCulValue = pDesc->iCulValue;
+
+	m_pTransformCom = pDesc->pTransformCom;
 	Safe_AddRef(m_pTransformCom);
 
-	m_iCulNumber = iCulNumber;
-	m_iPreNumber = m_iCulNumber;
-	m_iMaxNumber = iMaxNumber;
-
 	return S_OK;
 }
+
+void CProgressBar::Progress_UpdateX(_uint iCulValue, const _float3 vOriginPos, const _float3 vOriginSize)
+{
+	m_iCulValue = iCulValue;
+	if (m_iPreValue != m_iCulValue)
+	{
+		
+		_float fRatio{};
+
+		if (m_iCulValue >= m_iMaxValue)
+		{
+			m_iCulValue = m_iMaxValue;
+			fRatio = m_iMaxValue / m_iCulValue;
+		}
+		else if (m_iCulValue <= 0)
+		{
+			m_iCulValue = 0;
+			fRatio = m_iMaxValue / 0.1;
+		}
+		else
+		{
+			fRatio = m_iMaxValue / m_iCulValue;
+		}
+		_float fOffsetX = (1.f - fRatio) * vOriginPos.x * 0.5f;
+
+		m_pTransformCom->Scaling(vOriginSize.x * fRatio, vOriginSize.y, vOriginSize.z);
+		m_pTransformCom->Set_State(STATE::POSITION, _float3{ vOriginPos.x + fOffsetX, vOriginPos.y, vOriginPos.z });
+
+		m_iPreValue = m_iCulValue;
+	}
+}
+
+void CProgressBar::MaxValue_UpdateX(_uint iMaxValue, const _float3 vOriginPos, const _float3 vOriginSize)
+{
+	if (m_iMaxValue == iMaxValue)
+	{
+		m_iMaxValue == iMaxValue;
+		_float fRatio = m_iMaxValue / m_iCulValue;
+		m_pTransformCom->Scaling(vOriginPos.x * fRatio, vOriginPos.y, vOriginPos.z);
+
+		_float fOffsetX = (1.f - fRatio) * vOriginPos.x * 0.5f;
+		m_pTransformCom->Set_State(STATE::POSITION, _float3{ fOffsetX, vOriginPos.y, vOriginPos.z });
+	}
+}
+
+
+
 
 CProgressBar* CProgressBar::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

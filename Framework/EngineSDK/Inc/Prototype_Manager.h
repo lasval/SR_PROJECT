@@ -5,6 +5,7 @@
 #include "Transform.h"
 #include "Texture.h"
 #include "PlayerStats.h"
+#include "ProgressBar.h"
 
 BEGIN(Engine)
 

@@ -103,7 +103,9 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_PlayerStats"), CPlayerStats::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-
+	/* Prototype_Component_ProgressBar */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_ProgressBar"), CProgressBar::Create(m_pGraphic_Device))))
+		return E_FAIL;
 	
 
 	return S_OK;

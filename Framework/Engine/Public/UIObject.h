@@ -29,7 +29,7 @@ protected:
 	_float					m_fZ = {};
 	_float					m_fSizeX = {};
 	_float					m_fSizeY = {};
-	_float3					m_fWorldPos = {};
+	_float3					m_vWorldPos = {};
 
 	_float4x4				m_ViewMatrix = {};
 	_float4x4				m_ProjMatrix = {};

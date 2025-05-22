@@ -4,6 +4,7 @@
 BEGIN(Engine)
 class CTransform;
 class CVIBuffer_Rect;
+class CProgressBar;
 END
 
 BEGIN(Client)
@@ -23,14 +24,13 @@ public:
 
 private:					
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
-private:
-	int						m_iMaxHp = {};
-	int						m_iPreHp = {};
-	int						m_iCulHp = {};
-	
+	CProgressBar*			m_pProgressCom = { nullptr };
+	_float3					m_vOriginPos = {};
+	_float3					m_vOriginSize = {};
+
+	_int					m_iCulHp = {};
 private:
 	HRESULT					Ready_Components();
-	void					Update_Hp();
 
 public:
 	static CHp_Player*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);

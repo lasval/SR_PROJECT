@@ -16,11 +16,7 @@ HRESULT CHp_Player::Initialize_Prototype()
 
 HRESULT CHp_Player::Initialize(void* pArg)
 {
-
-	m_iMaxHp = 100;
-	m_iCulHp = m_iMaxHp;
-	m_iPreHp = m_iCulHp;
-
+	m_iCulHp = 100;
 	UIOBJECT_DESC Desc{};
 
 	Desc.fSizeX = 180;
@@ -36,7 +32,8 @@ HRESULT CHp_Player::Initialize(void* pArg)
 
 	m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
 	__super::Update_Position(g_iWinSizeX, g_iWinSizeY);
-
+	m_vOriginPos = m_pTransformCom->Get_State(STATE::POSITION);
+	m_vOriginSize = m_pTransformCom->Get_Scaled();
 	return S_OK;
 }
 
@@ -45,21 +42,22 @@ void CHp_Player::Priority_Update(_float fTimeDelta)
 	
 	if (GetKeyState('Z') < 0)
 	{
-		m_iCulHp -= 1;
+		--m_iCulHp;
 	}
 	if (GetKeyState('X') < 0)
 	{
-		m_iCulHp += 1;
+		++m_iCulHp;
 	}
 }
 
 void CHp_Player::Update(_float fTimeDelta)
 {
+	
 }
 
 void CHp_Player::Late_Update(_float fTimeDelta)
 {
-	Update_Hp();
+	m_pProgressCom->Progress_UpdateX(m_iCulHp, m_vOriginPos, m_vOriginSize);
 	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
 }
 
@@ -85,32 +83,18 @@ HRESULT CHp_Player::Ready_Components()
 		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom))))
 		return E_FAIL;
 
+	CProgressBar::PROGRESSBAR_DESC ProgressDesc{};
+	ProgressDesc.pTransformCom = m_pTransformCom;
+	ProgressDesc.iMaxValue = 100;
+	ProgressDesc.iCulValue = 100;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_ProgressBar"),
+		TEXT("Com_ProgressBar"), reinterpret_cast<CComponent**>(&m_pProgressCom), &ProgressDesc)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
-void CHp_Player::Update_Hp()
-{
-	if (m_iCulHp != m_iPreHp)
-	{
-		if (m_iCulHp >= m_iMaxHp)
-		{
-			m_iCulHp = m_iMaxHp;
-			m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
-		}
-		else if(m_iCulHp <= 0)
-		{
-			m_iCulHp = 0;
-			float fSizeX = m_fSizeX * (0.1f / (float)m_iMaxHp);
-			m_pTransformCom->Scaling(fSizeX, m_fSizeY, 1.f);
-		}
-		else
-		{
-			float fSizeX = m_fSizeX * (float(m_iCulHp) / (float)m_iMaxHp);
-			m_pTransformCom->Scaling(fSizeX, m_fSizeY, 1.f);
-		}
-		m_iPreHp = m_iCulHp;
-	}
-}
 
 CHp_Player* CHp_Player::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {

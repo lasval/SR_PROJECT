@@ -93,26 +93,26 @@ void CUIObject::Update_Position(const _uint iWinX, const _uint iWinY)
 {
     if (m_pParent)
     {
-        m_fWorldPos.x = m_pParent->m_fX + m_fX;
-        m_fWorldPos.y = m_pParent->m_fY + m_fY;
-        m_fWorldPos.z = m_pParent->m_fZ;
+        m_vWorldPos.x = m_pParent->m_fX + m_fX; 
+        m_vWorldPos.y = m_pParent->m_fY + m_fY;
+        m_vWorldPos.z = m_pParent->m_fZ;
     }
     else
     {
-        m_fWorldPos.x = m_fX;
-        m_fWorldPos.y= m_fY;
-        m_fWorldPos.z = m_fZ;
+        m_vWorldPos.x = m_fX;
+        m_vWorldPos.y= m_fY;
+        m_vWorldPos.z = m_fZ;
     }
     
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(m_fWorldPos.x - iWinX * 0.5f, -m_fWorldPos.y + iWinY * 0.5f, m_fWorldPos.z));
+    m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vWorldPos.x - iWinX * 0.5f, -m_vWorldPos.y + iWinY * 0.5f, m_vWorldPos.z });
     for (auto child : m_vecChildren)
         child->Update_Position(iWinX, iWinY);
 }
 
 void CUIObject::Add_Child(CUIObject* pChildUI, const _uint iWinX, const _uint iWinY)
 {
-    pChildUI->m_pParent = this;
-    m_vecChildren.push_back(pChildUI);
+    pChildUI->m_pParent = this; 
+    m_vecChildren.push_back(pChildUI); 
     
     pChildUI->Update_Position(iWinX, iWinY);
    

@@ -26,9 +26,9 @@ HRESULT CHud_States_Frame::Initialize(void* pArg)
 
 	Desc.fSizeX = 190.f;
 	Desc.fSizeY = 55.f;
-	Desc.fX = Desc.fSizeX * 0.5f;
-	Desc.fY = Desc.fSizeY * 0.5f;
-	Desc.fZ = 1.f;
+	Desc.fX = 20 + Desc.fSizeX * 0.5f;
+	Desc.fY = 20 + Desc.fSizeY * 0.5f;
+	Desc.fZ = 0.f;
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 
