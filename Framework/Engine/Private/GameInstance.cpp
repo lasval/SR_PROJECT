@@ -10,7 +10,6 @@
 #include "Key_Manager.h"
 #include "Picking.h"
 
-
 IMPLEMENT_SINGLETON(CGameInstance)
 
 CGameInstance::CGameInstance()

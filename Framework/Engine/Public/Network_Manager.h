@@ -1,4 +1,5 @@
 #pragma once
+
 //boost
 #include <boost/beast/core.hpp>
 #include <boost/beast/http.hpp>
@@ -28,7 +29,6 @@ public:
 public:
 	TEST*		Ping();
 	list<USER*> Get_AllUsers();
-
 
 private:
 	json SendHttpGetJson(const string& host, const string& port, const string& target);

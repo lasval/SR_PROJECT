@@ -132,15 +132,7 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 
 	//플레이어 스테이터스 UI
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_UI_Frame"),
-		CHud_States_Frame::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_UI_Hp"),
-		CHp_Player::Create(m_pGraphic_Device))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_UI_Mp"),
-		CMp_Player::Create(m_pGraphic_Device))))
+		CHud_States_Frame::Create(m_pGraphic_Device, LEVEL::LEVEL_GAMEPLAY))))
 		return E_FAIL;
 
 	lstrcpy(m_szLoadingText, TEXT("로딩이 완료되었습니다."));

@@ -103,6 +103,9 @@
     <Filter Include="01.Utility\05.Component\Stats\MobStats">
       <UniqueIdentifier>{c86f13f8-f4d7-414c-b5ba-c6261a697172}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\05.Component\ProgressBar">
+      <UniqueIdentifier>{0a96bda3-cea2-4ce5-8fff-1281d603e2e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Macro.h">
@@ -198,6 +201,9 @@
     <ClInclude Include="..\public\PlayerStats.h">
       <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\ProgressBar.h">
+      <Filter>01.Utility\05.Component\ProgressBar</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -274,6 +280,9 @@
     </ClCompile>
     <ClCompile Include="..\private\PlayerStats.cpp">
       <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ProgressBar.cpp">
+      <Filter>01.Utility\05.Component\ProgressBar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

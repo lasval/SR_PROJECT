@@ -7,7 +7,7 @@ CNetwork_Manager::CNetwork_Manager()
 HRESULT CNetwork_Manager::Initialize()
 {
 
-	return S_OK;
+    return S_OK;
 }
 
 TEST* CNetwork_Manager::Ping()
@@ -35,7 +35,7 @@ list<USER*> CNetwork_Manager::Get_AllUsers()
     json j = SendHttpGetJson(host, port, target);
     list<USER*> user_list;
     // JSON 객체처럼 사용 가능
-    for (auto it = j["users"].begin(); it != j["users"].end(); ++it) 
+    for (auto it = j["users"].begin(); it != j["users"].end(); ++it)
     {
         string key = it.key();
         json value = it.value();
@@ -84,19 +84,19 @@ json CNetwork_Manager::SendHttpGetJson(const string& host, const string& port, c
 
 CNetwork_Manager* CNetwork_Manager::Create()
 {
-	CNetwork_Manager* pInstance = new CNetwork_Manager();
+    CNetwork_Manager* pInstance = new CNetwork_Manager();
 
-	if (FAILED(pInstance->Initialize()))
-	{
-		MSG_BOX(TEXT("Failed to Created : CNetwork_Manager"));
-		Safe_Release(pInstance);
-	}
+    if (FAILED(pInstance->Initialize()))
+    {
+        MSG_BOX(TEXT("Failed to Created : CNetwork_Manager"));
+        Safe_Release(pInstance);
+    }
 
-	return pInstance;
+    return pInstance;
 }
 
 void CNetwork_Manager::Free()
 {
-	__super::Free();
+    __super::Free();
 
 }

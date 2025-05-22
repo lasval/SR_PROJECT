@@ -72,14 +72,6 @@ HRESULT CLevel_GamePlay::Ready_Layer_UI(const _wstring& strLayerTag)
 		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_UI_Frame"))))
 		return E_FAIL;
 
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_UI_Hp"))))
-		return E_FAIL;
-
-	if (FAILED(m_pGameInstance->Add_GameObject_ToLayer(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), strLayerTag,
-		ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_GameObject_UI_Mp"))))
-		return E_FAIL;
-
 	return S_OK;
 }
 
