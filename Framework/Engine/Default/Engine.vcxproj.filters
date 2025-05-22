@@ -106,6 +106,9 @@
     <Filter Include="01.Utility\05.Component\ProgressBar">
       <UniqueIdentifier>{0a96bda3-cea2-4ce5-8fff-1281d603e2e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\05.Component\Animator">
+      <UniqueIdentifier>{860e3e5c-8c0a-4c3c-a611-bac9b6f2db6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Macro.h">
@@ -204,6 +207,9 @@
     <ClInclude Include="..\public\ProgressBar.h">
       <Filter>01.Utility\05.Component\ProgressBar</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Animator.h">
+      <Filter>01.Utility\05.Component\Animator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -283,6 +289,9 @@
     </ClCompile>
     <ClCompile Include="..\private\ProgressBar.cpp">
       <Filter>01.Utility\05.Component\ProgressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Animator.cpp">
+      <Filter>01.Utility\05.Component\Animator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
