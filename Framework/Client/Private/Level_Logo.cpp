@@ -1,7 +1,5 @@
 #include "Level_Logo.h"
-
 #include "GameInstance.h"
-
 #include "Level_Loading.h"
 
 CLevel_Logo::CLevel_Logo(LPDIRECT3DDEVICE9 pGraphic_Device)
@@ -25,7 +23,7 @@ void CLevel_Logo::Update(_float fTimeDelta)
 	{
 		if(FAILED(m_pGameInstance->Open_Level(ENUM_CLASS(LEVEL::LEVEL_LOADING), CLevel_Loading::Create(m_pGraphic_Device, LEVEL::LEVEL_GAMEPLAY))))
 			return;
-	}
+	}	
 
 	return;
 }

@@ -21,6 +21,10 @@ public:
 	void Render_Begin(D3DXCOLOR Color);
 	HRESULT Draw();
 	void Render_End(HWND hWnd = 0);
+
+public:
+	_float Compute_Random_Normal();
+	_float Compute_Random(_float fMin, _float fMax);
 #pragma endregion
 
 #pragma region LEVEL_MANAGER
@@ -60,7 +64,15 @@ public:
 #pragma endregion
 
 #pragma region NETWORK_MANAGER
-	string Ping();
+	TEST* Ping();
+	list<USER*> Get_AllUsers();
+#pragma endregion
+	void Transform_Picking_ToLocalSpace(const _float4x4& WorldMatrixInverse);
+	_bool Picking_InWorld(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC);
+	_bool Picking_InLocal(_float3& vPickedPos, const _float3& vPointA, const _float3& vPointB, const _float3& vPointC);
+#pragma region PICKING
+
+
 #pragma endregion
 
 private:
@@ -72,6 +84,7 @@ private:
 	class CTimer_Manager*		m_pTimer_Manager = { nullptr };
 	class CKey_Manager*			m_pKey_Manager = { nullptr };
 	class CNetwork_Manager*		m_pNetwork_Manager = { nullptr };
+	class CPicking*				m_pPicking = { nullptr };
 
 public:
 	void Release_Engine();

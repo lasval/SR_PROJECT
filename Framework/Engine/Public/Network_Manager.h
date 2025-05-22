@@ -27,8 +27,8 @@ public:
 	HRESULT Initialize();
 
 public:
-	string	Ping();
-
+	TEST*		Ping();
+	list<USER*> Get_AllUsers();
 
 private:
 	json SendHttpGetJson(const string& host, const string& port, const string& target);

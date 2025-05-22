@@ -1,6 +1,5 @@
 #include "NetWork_Manager.h"
 
-
 CNetwork_Manager::CNetwork_Manager()
 {
 }
@@ -8,10 +7,10 @@ CNetwork_Manager::CNetwork_Manager()
 HRESULT CNetwork_Manager::Initialize()
 {
 
-	return S_OK;
+    return S_OK;
 }
 
-string CNetwork_Manager::Ping()
+TEST* CNetwork_Manager::Ping()
 {
     std::string host = "localhost";
     std::string port = "8080";
@@ -20,10 +19,36 @@ string CNetwork_Manager::Ping()
     json j = SendHttpGetJson(host, port, target);
 
     // JSON 객체처럼 사용 가능
-    std::cout << "title: " << j["title"] << std::endl;
-    std::cout << "userId: " << j["userId"] << std::endl;
+    TEST* test = new TEST();
+    test->title = j.at("title").get<string>();
+    test->desc = j.at("desc").get<string>();
 
-    return 0;
+    return test;
+}
+
+list<USER*> CNetwork_Manager::Get_AllUsers()
+{
+    std::string host = "localhost";
+    std::string port = "8080";
+    std::string target = "/users";
+
+    json j = SendHttpGetJson(host, port, target);
+    list<USER*> user_list;
+    // JSON 객체처럼 사용 가능
+    for (auto it = j["users"].begin(); it != j["users"].end(); ++it)
+    {
+        string key = it.key();
+        json value = it.value();
+
+        USER* user = new USER();
+        user->iId = stoi(key);
+        user->sName = value.at("name").get<string>();
+        user->sNickname = value.at("nickname").get<string>();
+        user->sPassword = value.at("password").get<string>();
+        user_list.push_back(user);
+    };
+
+    return user_list;
 }
 
 json CNetwork_Manager::SendHttpGetJson(const string& host, const string& port, const string& target)
@@ -59,19 +84,19 @@ json CNetwork_Manager::SendHttpGetJson(const string& host, const string& port, c
 
 CNetwork_Manager* CNetwork_Manager::Create()
 {
-	CNetwork_Manager* pInstance = new CNetwork_Manager();
+    CNetwork_Manager* pInstance = new CNetwork_Manager();
 
-	if (FAILED(pInstance->Initialize()))
-	{
-		MSG_BOX(TEXT("Failed to Created : CNetwork_Manager"));
-		Safe_Release(pInstance);
-	}
+    if (FAILED(pInstance->Initialize()))
+    {
+        MSG_BOX(TEXT("Failed to Created : CNetwork_Manager"));
+        Safe_Release(pInstance);
+    }
 
-	return pInstance;
+    return pInstance;
 }
 
 void CNetwork_Manager::Free()
 {
-	__super::Free();
+    __super::Free();
 
 }
