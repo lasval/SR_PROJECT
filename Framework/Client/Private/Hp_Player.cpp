@@ -25,8 +25,8 @@ HRESULT CHp_Player::Initialize(void* pArg)
 
 	Desc.fSizeX = 180;
 	Desc.fSizeY = 20;
-	Desc.fX = 30 + Desc.fSizeX * 0.5f;
-	Desc.fY = 25 + Desc.fSizeY * 0.5f;
+	Desc.fX = 0;
+	Desc.fY = -15;
 	
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
@@ -35,13 +35,14 @@ HRESULT CHp_Player::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
-	m_pTransformCom->Set_State(STATE::POSITION, _float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+	__super::Update_Position(g_iWinSizeX, g_iWinSizeY);
 
 	return S_OK;
 }
 
 void CHp_Player::Priority_Update(_float fTimeDelta)
 {
+	
 	if (GetKeyState('Z') < 0)
 	{
 		m_iCulHp -= 1;
@@ -54,7 +55,6 @@ void CHp_Player::Priority_Update(_float fTimeDelta)
 
 void CHp_Player::Update(_float fTimeDelta)
 {
-	Update_Hp();
 }
 
 void CHp_Player::Late_Update(_float fTimeDelta)
@@ -67,13 +67,13 @@ HRESULT CHp_Player::Render()
 {
 	m_pTransformCom->Bind_Matrix();
 	m_pVIBufferCom->Bind_Buffers();
-	m_pGraphic_Device->SetTexture(0, NULL);
 	__super::Begin();
 	m_pVIBufferCom->Render();
 	__super::End();
 
 	return S_OK;
 }
+
 
 HRESULT CHp_Player::Ready_Components()
 {
@@ -96,19 +96,17 @@ void CHp_Player::Update_Hp()
 		{
 			m_iCulHp = m_iMaxHp;
 			m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
-			m_pTransformCom->Set_State(STATE::POSITION, _float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 		}
 		else if(m_iCulHp <= 0)
 		{
 			m_iCulHp = 0;
-			m_pTransformCom->Scaling(0.f, m_fSizeY, 1.f);
-			m_pTransformCom->Set_State(STATE::POSITION, _float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+			float fSizeX = m_fSizeX * (0.1f / (float)m_iMaxHp);
+			m_pTransformCom->Scaling(fSizeX, m_fSizeY, 1.f);
 		}
 		else
 		{
 			float fSizeX = m_fSizeX * (float(m_iCulHp) / (float)m_iMaxHp);
 			m_pTransformCom->Scaling(fSizeX, m_fSizeY, 1.f);
-			m_pTransformCom->Set_State(STATE::POSITION, _float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
 		}
 		m_iPreHp = m_iCulHp;
 	}

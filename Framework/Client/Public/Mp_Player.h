@@ -22,11 +22,15 @@ public:
 	virtual HRESULT			Render() override;
 
 private:
-	CTransform*				m_pTransformCom = { nullptr };
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
+	
+	int						m_iMaxMp = {};
+	int						m_iPreMp = {};
+	int						m_iCulMp = {};
 
 private:
 	HRESULT					Ready_Components();
+	void					Update_Mp();
 
 public:
 	static CMp_Player*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);

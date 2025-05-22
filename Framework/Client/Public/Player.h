@@ -6,6 +6,7 @@ BEGIN(Engine)
 class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
+class CPlayerStats;
 END
 
 BEGIN(Client)
@@ -29,6 +30,7 @@ private:
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
 	CTransform*				m_pTransformCom = { nullptr };
 	CTexture*				m_pTextureCom = { nullptr };
+	CPlayerStats*			m_pPlayerStatsCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();

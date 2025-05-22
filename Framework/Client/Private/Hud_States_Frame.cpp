@@ -1,16 +1,22 @@
 #include "Hud_States_Frame.h"
 #include "GameInstance.h"
-
+#include "Hp_Player.h"
+#include "Mp_Player.h"
 CHud_States_Frame::CHud_States_Frame(LPDIRECT3DDEVICE9 pGraphic_Device) : CUIObject(pGraphic_Device)
 {
 }
 
-CHud_States_Frame::CHud_States_Frame(const CHud_States_Frame& Prototype) : CUIObject(Prototype)
+CHud_States_Frame::CHud_States_Frame(const CHud_States_Frame& Prototype) : CUIObject(Prototype), m_eLevel(Prototype.m_eLevel)
 {
 }
 
-HRESULT CHud_States_Frame::Initialize_Prototype()
+HRESULT CHud_States_Frame::Initialize_Prototype(LEVEL eLevel)
 {
+	m_eLevel = eLevel;
+
+	if(FAILED(Ready_Prototype(eLevel)))
+		return E_FAIL;
+
 	return S_OK;
 }
 
@@ -18,11 +24,11 @@ HRESULT CHud_States_Frame::Initialize(void* pArg)
 {
 	UIOBJECT_DESC Desc{};
 
-	Desc.fSizeX = 200;
-	Desc.fSizeY = 60;
-	Desc.fX = 20 + Desc.fSizeX * 0.5f;
-	Desc.fY = 20 + Desc.fSizeY * 0.5f;
-
+	Desc.fSizeX = 190.f;
+	Desc.fSizeY = 55.f;
+	Desc.fX = Desc.fSizeX * 0.5f;
+	Desc.fY = Desc.fSizeY * 0.5f;
+	Desc.fZ = 1.f;
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 
@@ -30,22 +36,29 @@ HRESULT CHud_States_Frame::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
-	m_pTransformCom->Set_State(STATE::POSITION, _float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+	__super::Update_Position(g_iWinSizeX, g_iWinSizeY);
 
+	if (FAILED(Ready_Children()))
+		return E_FAIL;
+	
 	return S_OK;
 }
 
 void CHud_States_Frame::Priority_Update(_float fTimeDelta)
 {
+	__super::Priority_Update(fTimeDelta);
 }
 
 void CHud_States_Frame::Update(_float fTimeDelta)
 {
+	__super::Update(fTimeDelta);
 }
 
 void CHud_States_Frame::Late_Update(_float fTimeDelta)
 {
 	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
+
+	__super::Late_Update(fTimeDelta);
 }
 
 HRESULT CHud_States_Frame::Render()
@@ -56,6 +69,20 @@ HRESULT CHud_States_Frame::Render()
 	__super::Begin();
 	m_pVIBufferCom->Render();
 	__super::End();
+
+	return S_OK;
+}
+
+HRESULT CHud_States_Frame::Ready_Prototype(LEVEL eLevel)
+{
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(eLevel), TEXT("Prototype_GameObject_UI_Hp"),
+		CHp_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
+	m_eLevel = eLevel;
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(eLevel), TEXT("Prototype_GameObject_UI_Mp"),
+		CMp_Player::Create(m_pGraphic_Device))))
+		return E_FAIL;
 
 	return S_OK;
 }
@@ -73,11 +100,30 @@ HRESULT CHud_States_Frame::Ready_Components()
 	return S_OK;
 }
 
-CHud_States_Frame* CHud_States_Frame::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+HRESULT CHud_States_Frame::Ready_Children()
+{
+	CUIObject* pGameObject = nullptr;
+
+	pGameObject = dynamic_cast<CUIObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(m_eLevel), TEXT("Prototype_GameObject_UI_Hp")));
+	if (nullptr == pGameObject)
+		return E_FAIL;
+	Add_Child(pGameObject, g_iWinSizeX, g_iWinSizeY);
+
+	pGameObject = nullptr;
+	pGameObject = dynamic_cast<CUIObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(m_eLevel), TEXT("Prototype_GameObject_UI_Mp")));
+	if (nullptr == pGameObject)
+		return E_FAIL;
+	Add_Child(pGameObject, g_iWinSizeX, g_iWinSizeY);
+
+	return S_OK;
+}
+
+
+CHud_States_Frame* CHud_States_Frame::Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevel)
 {
 	CHud_States_Frame* pInstance = new CHud_States_Frame(pGraphic_Device);
 
-	if (FAILED(pInstance->Initialize_Prototype()))
+	if (FAILED(pInstance->Initialize_Prototype(eLevel)))
 	{
 		MSG_BOX(TEXT("Failed to Created : CHud_States_Frame"));
 		Safe_Release(pInstance);

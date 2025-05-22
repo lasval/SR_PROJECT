@@ -16,12 +16,16 @@ HRESULT CMp_Player::Initialize_Prototype()
 
 HRESULT CMp_Player::Initialize(void* pArg)
 {
+	m_iMaxMp = 100;
+	m_iCulMp = m_iMaxMp;
+	m_iPreMp = m_iCulMp;
+
 	UIOBJECT_DESC Desc{};
 
 	Desc.fSizeX = 180;
 	Desc.fSizeY = 20;
-	Desc.fX = 30 + Desc.fSizeX * 0.5f;
-	Desc.fY = 55 + Desc.fSizeY * 0.5f;
+	Desc.fX = 0;
+	Desc.fY = 10;
 
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
@@ -30,13 +34,21 @@ HRESULT CMp_Player::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
-	m_pTransformCom->Set_State(STATE::POSITION, _float3(m_fX - g_iWinSizeX * 0.5f, -m_fY + g_iWinSizeY * 0.5f, 0.f));
+	__super::Update_Position(g_iWinSizeX, g_iWinSizeY);
 
 	return S_OK;
 }
 
 void CMp_Player::Priority_Update(_float fTimeDelta)
 {
+	if (GetKeyState('C') < 0)
+	{
+		m_iCulMp -= 1;
+	}
+	if (GetKeyState('V') < 0)
+	{
+		m_iCulMp += 1;
+	}
 }
 
 void CMp_Player::Update(_float fTimeDelta)
@@ -45,6 +57,7 @@ void CMp_Player::Update(_float fTimeDelta)
 
 void CMp_Player::Late_Update(_float fTimeDelta)
 {
+	Update_Mp();
 	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
 }
 
@@ -52,13 +65,13 @@ HRESULT CMp_Player::Render()
 {
 	m_pTransformCom->Bind_Matrix();
 	m_pVIBufferCom->Bind_Buffers();
-	m_pGraphic_Device->SetTexture(0, NULL);
 	__super::Begin();
 	m_pVIBufferCom->Render();
 	__super::End();
 
 	return S_OK;
 }
+
 
 HRESULT CMp_Player::Ready_Components()
 {
@@ -71,6 +84,30 @@ HRESULT CMp_Player::Ready_Components()
 		return E_FAIL;
 
 	return S_OK;
+}
+
+void CMp_Player::Update_Mp()
+{
+	if (m_iCulMp != m_iPreMp)
+	{
+		if (m_iCulMp >= m_iMaxMp)
+		{
+			m_iCulMp = m_iMaxMp;
+			m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
+		}
+		else if (m_iCulMp <= 0)
+		{
+			m_iCulMp = 0;
+			float fSizeX = m_fSizeX * (0.1f / (float)m_iMaxMp);
+			m_pTransformCom->Scaling(fSizeX, m_fSizeY, 1.f);
+		}
+		else
+		{
+			float fSizeX = m_fSizeX * (float(m_iCulMp) / (float)m_iMaxMp);
+			m_pTransformCom->Scaling(fSizeX, m_fSizeY, 1.f);
+		}
+		m_iPreMp = m_iCulMp;
+	}
 }
 
 CMp_Player* CMp_Player::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
