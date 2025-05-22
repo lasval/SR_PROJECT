@@ -35,7 +35,7 @@ protected:
 	D3DFORMAT						m_eIndexFormat = {};
 
 	_float3*						m_pVertexPositions = { nullptr };
-	void*							m_pIndices = {};
+	void*							m_pIndices = { nullptr };
 
 public:
 	virtual CComponent* Clone(void* pArg) = 0;

@@ -189,21 +189,21 @@ void CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
 #pragma endregion
 
 #pragma region KEY_MANAGER
-bool CGameInstance::IsKeyDown(int iKey)
+bool CGameInstance::IsKeyDown(int key) const
 {
-    return m_pKey_Manager->IsKeyDown(iKey);
+    return m_pKey_Manager->IsKeyDown(key);
 }
-bool CGameInstance::IsKeyUp(int iKey)
+bool CGameInstance::IsKeyUp(int key) const
 {
-    return m_pKey_Manager->IsKeyUp(iKey);
+    return m_pKey_Manager->IsKeyUp(key);
 }
-bool CGameInstance::IsKeyPressedOnce(int iKey)
+bool CGameInstance::IsKeyHold(int key) const
 {
-    return m_pKey_Manager->IsKeyPressedOnce(iKey);
+    return m_pKey_Manager->IsKeyHold(key);
 }
-bool CGameInstance::IsKeyHeld(int iKey, float fHoldThresholdSec)
+float CGameInstance::GetKeyHoldTime(int key) const
 {
-    return m_pKey_Manager->IsKeyHeld(iKey, fHoldThresholdSec);
+    return m_pKey_Manager->GetKeyHoldTime(key);
 }
 #pragma endregion
 
