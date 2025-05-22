@@ -4,6 +4,7 @@
 #include "VIBuffer_Terrain.h"
 #include "Transform.h"
 #include "Texture.h"
+#include "PlayerStats.h"
 
 BEGIN(Engine)
 

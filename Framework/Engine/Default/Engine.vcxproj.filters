@@ -88,6 +88,24 @@
     <Filter Include="00.System\03.Network\Manager">
       <UniqueIdentifier>{76865f20-b6db-4748-9f45-51ad639b57a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\05.Component\VIBuffer\Cube">
+      <UniqueIdentifier>{e5c94c5b-5013-4fa6-9902-04c726ded688}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\04. Picking">
+      <UniqueIdentifier>{92a20fb2-180d-463d-a582-ff541a739911}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Stats">
+      <UniqueIdentifier>{bb5f73cc-f4b1-4178-8877-b0be0b1f347e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Stats\PlayerStats">
+      <UniqueIdentifier>{0c9d0bb9-1128-40af-ab7d-de2704539757}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Stats\MobStats">
+      <UniqueIdentifier>{c86f13f8-f4d7-414c-b5ba-c6261a697172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\ProgressBar">
+      <UniqueIdentifier>{0a96bda3-cea2-4ce5-8fff-1281d603e2e8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Macro.h">
@@ -113,9 +131,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Graphic_Device.h">
       <Filter>00.System\00.Device\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\GameInstance.h">
-      <Filter>01.Utility\00.GameInstance</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Manager.h">
       <Filter>01.Utility\01.Level\Manager</Filter>
@@ -173,6 +188,21 @@
     </ClInclude>
     <ClInclude Include="..\Public\Network_Manager.h">
       <Filter>00.System\03.Network\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\GameInstance.h">
+      <Filter>01.Utility\00.GameInstance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Cube.h">
+      <Filter>01.Utility\05.Component\VIBuffer\Cube</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Picking.h">
+      <Filter>00.System\04. Picking</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\PlayerStats.h">
+      <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\ProgressBar.h">
+      <Filter>01.Utility\05.Component\ProgressBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +271,18 @@
     </ClCompile>
     <ClCompile Include="..\Private\Network_Manager.cpp">
       <Filter>00.System\03.Network\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Cube.cpp">
+      <Filter>01.Utility\05.Component\VIBuffer\Cube</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Picking.cpp">
+      <Filter>00.System\04. Picking</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\PlayerStats.cpp">
+      <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\ProgressBar.cpp">
+      <Filter>01.Utility\05.Component\ProgressBar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
