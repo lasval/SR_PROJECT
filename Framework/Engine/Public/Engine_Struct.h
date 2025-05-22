@@ -19,11 +19,43 @@ namespace Engine
 		D3DXVECTOR2		vTexcoord;
 	}VTXPOSTEX;
 	
+	typedef struct tagVertexCube
+	{
+		D3DXVECTOR3		vPosition;
+		D3DXVECTOR3		vTexcoord;
+	}VTXCUBE;
+
+	typedef struct tagVertexPositionNormalTexcoord
+	{
+		D3DXVECTOR3		vPosition;
+		D3DXVECTOR3		vNormal;
+		D3DXVECTOR2		vTexcoord;
+	}VTXNORTEX;
+
 	typedef struct tagVertexPosColor
 	{
 		D3DXVECTOR3		vPosition;
 		unsigned long	dwColor;
 	}VTXPOSCOL;
+
+
+
+	//////////////////////
+	// Network Struct
+	
+	typedef struct test
+	{
+		string	title;
+		string	desc;
+	}TEST;
+
+	typedef struct tagUser
+	{
+		int	iId;
+		string	sName;
+		string	sNickname;
+		string	sPassword;
+	}USER;
 }
 
 
