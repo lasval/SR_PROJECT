@@ -61,6 +61,15 @@
     <Filter Include="02.GameObject\UI\HUD_Status\MP_Player">
       <UniqueIdentifier>{59dac64d-ad42-4536-88e4-edd48c842b50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.GameObject\UI\HUD_Exp">
+      <UniqueIdentifier>{06e7049c-b27a-4a80-bf6d-783607adaf26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UI\HUD_Exp\EXP_Player">
+      <UniqueIdentifier>{5618c356-0846-4511-8f04-59577436dfcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.GameObject\UI\HUD_Exp\Exp_checkout">
+      <UniqueIdentifier>{2647e452-a999-4f97-9ed2-472179b60b0e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Client.h">
@@ -119,6 +128,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\Hud_States_Frame.h">
       <Filter>02.GameObject\UI\HUD_Status</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hud_Exp_Frame.h">
+      <Filter>02.GameObject\UI\HUD_Exp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hud_Exp.h">
+      <Filter>02.GameObject\UI\HUD_Exp\EXP_Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Hud_Exp_Checkout.h">
+      <Filter>02.GameObject\UI\HUD_Exp\Exp_checkout</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +197,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Hud_States_Frame.cpp">
       <Filter>02.GameObject\UI\HUD_Status</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Hud_Exp_Frame.cpp">
+      <Filter>02.GameObject\UI\HUD_Exp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Hud_Exp.cpp">
+      <Filter>02.GameObject\UI\HUD_Exp\EXP_Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Hud_Exp_Checkout.cpp">
+      <Filter>02.GameObject\UI\HUD_Exp\Exp_checkout</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

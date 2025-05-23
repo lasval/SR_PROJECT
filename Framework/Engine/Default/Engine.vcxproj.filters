@@ -103,8 +103,8 @@
     <Filter Include="01.Utility\05.Component\Stats\MobStats">
       <UniqueIdentifier>{c86f13f8-f4d7-414c-b5ba-c6261a697172}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\05.Component\ProgressBar">
-      <UniqueIdentifier>{0a96bda3-cea2-4ce5-8fff-1281d603e2e8}</UniqueIdentifier>
+    <Filter Include="01.Utility\03.GameObject\UIObject\ProgressBar">
+      <UniqueIdentifier>{8d2eaec7-ed89-4c11-83be-f1f8ded9b23b}</UniqueIdentifier>
     </Filter>
     <Filter Include="01.Utility\05.Component\Collision">
       <UniqueIdentifier>{3eb39783-1a68-4019-9e46-88857f2aa7b2}</UniqueIdentifier>
@@ -117,6 +117,9 @@
     </Filter>
     <Filter Include="01.Utility\05.Component\Collision\Manager">
       <UniqueIdentifier>{efbbfd60-b645-4af1-b569-65c815ef6636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Animator">
+      <UniqueIdentifier>{860e3e5c-8c0a-4c3c-a611-bac9b6f2db6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -214,7 +217,7 @@
       <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ProgressBar.h">
-      <Filter>01.Utility\05.Component\ProgressBar</Filter>
+      <Filter>01.Utility\03.GameObject\UIObject\ProgressBar</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Collider.h">
       <Filter>01.Utility\05.Component\Collision\Collider</Filter>
@@ -224,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="..\public\CollisionManager.h">
       <Filter>01.Utility\05.Component\Collision\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Animator.h">
+      <Filter>01.Utility\05.Component\Animator</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -303,7 +309,7 @@
       <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ProgressBar.cpp">
-      <Filter>01.Utility\05.Component\ProgressBar</Filter>
+      <Filter>01.Utility\03.GameObject\UIObject\ProgressBar</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Collider.cpp">
       <Filter>01.Utility\05.Component\Collision\Collider</Filter>
@@ -313,6 +319,9 @@
     </ClCompile>
     <ClCompile Include="..\private\CCollisionManager.cpp">
       <Filter>01.Utility\05.Component\Collision\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Animator.cpp">
+      <Filter>01.Utility\05.Component\Animator</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,11 +1,11 @@
 #include "ProgressBar.h"
 #include "GameInstance.h"
 
-CProgressBar::CProgressBar(LPDIRECT3DDEVICE9 pGraphic_Device) : CComponent(pGraphic_Device)
+CProgressBar::CProgressBar(LPDIRECT3DDEVICE9 pGraphic_Device) : CUIObject(pGraphic_Device)
 {
 }
 
-CProgressBar::CProgressBar(const CProgressBar& Prototype) : CComponent(Prototype)
+CProgressBar::CProgressBar(const CProgressBar& Prototype) : CUIObject(Prototype)
 {
 }
 
@@ -19,49 +19,58 @@ HRESULT CProgressBar::Initialize(void* pArg)
 	return S_OK;
 }
 
-HRESULT CProgressBar::Setting_Componets(class CTransform* pTransform, const _uint iCulNumber, const _uint iMaxNumber)
+void CProgressBar::Priority_Update(_float fTimeDelta)
 {
-	if (pTransform == nullptr)
-	{
-		MSG_BOX(TEXT("Failed to Setting : CProgressBar"));
-		return E_FAIL;
-	}
-	m_pTransformCom = pTransform;
-	Safe_AddRef(m_pTransformCom);
+}
 
-	m_iCulNumber = iCulNumber;
-	m_iPreNumber = m_iCulNumber;
-	m_iMaxNumber = iMaxNumber;
+void CProgressBar::Update(_float fTimeDelta)
+{
+}
 
+void CProgressBar::Late_Update(_float fTimeDelta)
+{
+}
+
+HRESULT CProgressBar::Render()
+{
 	return S_OK;
 }
 
-CProgressBar* CProgressBar::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+void CProgressBar::Progress_UpdateX()
 {
-	CProgressBar* pInstance = new CProgressBar(pGraphic_Device);
-
-	if (FAILED(pInstance->Initialize_Prototype()))
+	if (m_iPreValue != m_iCulValue || m_iPreMaxValue != m_iCulMaxValue)
 	{
-		MSG_BOX(TEXT("Failed to Create : CProgressBar"));
-		Safe_Release(pInstance);
-	}
-	return pInstance;
-}
+		
+		_float fRatio{};
 
-CComponent* CProgressBar::Clone(void* pArg)
-{
-	CProgressBar* pInstance = new CProgressBar(*this);
+		if (m_iCulValue >= m_iCulMaxValue)
+		{
+			m_iCulValue = m_iCulMaxValue;
+			fRatio = (float)m_iCulValue / (float)m_iCulMaxValue;
+		}
+		else if (m_iCulValue <= 0)
+		{
+			m_iCulValue = 0;
+			fRatio = 0.1f / (float)m_iCulMaxValue;
+		}
+		else
+		{
+			fRatio = (float)m_iCulValue / (float)m_iCulMaxValue;
+		}
+		_float fOffsetX = (1.f - fRatio) * m_fSizeX * 0.5f;m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
 
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		MSG_BOX(TEXT("Failed to Clone : CProgressBar"));
-		Safe_Release(pInstance);
+		m_pTransformCom->Scaling(m_fSizeX * fRatio, m_fSizeY, m_fZ);
+ 		m_pTransformCom->Set_State(STATE::POSITION, _float3{ (m_vWorldPos.x - m_iWinSizeX * 0.5f) - fOffsetX, -m_vWorldPos.y + m_iWinSizeY * 0.5f, m_vWorldPos.z });
+		
+		if (m_iCulMaxValue <= m_iCulValue)
+			m_iCulValue = m_iCulMaxValue;
+
+		m_iPreMaxValue = m_iCulMaxValue;
+		m_iPreValue = m_iCulValue;
 	}
-	return pInstance;
 }
 
 void CProgressBar::Free()
 {
 	__super::Free();
-	Safe_Release(m_pTransformCom);
 }
