@@ -1,11 +1,11 @@
 #include "ProgressBar.h"
 #include "GameInstance.h"
 
-CProgressBar::CProgressBar(LPDIRECT3DDEVICE9 pGraphic_Device) : CComponent(pGraphic_Device)
+CProgressBar::CProgressBar(LPDIRECT3DDEVICE9 pGraphic_Device) : CUIObject(pGraphic_Device)
 {
 }
 
-CProgressBar::CProgressBar(const CProgressBar& Prototype) : CComponent(Prototype)
+CProgressBar::CProgressBar(const CProgressBar& Prototype) : CUIObject(Prototype)
 {
 }
 
@@ -16,92 +16,61 @@ HRESULT CProgressBar::Initialize_Prototype()
 
 HRESULT CProgressBar::Initialize(void* pArg)
 {
-	if (nullptr == pArg)
-		return E_FAIL;
-	PROGRESSBAR_DESC* pDesc = static_cast<PROGRESSBAR_DESC*>(pArg);
-
-	m_iMaxValue = pDesc->iMaxValue;
-	m_iCulValue = pDesc->iCulValue;
-
-	m_pTransformCom = pDesc->pTransformCom;
-	Safe_AddRef(m_pTransformCom);
-
 	return S_OK;
 }
 
-void CProgressBar::Progress_UpdateX(_uint iCulValue, const _float3 vOriginPos, const _float3 vOriginSize)
+void CProgressBar::Priority_Update(_float fTimeDelta)
 {
-	m_iCulValue = iCulValue;
-	if (m_iPreValue != m_iCulValue)
+}
+
+void CProgressBar::Update(_float fTimeDelta)
+{
+}
+
+void CProgressBar::Late_Update(_float fTimeDelta)
+{
+}
+
+HRESULT CProgressBar::Render()
+{
+	return S_OK;
+}
+
+void CProgressBar::Progress_UpdateX()
+{
+	if (m_iPreValue != m_iCulValue || m_iPreMaxValue != m_iCulMaxValue)
 	{
 		
 		_float fRatio{};
 
-		if (m_iCulValue >= m_iMaxValue)
+		if (m_iCulValue >= m_iCulMaxValue)
 		{
-			m_iCulValue = m_iMaxValue;
-			fRatio = m_iMaxValue / m_iCulValue;
+			m_iCulValue = m_iCulMaxValue;
+			fRatio = (float)m_iCulValue / (float)m_iCulMaxValue;
 		}
 		else if (m_iCulValue <= 0)
 		{
 			m_iCulValue = 0;
-			fRatio = m_iMaxValue / 0.1;
+			fRatio = 0.1f / (float)m_iCulMaxValue;
 		}
 		else
 		{
-			fRatio = m_iMaxValue / m_iCulValue;
+			fRatio = (float)m_iCulValue / (float)m_iCulMaxValue;
 		}
-		_float fOffsetX = (1.f - fRatio) * vOriginPos.x * 0.5f;
+		_float fOffsetX = (1.f - fRatio) * m_fSizeX * 0.5f;m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
 
-		m_pTransformCom->Scaling(vOriginSize.x * fRatio, vOriginSize.y, vOriginSize.z);
-		m_pTransformCom->Set_State(STATE::POSITION, _float3{ vOriginPos.x + fOffsetX, vOriginPos.y, vOriginPos.z });
+		m_pTransformCom->Scaling(m_fSizeX * fRatio, m_fSizeY, m_fZ);
+ 		m_pTransformCom->Set_State(STATE::POSITION, _float3{ (m_vWorldPos.x - m_iWinSizeX * 0.5f) - fOffsetX, -m_vWorldPos.y + m_iWinSizeY * 0.5f, m_vWorldPos.z });
+		
+		if (m_iCulMaxValue <= m_iCulValue)
+			m_iCulValue = m_iCulMaxValue;
 
+		m_iPreMaxValue = m_iCulMaxValue;
 		m_iPreValue = m_iCulValue;
 	}
-}
-
-void CProgressBar::MaxValue_UpdateX(_uint iMaxValue, const _float3 vOriginPos, const _float3 vOriginSize)
-{
-	if (m_iMaxValue == iMaxValue)
-	{
-		m_iMaxValue == iMaxValue;
-		_float fRatio = m_iMaxValue / m_iCulValue;
-		m_pTransformCom->Scaling(vOriginPos.x * fRatio, vOriginPos.y, vOriginPos.z);
-
-		_float fOffsetX = (1.f - fRatio) * vOriginPos.x * 0.5f;
-		m_pTransformCom->Set_State(STATE::POSITION, _float3{ fOffsetX, vOriginPos.y, vOriginPos.z });
-	}
-}
-
-
-
-
-CProgressBar* CProgressBar::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
-{
-	CProgressBar* pInstance = new CProgressBar(pGraphic_Device);
-
-	if (FAILED(pInstance->Initialize_Prototype()))
-	{
-		MSG_BOX(TEXT("Failed to Create : CProgressBar"));
-		Safe_Release(pInstance);
-	}
-	return pInstance;
-}
-
-CComponent* CProgressBar::Clone(void* pArg)
-{
-	CProgressBar* pInstance = new CProgressBar(*this);
-
-	if (FAILED(pInstance->Initialize(pArg)))
-	{
-		MSG_BOX(TEXT("Failed to Clone : CProgressBar"));
-		Safe_Release(pInstance);
-	}
-	return pInstance;
 }
 
 void CProgressBar::Free()
 {
 	__super::Free();
-	Safe_Release(m_pTransformCom);
 }

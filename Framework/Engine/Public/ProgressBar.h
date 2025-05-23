@@ -1,39 +1,34 @@
 #pragma once
-#include "Component.h"
+#include "UIObject.h"
 
 BEGIN(Engine)
-class ENGINE_DLL CProgressBar final : public CComponent
+class ENGINE_DLL CProgressBar abstract : public CUIObject
 {
-public:
-	typedef struct tagProgressDesc
-	{
-		class CTransform*			pTransformCom = { nullptr };
-		_uint						iMaxValue = {};
-		_uint						iCulValue = {};
-	}PROGRESSBAR_DESC;
-private:
+protected:
 								CProgressBar(LPDIRECT3DDEVICE9 pGraphic_Device);
 								CProgressBar(const CProgressBar& Prototype);
 	virtual						~CProgressBar() = default;
 
 public:
-	virtual HRESULT				Initialize_Prototype();
-	virtual HRESULT				Initialize(void* pArg);
+	virtual HRESULT				Initialize_Prototype() = 0;
+	virtual HRESULT				Initialize(void* pArg) = 0;
+	virtual void				Priority_Update(_float fTimeDelta) = 0;
+	virtual void				Update(_float fTimeDelta) = 0;
+	virtual void				Late_Update(_float fTimeDelta) = 0;
+	virtual HRESULT				Render() = 0;
 	
 public:
-	void						Progress_UpdateX(_uint iCulValue, const _float3 vOriginPos, const _float3 vOriginSize);
-	void						MaxValue_UpdateX(_uint iMaxValue, const _float3 vOriginPos, const _float3 vOriginSize);
+	void						Progress_UpdateX();
 
-private:
-	class CTransform*			m_pTransformCom = { nullptr };
-	_uint						m_iMaxValue = {};
-	_uint						m_iCulValue = {};
-	_uint						m_iPreValue = {};
+protected:
+	_int						m_iCulMaxValue = {};
+	_int						m_iPreMaxValue = {};
+	_int						m_iCulValue = {};
+	_int						m_iPreValue = {};
 
 
 public:
-	static CProgressBar*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CComponent*			Clone(void* pArg);
+	virtual CGameObject*		Clone(void* pArg) = 0;
 	virtual void				Free();
 };
 END

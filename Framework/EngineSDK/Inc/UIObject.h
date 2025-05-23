@@ -9,6 +9,8 @@ public:
 	typedef struct tagUIObjectDesc
 	{
 		_float		fX, fY, fZ, fSizeX, fSizeY;
+		_uint		iWinSizeX, iWinSizeY;
+
 	}UIOBJECT_DESC;
 protected:
 	CUIObject(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -24,6 +26,9 @@ public:
 	virtual HRESULT Render();
 
 protected:
+	_uint					m_iWinSizeX = {};
+	_uint					m_iWinSizeY = {};
+
 	_float					m_fX = {};
 	_float					m_fY = {};
 	_float					m_fZ = {};
@@ -46,11 +51,9 @@ protected:
 	void					End();
 	_bool					isPick(HWND hWnd);
 
-	void					Update_Position(const _uint iWinX, const _uint iWinY);
-	void					Add_Child(CUIObject* pChildUI, const _uint iWinX, const _uint iWinY );
-	
-	virtual HRESULT			Ready_Components();
-	virtual HRESULT			Ready_Children();
+	void					Update_Position();
+	void					Add_Child(CUIObject* pChildUI );
+
 public:
 	virtual CGameObject*	Clone(void* pArg) = 0;
 	virtual void			Free();

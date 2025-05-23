@@ -149,6 +149,9 @@
     <ClInclude Include="..\Public\Camera_Mouse.h" />
     <ClInclude Include="..\Public\Client_Defines.h" />
     <ClInclude Include="..\Public\Hp_Player.h" />
+    <ClInclude Include="..\public\Hud_Exp.h" />
+    <ClInclude Include="..\public\Hud_Exp_Checkout.h" />
+    <ClInclude Include="..\public\Hud_Exp_Frame.h" />
     <ClInclude Include="..\Public\Hud_States_Frame.h" />
     <ClInclude Include="..\Public\Level_GamePlay.h" />
     <ClInclude Include="..\Public\Level_Loading.h" />
@@ -168,7 +171,10 @@
     <ClCompile Include="..\Private\Camera_Follow.cpp" />
     <ClCompile Include="..\private\Camera_Free.cpp" />
     <ClCompile Include="..\Private\Camera_Mouse.cpp" />
+    <ClCompile Include="..\private\Hud_Exp.cpp" />
     <ClCompile Include="..\Private\Hp_Player.cpp" />
+    <ClCompile Include="..\private\Hud_Exp_Checkout.cpp" />
+    <ClCompile Include="..\private\Hud_Exp_Frame.cpp" />
     <ClCompile Include="..\Private\Hud_States_Frame.cpp" />
     <ClCompile Include="..\Private\Level_GamePlay.cpp" />
     <ClCompile Include="..\Private\Level_Loading.cpp" />

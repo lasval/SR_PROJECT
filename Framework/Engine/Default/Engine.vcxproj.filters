@@ -103,8 +103,8 @@
     <Filter Include="01.Utility\05.Component\Stats\MobStats">
       <UniqueIdentifier>{c86f13f8-f4d7-414c-b5ba-c6261a697172}</UniqueIdentifier>
     </Filter>
-    <Filter Include="01.Utility\05.Component\ProgressBar">
-      <UniqueIdentifier>{0a96bda3-cea2-4ce5-8fff-1281d603e2e8}</UniqueIdentifier>
+    <Filter Include="01.Utility\03.GameObject\UIObject\ProgressBar">
+      <UniqueIdentifier>{8d2eaec7-ed89-4c11-83be-f1f8ded9b23b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -202,7 +202,7 @@
       <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
     </ClInclude>
     <ClInclude Include="..\public\ProgressBar.h">
-      <Filter>01.Utility\05.Component\ProgressBar</Filter>
+      <Filter>01.Utility\03.GameObject\UIObject\ProgressBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -282,7 +282,7 @@
       <Filter>01.Utility\05.Component\Stats\PlayerStats</Filter>
     </ClCompile>
     <ClCompile Include="..\private\ProgressBar.cpp">
-      <Filter>01.Utility\05.Component\ProgressBar</Filter>
+      <Filter>01.Utility\03.GameObject\UIObject\ProgressBar</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

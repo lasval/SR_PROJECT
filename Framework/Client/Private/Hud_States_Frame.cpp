@@ -14,7 +14,7 @@ HRESULT CHud_States_Frame::Initialize_Prototype(LEVEL eLevel)
 {
 	m_eLevel = eLevel;
 
-	if(FAILED(Ready_Prototype(eLevel)))
+	if(FAILED(Ready_ChildPrototype(eLevel)))
 		return E_FAIL;
 
 	return S_OK;
@@ -29,6 +29,9 @@ HRESULT CHud_States_Frame::Initialize(void* pArg)
 	Desc.fX = 20 + Desc.fSizeX * 0.5f;
 	Desc.fY = 20 + Desc.fSizeY * 0.5f;
 	Desc.fZ = 0.f;
+	Desc.iWinSizeX = g_iWinSizeX;
+	Desc.iWinSizeY = g_iWinSizeY;
+
 	if (FAILED(__super::Initialize(&Desc)))
 		return E_FAIL;
 
@@ -36,7 +39,7 @@ HRESULT CHud_States_Frame::Initialize(void* pArg)
 		return E_FAIL;
 
 	m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
-	__super::Update_Position(g_iWinSizeX, g_iWinSizeY);
+	__super::Update_Position();
 
 	if (FAILED(Ready_Children()))
 		return E_FAIL;
@@ -73,7 +76,20 @@ HRESULT CHud_States_Frame::Render()
 	return S_OK;
 }
 
-HRESULT CHud_States_Frame::Ready_Prototype(LEVEL eLevel)
+HRESULT CHud_States_Frame::Ready_Components()
+{
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rect_UI_Hud_States_Fream"),
+		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
+		return E_FAIL;
+
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
+		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom))))
+		return E_FAIL;
+
+	return S_OK;
+}
+
+HRESULT CHud_States_Frame::Ready_ChildPrototype(LEVEL eLevel)
 {
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(eLevel), TEXT("Prototype_GameObject_UI_Hp"),
 		CHp_Player::Create(m_pGraphic_Device))))
@@ -87,19 +103,6 @@ HRESULT CHud_States_Frame::Ready_Prototype(LEVEL eLevel)
 	return S_OK;
 }
 
-HRESULT CHud_States_Frame::Ready_Components()
-{
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rect_UI_Player_HpFream"),
-		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
-		return E_FAIL;
-
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Transform"),
-		TEXT("Com_Transform"), reinterpret_cast<CComponent**>(&m_pTransformCom))))
-		return E_FAIL;
-
-	return S_OK;
-}
-
 HRESULT CHud_States_Frame::Ready_Children()
 {
 	CUIObject* pGameObject = nullptr;
@@ -107,13 +110,13 @@ HRESULT CHud_States_Frame::Ready_Children()
 	pGameObject = dynamic_cast<CUIObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(m_eLevel), TEXT("Prototype_GameObject_UI_Hp")));
 	if (nullptr == pGameObject)
 		return E_FAIL;
-	Add_Child(pGameObject, g_iWinSizeX, g_iWinSizeY);
+	Add_Child(pGameObject);
 
 	pGameObject = nullptr;
 	pGameObject = dynamic_cast<CUIObject*>(m_pGameInstance->Clone_Prototype(PROTOTYPE::GAMEOBJECT, ENUM_CLASS(m_eLevel), TEXT("Prototype_GameObject_UI_Mp")));
 	if (nullptr == pGameObject)
 		return E_FAIL;
-	Add_Child(pGameObject, g_iWinSizeX, g_iWinSizeY);
+	Add_Child(pGameObject);
 
 	return S_OK;
 }
@@ -146,6 +149,5 @@ CUIObject* CHud_States_Frame::Clone(void* pArg)
 void CHud_States_Frame::Free()
 {
 	__super::Free();
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 }
