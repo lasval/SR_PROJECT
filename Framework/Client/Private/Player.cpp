@@ -214,6 +214,7 @@ void CPlayer::Free()
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pTextureCom_Roll);
+    Safe_Release(m_pTextureCom_Lower);
     Safe_Release(m_pPlayerStatsCom);
     Safe_Release(m_pAnimatorCom);
 }
