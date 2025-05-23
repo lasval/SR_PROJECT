@@ -106,6 +106,18 @@
     <Filter Include="01.Utility\05.Component\ProgressBar">
       <UniqueIdentifier>{0a96bda3-cea2-4ce5-8fff-1281d603e2e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\05.Component\Collision">
+      <UniqueIdentifier>{3eb39783-1a68-4019-9e46-88857f2aa7b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Collision\Collider">
+      <UniqueIdentifier>{0a614247-2bb0-40f9-a3a0-0bed5966e2ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Collision\Collider\OBB">
+      <UniqueIdentifier>{999e574e-2ca0-4c28-b080-cb08f2c1d3fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Collision\Manager">
+      <UniqueIdentifier>{efbbfd60-b645-4af1-b569-65c815ef6636}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Macro.h">
@@ -204,6 +216,15 @@
     <ClInclude Include="..\public\ProgressBar.h">
       <Filter>01.Utility\05.Component\ProgressBar</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\Collider.h">
+      <Filter>01.Utility\05.Component\Collision\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Collider_OBB.h">
+      <Filter>01.Utility\05.Component\Collision\Collider\OBB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\CollisionManager.h">
+      <Filter>01.Utility\05.Component\Collision\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -283,6 +304,15 @@
     </ClCompile>
     <ClCompile Include="..\private\ProgressBar.cpp">
       <Filter>01.Utility\05.Component\ProgressBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Collider.cpp">
+      <Filter>01.Utility\05.Component\Collision\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Collider_OBB.cpp">
+      <Filter>01.Utility\05.Component\Collision\Collider\OBB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\CCollisionManager.cpp">
+      <Filter>01.Utility\05.Component\Collision\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
