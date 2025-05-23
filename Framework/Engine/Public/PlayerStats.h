@@ -36,6 +36,10 @@ private:
 	virtual ~CPlayerStats() = default;
 
 public:
+	virtual HRESULT Initialize_Prototype() override;
+	virtual HRESULT Initialize(void* pArg) override;
+
+public:
 	PLAYERSTAT_DESC Get_Stats() const{
 		return tPlayerStats;
 	}
@@ -43,10 +47,6 @@ public:
 	void Set_Stats(PLAYERSTAT_DESC _stats) {
 		tPlayerStats = _stats;
 	}
-
-public:
-	virtual HRESULT Initialize_Prototype() override;
-	virtual HRESULT Initialize(void* pArg) override;
 
 private:
 	PLAYERSTAT_DESC tPlayerStats = {};

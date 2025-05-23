@@ -8,64 +8,56 @@ CKey_Manager::CKey_Manager()
 
 HRESULT CKey_Manager::Initialize()
 {
-
+	m_mPrevState.clear();
+	m_mCurrState.clear();
+	m_mKeyHoldTime.clear();
 	return S_OK;
 }
 
 void CKey_Manager::Update(float fDeltaTime)
 {
-    for (auto& pair : m_mCurrState)
+    for (int vk = 0x01; vk <= 0xFE; ++vk)  // 0x01~0xFE: 가용 가능한 가상키
     {
-        int vk = pair.first;
-
-        bool bPrev = m_mCurrState[vk];
         bool bCurr = (GetAsyncKeyState(vk) & 0x8000) != 0;
 
-        m_mPrevState[vk] = bPrev;
+        // 이전 상태 저장
+        m_mPrevState[vk] = m_mCurrState[vk];
         m_mCurrState[vk] = bCurr;
 
+        // 누르고 있다면 누른 시간 누적
         if (bCurr)
-        {
             m_mKeyHoldTime[vk] += fDeltaTime;
-        }
         else
-        {
-            m_mKeyHoldTime[vk] = 0.f;
-            m_mProcessed[vk] = false;
-        }
+            m_mKeyHoldTime[vk] = 0.0f;
     }
 }
 
-bool CKey_Manager::IsKeyDown(int iKey)
+bool CKey_Manager::IsKeyDown(int key) const
 {
-    m_mCurrState[iKey] = (GetAsyncKeyState(iKey) & 0x8000) != 0;
-    return m_mCurrState[iKey];
+    auto itPrev = m_mPrevState.find(key);
+    auto itCurr = m_mCurrState.find(key);
+    return itCurr != m_mCurrState.end() && itCurr->second && (!itPrev->second);
 }
 
-bool CKey_Manager::IsKeyUp(int iKey)
+bool CKey_Manager::IsKeyUp(int key) const
 {
-    return (m_mPrevState[iKey] == true && m_mCurrState[iKey] == false);
+    auto itPrev = m_mPrevState.find(key);
+    auto itCurr = m_mCurrState.find(key);
+    return itCurr != m_mCurrState.end() && !itCurr->second && itPrev->second;
 }
 
-bool CKey_Manager::IsKeyPressedOnce(int iKey)
+bool CKey_Manager::IsKeyHold(int key) const
 {
-    bool bNow = (GetAsyncKeyState(iKey) & 0x8000) != 0;
-    bool bPrev = m_mPrevState[iKey];
-
-    if (bNow && !bPrev && !m_mProcessed[iKey])
-    {
-        m_mProcessed[iKey] = true;
-        m_mCurrState[iKey] = bNow;
-        return true;
-    }
-
-    m_mCurrState[iKey] = bNow;
-    return false;
+    auto itCurr = m_mCurrState.find(key);
+    return itCurr != m_mCurrState.end() && itCurr->second;
 }
 
-bool CKey_Manager::IsKeyHeld(int iKey, float fHoldThresholdSec)
+float CKey_Manager::GetKeyHoldTime(int key) const
 {
-    return m_mKeyHoldTime[iKey] >= fHoldThresholdSec;
+    auto it = m_mKeyHoldTime.find(key);
+    if (it != m_mKeyHoldTime.end())
+        return it->second;
+    return 0.0f;
 }
 
 CKey_Manager* CKey_Manager::Create()

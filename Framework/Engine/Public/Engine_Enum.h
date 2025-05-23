@@ -12,5 +12,9 @@ namespace Engine
 	enum class MOUSEMOVESTATE {	DIMS_X, DIMS_Y, DIMS_Z, DIMS_END };
 
 	enum class TEXTURE { RECT, CUBE };
+
+	enum class COLLIDER_OBJ_TYPE { PLAYER, MONSTER, LAND_OBJ, COL_END };
+	enum class COLLIDER_TYPE { OBB, AABB, SPHERE, RECT };
+	enum class COLLISION_EVENT { DAMAGE, EVENT_END };
 }
 #endif

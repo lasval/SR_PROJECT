@@ -111,7 +111,7 @@ void CCamera_Free::Mouse_Move(_float fTimeDelta)
 
 void CCamera_Free::Move_Angle(_float fAngle, _float fTimeDelta)
 {
-	if (m_pGameInstance->IsKeyPressedOnce('Q'))
+	if (m_pGameInstance->IsKeyDown('Q'))
 	{
 		m_fCurrentAngle += fAngle;
 		if (m_fCurrentAngle >= 360.f)
@@ -120,7 +120,7 @@ void CCamera_Free::Move_Angle(_float fAngle, _float fTimeDelta)
 		m_pTargetTransformCom->RotationAccumulate(_float3{ 0.f, 1.f, 0.f }, D3DXToRadian(fAngle));
 	}
 
-	if (m_pGameInstance->IsKeyPressedOnce('E'))
+	if (m_pGameInstance->IsKeyDown('E'))
 	{
 		m_fCurrentAngle -= fAngle;
 		if (m_fCurrentAngle < 0.f)
