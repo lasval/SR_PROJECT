@@ -26,6 +26,8 @@ private:
 
 private:
 	HRESULT					Ready_Components();
+	void					SetUp_RenderState();
+	void					Reset_RenderState();
 public:
 	static	CHud_Exp*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);
 	virtual CUIObject*		Clone(void* pArg) override;

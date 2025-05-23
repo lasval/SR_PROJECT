@@ -73,13 +73,16 @@ void CHud_Exp::Late_Update(_float fTimeDelta)
 
 HRESULT CHud_Exp::Render()
 {
+
     m_pTransformCom->Bind_Matrix();
     m_pVIBufferCom->Bind_Buffers();
 
+    SetUp_RenderState();
     __super::Begin();
     m_pVIBufferCom->Render();
     __super::End();
-
+    Reset_RenderState();
+ 
     return S_OK;
 }
 
@@ -94,6 +97,19 @@ HRESULT CHud_Exp::Ready_Components()
         return E_FAIL;
 
     return S_OK;
+}
+
+void CHud_Exp::SetUp_RenderState()
+{
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    m_pGraphic_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    m_pGraphic_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    m_pGraphic_Device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+}
+
+void CHud_Exp::Reset_RenderState()
+{
+    m_pGraphic_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
 }
 
 CHud_Exp* CHud_Exp::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
