@@ -150,6 +150,32 @@ HRESULT CPlayer::Ready_Components()
         TEXT("Com_PlayerStats"), reinterpret_cast<CComponent**>(&m_pPlayerStatsCom), &PlayerStatDesc)))
         return E_FAIL;
 
+    /* For Com_Animator */
+    CAnimator::ANIMSTATE_DESC StartAnimStateDesc{};
+    CAnimator::ANIMSTATE StartAnimState{};
+    
+    StartAnimState.fAnimLength = 1.f;   // State 지속시간 1초
+    StartAnimState.isExitable = true;   // 도중 나갈 수 있는지 여부 (둘 다 임시정보)
+    
+    StartAnimStateDesc.strTimerTag = L"Animator_Player_Main";   // 해당 애니메이터가 타이머에서 사용할 태그 key값
+    StartAnimStateDesc.strFirstStateTag = L"Idle";              // 최초생성(시작) State의 Key값
+    StartAnimStateDesc.tFirstAnimState = StartAnimState;        // 위에서 정의한 State Value 대입
+    
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Animator"),
+        TEXT("Com_Animator"), reinterpret_cast<CComponent**>(&m_pAnimatorCom), &StartAnimStateDesc)))
+        return E_FAIL;
+
+    // 로깅 테스트용
+    m_pAnimatorCom->Add_State(L"Run", {1.5f, true});     // State 추가...
+    m_pAnimatorCom->Add_State(L"Attack", {1.5f, false}); // State 추가...
+
+    m_pAnimatorCom->Change_State(L"Run");   // State 전이..
+    m_pAnimatorCom->Change_State(L"Attack");// State 전이..
+    m_pAnimatorCom->Change_State(L"Idle");  // State 전이..
+    m_pAnimatorCom->Change_State(L"NULL");  // State 전이.. (실패해야함)
+
+
+
     return S_OK;
 }
 
@@ -187,4 +213,5 @@ void CPlayer::Free()
     Safe_Release(m_pTransformCom);
     Safe_Release(m_pTextureCom);
     Safe_Release(m_pPlayerStatsCom);
+    Safe_Release(m_pAnimatorCom);
 }

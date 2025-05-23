@@ -241,7 +241,6 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pPrototype_Manager);
     Safe_Release(m_pObject_Manager);
     Safe_Release(m_pRenderer);
-    Safe_Release(m_pTimer_Manager);
     Safe_Release(m_pKey_Manager);
     Safe_Release(m_pNetwork_Manager);
     Safe_Release(m_pPicking);
