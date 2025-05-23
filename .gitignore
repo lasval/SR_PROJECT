@@ -10,7 +10,7 @@ Engine.exp
 Engine.pdb
 Inc/
 Lib/
-bin/
+Bin/
 
 Resources/
 copy.bat

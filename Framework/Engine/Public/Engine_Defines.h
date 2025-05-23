@@ -20,6 +20,7 @@ using json = nlohmann::json;
 #include <string>
 #include <unordered_map>
 #include <ctime>
+#include <functional>
 #include <iostream>
 using namespace std;
 

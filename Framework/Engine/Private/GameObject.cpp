@@ -6,6 +6,9 @@
 CGameObject::CGameObject(LPDIRECT3DDEVICE9 pGraphic_Device)
 	: m_pGraphic_Device { pGraphic_Device }
 	, m_pGameInstance { CGameInstance::GetInstance() }
+	, m_bCollision { false }
+	, m_eCollisionEvent { COLLISION_EVENT::EVENT_END }
+	, m_bDead { false }
 {
 	Safe_AddRef(m_pGraphic_Device);
 	Safe_AddRef(m_pGameInstance);
