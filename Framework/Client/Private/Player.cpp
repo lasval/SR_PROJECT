@@ -95,8 +95,10 @@ HRESULT CPlayer::Render()
 {
 	m_pTransformCom->Bind_Matrix();
 
-	if (FAILED(m_pTextureCom->Bind_Texture(0)))
-		return E_FAIL;
+	//if (FAILED(m_pTextureCom->Bind_Texture(0)))
+	//	return E_FAIL;
+
+    m_pAnimatorCom->Update_State(); // Bind_Texture 이 포함되어, 현재 State에 맞는 이미지 출력
 
 	m_pVIBufferCom->Bind_Buffers();
 	m_pVIBufferCom->Render();
@@ -112,9 +114,13 @@ HRESULT CPlayer::Ready_Components()
         return E_FAIL;
 
     /* For.Com_Texture */
-    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Player"),
-        TEXT("Com_Texture"), reinterpret_cast<CComponent**>(&m_pTextureCom))))
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Player_Roll"),
+        TEXT("Com_Texture_Roll"), reinterpret_cast<CComponent**>(&m_pTextureCom_Roll))))
         return E_FAIL;
+    if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Texture_Player_Idle_Lower"),
+        TEXT("Com_Texture_Idle_Lower"), reinterpret_cast<CComponent**>(&m_pTextureCom_Lower))))
+        return E_FAIL;
+
 
     /* For Com_Transform */
     CTransform::TRANSFORM_DESC TransformDesc{};
@@ -154,26 +160,22 @@ HRESULT CPlayer::Ready_Components()
     CAnimator::ANIMSTATE_DESC StartAnimStateDesc{};
     CAnimator::ANIMSTATE StartAnimState{};
     
-    StartAnimState.fAnimLength = 1.f;   // State 지속시간 1초
-    StartAnimState.isExitable = true;   // 도중 나갈 수 있는지 여부 (둘 다 임시정보)
+    StartAnimState.pTextureCom = m_pTextureCom_Roll;     // 삽입할 텍스쳐 컴포넌트 주소정보
+    StartAnimState.iFramePerImage = 4;  // 이미지 전환 간격 프레임
+    StartAnimState.isExitable = true;   // 도중 나갈 수 있는지 여부
     
     StartAnimStateDesc.strTimerTag = L"Animator_Player_Main";   // 해당 애니메이터가 타이머에서 사용할 태그 key값
-    StartAnimStateDesc.strFirstStateTag = L"Idle";              // 최초생성(시작) State의 Key값
+    StartAnimStateDesc.strFirstStateTag = L"Roll";              // 최초생성(시작) State의 Key값
     StartAnimStateDesc.tFirstAnimState = StartAnimState;        // 위에서 정의한 State Value 대입
     
     if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Animator"),
         TEXT("Com_Animator"), reinterpret_cast<CComponent**>(&m_pAnimatorCom), &StartAnimStateDesc)))
         return E_FAIL;
 
-    // 로깅 테스트용
-    m_pAnimatorCom->Add_State(L"Run", {1.5f, true});     // State 추가...
-    m_pAnimatorCom->Add_State(L"Attack", {1.5f, false}); // State 추가...
-
-    m_pAnimatorCom->Change_State(L"Run");   // State 전이..
-    m_pAnimatorCom->Change_State(L"Attack");// State 전이..
-    m_pAnimatorCom->Change_State(L"Idle");  // State 전이..
-    m_pAnimatorCom->Change_State(L"NULL");  // State 전이.. (실패해야함)
-
+    // m_pAnimatorCom->Add_State(L"태그명", { m_pTextureCom_상태명, 프레임단위 이미지전환간격, 도중 나갈수있는지});
+    // 와 같은 꼴로 만들어서 넣어주면 됨
+    m_pAnimatorCom->Add_State(L"Idle_Lower", { m_pTextureCom_Lower, 4, true });
+    m_pAnimatorCom->Change_State(L"Idle_Lower");
 
 
     return S_OK;
@@ -211,7 +213,7 @@ void CPlayer::Free()
 
     Safe_Release(m_pVIBufferCom);
     Safe_Release(m_pTransformCom);
-    Safe_Release(m_pTextureCom);
+    Safe_Release(m_pTextureCom_Roll);
     Safe_Release(m_pPlayerStatsCom);
     Safe_Release(m_pAnimatorCom);
 }

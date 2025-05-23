@@ -30,7 +30,10 @@ public:
 private:
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
 	CTransform*				m_pTransformCom = { nullptr };
-	CTexture*				m_pTextureCom = { nullptr };
+
+	CTexture*				m_pTextureCom_Roll = { nullptr };
+	CTexture*				m_pTextureCom_Lower = { nullptr };
+
 	CPlayerStats*			m_pPlayerStatsCom = { nullptr };
 	CAnimator*				m_pAnimatorCom = { nullptr };
 

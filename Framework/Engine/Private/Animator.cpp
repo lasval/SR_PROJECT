@@ -39,23 +39,46 @@ HRESULT CAnimator::Initialize(void* pArg)
 	Add_State(pDesc->strFirstStateTag, pDesc->tFirstAnimState);
 	m_strTimerTag = pDesc->strTimerTag;
 
-	m_pCurState = &pDesc->tFirstAnimState;
+	m_pCurState = Find_State(pDesc->strFirstStateTag);
 	m_strCurStateTag = pDesc->strFirstStateTag;
 		
 	// 타이머 생성
 	m_pGameInstance->Add_Timer(m_strTimerTag);
-
 
 	std::cout << "[CAnimator::Initialize] Initialized!" << std::endl;
 
 	return S_OK;
 }
 
+void CAnimator::Update_State()
+{
+ 	CTexture* pCurTextureCom = m_pCurState->pTextureCom;
+	
+	if (m_pCurState == nullptr)
+		return;
+
+	_uint iImageMaxIndex = pCurTextureCom->Get_NumTextures();
+	_uint iImageCurIndex = m_iStackedFrames / m_pCurState->iFramePerImage;
+	iImageCurIndex %= iImageMaxIndex;
+
+	std::cout << "[CAnimator::Update_State] " << iImageCurIndex << "/" << iImageMaxIndex << std::endl;
+
+	pCurTextureCom->Bind_Texture(iImageCurIndex);
+	m_iStackedFrames++;
+}
+
 HRESULT CAnimator::Add_State(const _wstring strStateTag, ANIMSTATE _state)
 {
+	// State가 이미 존재한다면
 	if (nullptr != Find_State(strStateTag))
 	{
-		std::cout << "[CAnimator::Add_State] Adding State Failed." << std::endl;
+		std::wcout << "[CAnimator::Add_State] Adding State Failed. \"" << strStateTag << "\" state already exist." << std::endl;
+		return E_FAIL;
+	}
+	
+	if (_state.pTextureCom == nullptr)
+	{
+		std::wcout << "[CAnimator::Add_State] Adding State Failed. Texture Component was nullptr." << std::endl;
 		return E_FAIL;
 	}
 
@@ -65,7 +88,7 @@ HRESULT CAnimator::Add_State(const _wstring strStateTag, ANIMSTATE _state)
 	return S_OK;
 }
 
-void CAnimator::Change_State(const _wstring strStateTag)
+void CAnimator::Change_State(const _wstring strStateTag, _bool isChangeCurFrame)
 {
 	ANIMSTATE* pTmpState = Find_State(strStateTag);
 
@@ -77,19 +100,25 @@ void CAnimator::Change_State(const _wstring strStateTag)
 		std::wcout << "[CAnimator::Change_State] Failed to Change State. Can't find State : \"" << strStateTag << "\"." << std::endl;
 		return;
 	}
-	else if (m_pGameInstance->Get_TimeDelta(m_strTimerTag) <= m_pCurState->fAnimLength &&
+
+	_uint iTextureMaxFrame = m_pCurState->pTextureCom->Get_NumTextures();
+
+	// ksta : 잘 되는지 확인해야함
+	if (m_iStackedFrames / m_pCurState->iFramePerImage > iTextureMaxFrame &&
 		!m_pCurState->isExitable)
 	{
-		// 시간 상관없이 즉시 전이가 불가능한 State 인데 시간이 충분히 지나지 않은 경우
-		float fElapsedTime = m_pGameInstance->Get_TimeDelta(m_strTimerTag);
-		std::wcout << "[CAnimator::Change_State] Failed to Change State. \"" << m_strCurStateTag << "\" State Time Elapsed : " << fElapsedTime << "s / " << m_pCurState->fAnimLength  << "s." << std::endl;
+		// 시간 상관없이 즉시 전이가 불가능한 State 인데 프레임이 끝나지 않은 경우
+		std::wcout << "[CAnimator::Change_State] Failed to Change State. \"" << m_strCurStateTag << "\" State Frame Elapsed : " << m_iStackedFrames << " / " << m_pCurState->pTextureCom->Get_NumTextures() << "." << std::endl;
 		return;
 	}
 
 	m_pCurState = pTmpState;
 	m_strCurStateTag = strStateTag;
 	std::wcout << "[CAnimator::Change_State] State Changed to \""<< strStateTag << "\"." << std::endl;
-	m_pGameInstance->Compute_TimeDelta(m_strTimerTag);
+	
+	// 프레임 순서 유지 불필요시에만 갱신
+	if (isChangeCurFrame)
+		m_iStackedFrames = 0;
 }
 
 CAnimator::ANIMSTATE* CAnimator::Find_State(const _wstring& strStateTag)
