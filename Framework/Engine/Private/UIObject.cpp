@@ -34,6 +34,8 @@ HRESULT CUIObject::Initialize(void* pArg)
     m_fZ = pDesc->fZ;
     m_fSizeX = pDesc->fSizeX;
     m_fSizeY = pDesc->fSizeY;
+    m_iWinSizeX = pDesc->iWinSizeX;
+    m_iWinSizeY = pDesc->iWinSizeY;
 
     return S_OK;
 }
@@ -89,46 +91,34 @@ _bool CUIObject::isPick(HWND hWnd)
 	return PtInRect(&rcUI, ptMouse);
 }
 
-void CUIObject::Update_Position(const _uint iWinX, const _uint iWinY)
+void CUIObject::Update_Position()
 {
     if (m_pParent)
     {
-        m_fWorldPos.x = m_pParent->m_fX + m_fX;
-        m_fWorldPos.y = m_pParent->m_fY + m_fY;
-        m_fWorldPos.z = m_pParent->m_fZ;
+        m_vWorldPos.x = m_pParent->m_fX + m_fX; 
+        m_vWorldPos.y = m_pParent->m_fY + m_fY;
+        m_vWorldPos.z = m_pParent->m_fZ;
     }
     else
     {
-        m_fWorldPos.x = m_fX;
-        m_fWorldPos.y= m_fY;
-        m_fWorldPos.z = m_fZ;
+        m_vWorldPos.x = m_fX;
+        m_vWorldPos.y= m_fY;
+        m_vWorldPos.z = m_fZ;
     }
     
-    m_pTransformCom->Set_State(STATE::POSITION, _float3(m_fWorldPos.x - iWinX * 0.5f, -m_fWorldPos.y + iWinY * 0.5f, m_fWorldPos.z));
+    m_pTransformCom->Set_State(STATE::POSITION, _float3{ m_vWorldPos.x - m_iWinSizeX * 0.5f, -m_vWorldPos.y + m_iWinSizeY * 0.5f, m_vWorldPos.z });
     for (auto child : m_vecChildren)
-        child->Update_Position(iWinX, iWinY);
+        child->Update_Position();
 }
 
-void CUIObject::Add_Child(CUIObject* pChildUI, const _uint iWinX, const _uint iWinY)
+void CUIObject::Add_Child(CUIObject* pChildUI)
 {
-    pChildUI->m_pParent = this;
-    m_vecChildren.push_back(pChildUI);
+    pChildUI->m_pParent = this; 
+    m_vecChildren.push_back(pChildUI); 
     
-    pChildUI->Update_Position(iWinX, iWinY);
+    pChildUI->Update_Position();
    
 }
-
-HRESULT CUIObject::Ready_Components()
-{
-    return S_OK;
-}
-
-HRESULT CUIObject::Ready_Children()
-{
-    return S_OK;
-}
-
-
 
 void CUIObject::Free()
 {
@@ -139,6 +129,7 @@ void CUIObject::Free()
     m_pParent = nullptr;
 
     __super::Free();
-   
+
+    Safe_Release(m_pTransformCom);
     
 }

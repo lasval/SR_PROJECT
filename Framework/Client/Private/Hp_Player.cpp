@@ -1,11 +1,11 @@
 #include "Hp_Player.h"
 #include "GameInstance.h"
 
-CHp_Player::CHp_Player(LPDIRECT3DDEVICE9 pGraphic_Device) : CUIObject( pGraphic_Device )
+CHp_Player::CHp_Player(LPDIRECT3DDEVICE9 pGraphic_Device) : CProgressBar( pGraphic_Device )
 {
 }
 
-CHp_Player::CHp_Player(const CHp_Player& Prototype) : CUIObject( Prototype )
+CHp_Player::CHp_Player(const CHp_Player& Prototype) : CProgressBar( Prototype )
 {
 }
 
@@ -16,50 +16,59 @@ HRESULT CHp_Player::Initialize_Prototype()
 
 HRESULT CHp_Player::Initialize(void* pArg)
 {
-
-	m_iMaxHp = 100;
-	m_iCulHp = m_iMaxHp;
-	m_iPreHp = m_iCulHp;
+	m_iCulMaxValue = 200;
+	m_iCulValue = 200;
 
 	UIOBJECT_DESC Desc{};
-
 	Desc.fSizeX = 180;
 	Desc.fSizeY = 20;
 	Desc.fX = 0;
 	Desc.fY = -15;
-	
-	if (FAILED(__super::Initialize(&Desc)))
+	Desc.iWinSizeX = g_iWinSizeX;
+	Desc.iWinSizeY = g_iWinSizeY;
+
+	if (FAILED(CUIObject::Initialize(&Desc)))
 		return E_FAIL;
 
 	if (FAILED(Ready_Components()))
 		return E_FAIL;
 
 	m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
-	__super::Update_Position(g_iWinSizeX, g_iWinSizeY);
+	__super::Update_Position();
 
 	return S_OK;
 }
 
 void CHp_Player::Priority_Update(_float fTimeDelta)
 {
-	
-	if (GetKeyState('Z') < 0)
+	m_fSizeX;
+
+ 	if (GetKeyState('Z') < 0)
 	{
-		m_iCulHp -= 1;
+		--m_iCulValue;
 	}
 	if (GetKeyState('X') < 0)
 	{
-		m_iCulHp += 1;
+		++m_iCulValue;
+	}
+	if (GetKeyState('O') < 0)
+	{
+		--m_iCulMaxValue;
+	}
+	if (GetKeyState('P') < 0)
+	{
+		++m_iCulMaxValue;
 	}
 }
 
 void CHp_Player::Update(_float fTimeDelta)
 {
+	
 }
 
 void CHp_Player::Late_Update(_float fTimeDelta)
 {
-	Update_Hp();
+	Progress_UpdateX();
 	m_pGameInstance->Add_RenderGroup(RENDERGROUP::RG_UI, this);
 }
 
@@ -77,7 +86,7 @@ HRESULT CHp_Player::Render()
 
 HRESULT CHp_Player::Ready_Components()
 {
-	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rect_UI_Player_Hp"),
+	if (FAILED(__super::Add_Component(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rect_UI_Hud_States_Hp"),
 		TEXT("Com_VIBuffer"), reinterpret_cast<CComponent**>(&m_pVIBufferCom))))
 		return E_FAIL;
 
@@ -88,29 +97,6 @@ HRESULT CHp_Player::Ready_Components()
 	return S_OK;
 }
 
-void CHp_Player::Update_Hp()
-{
-	if (m_iCulHp != m_iPreHp)
-	{
-		if (m_iCulHp >= m_iMaxHp)
-		{
-			m_iCulHp = m_iMaxHp;
-			m_pTransformCom->Scaling(m_fSizeX, m_fSizeY, 1.f);
-		}
-		else if(m_iCulHp <= 0)
-		{
-			m_iCulHp = 0;
-			float fSizeX = m_fSizeX * (0.1f / (float)m_iMaxHp);
-			m_pTransformCom->Scaling(fSizeX, m_fSizeY, 1.f);
-		}
-		else
-		{
-			float fSizeX = m_fSizeX * (float(m_iCulHp) / (float)m_iMaxHp);
-			m_pTransformCom->Scaling(fSizeX, m_fSizeY, 1.f);
-		}
-		m_iPreHp = m_iCulHp;
-	}
-}
 
 CHp_Player* CHp_Player::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
@@ -139,6 +125,5 @@ CUIObject* CHp_Player::Clone(void* pArg)
 void CHp_Player::Free()
 {
 	__super::Free();
-	Safe_Release(m_pTransformCom);
 	Safe_Release(m_pVIBufferCom);
 }
