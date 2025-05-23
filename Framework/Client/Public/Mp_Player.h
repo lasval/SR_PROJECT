@@ -1,13 +1,12 @@
 #pragma once
 #include "Client_Defines.h"
-#include "UIObject.h"
+#include "ProgressBar.h"
 BEGIN(Engine)
-class CTransform;
 class CVIBuffer_Rect;
 END
 
 BEGIN(Client)
-class CMp_Player final : public CUIObject
+class CMp_Player final : public CProgressBar
 {
 private:
 							CMp_Player(LPDIRECT3DDEVICE9 pGraphic_Device);
@@ -23,14 +22,9 @@ public:
 
 private:
 	CVIBuffer_Rect*			m_pVIBufferCom = { nullptr };
-	
-	int						m_iMaxMp = {};
-	int						m_iPreMp = {};
-	int						m_iCulMp = {};
 
 private:
 	HRESULT					Ready_Components();
-	void					Update_Mp();
 
 public:
 	static CMp_Player*		Create(LPDIRECT3DDEVICE9 pGraphic_Device);

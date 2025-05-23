@@ -2,7 +2,6 @@
 #include "Client_Defines.h"
 #include "UIObject.h"
 BEGIN(Engine)
-class CTransform;
 class CVIBuffer_Rect;
 END
 
@@ -26,9 +25,10 @@ private:
 	LEVEL						m_eLevel = {};
 
 private:
-	virtual HRESULT				Ready_Prototype(LEVEL eLevel);
-	virtual HRESULT				Ready_Components() override;
-	virtual HRESULT				Ready_Children() override;
+	HRESULT						Ready_Components();
+
+	HRESULT						Ready_ChildPrototype(LEVEL eLevel);
+	HRESULT						Ready_Children();
 
 public:
 	static CHud_States_Frame*	Create(LPDIRECT3DDEVICE9 pGraphic_Device, LEVEL eLevel);
