@@ -30,7 +30,7 @@ private:
 private:
 	HRESULT						Ready_Components();
 
-	HRESULT						Ready_Prototype(LEVEL eLevel);
+	HRESULT						Ready_ChildPrototype(LEVEL eLevel);
 	HRESULT						Ready_Children();
 
 	void						Render_Buffer1();

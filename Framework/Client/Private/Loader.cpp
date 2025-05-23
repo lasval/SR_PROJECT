@@ -119,6 +119,11 @@ HRESULT CLoader::Loading_For_GamePlay_Level()
 	vRectCol = { 0.431, 0.412, 0.463, 1.f };
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rect_UI_Hud_Exp_Fream_2"), CVIBuffer_Rect::Create(m_pGraphic_Device, vRectCol))))
 		return E_FAIL;
+	vRectCol = { 0.808, 0.957, 0.706, 1.f };
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Rect_UI_Hud_Exp_Player"), CVIBuffer_Rect::Create(m_pGraphic_Device, vRectCol))))
+		return E_FAIL;
+
+
 
 	lstrcpy(m_szLoadingText, TEXT("모델을 로딩중입니다."));
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_GAMEPLAY), TEXT("Prototype_Component_VIBuffer_Terrain"),

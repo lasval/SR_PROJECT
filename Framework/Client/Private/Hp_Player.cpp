@@ -41,9 +41,7 @@ HRESULT CHp_Player::Initialize(void* pArg)
 
 void CHp_Player::Priority_Update(_float fTimeDelta)
 {
-	m_fSizeX;
-
- 	if (GetKeyState('Z') < 0)
+	if (GetKeyState('Z') < 0)
 	{
 		--m_iCulValue;
 	}

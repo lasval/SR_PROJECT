@@ -91,11 +91,12 @@ HRESULT CHud_States_Frame::Ready_Components()
 
 HRESULT CHud_States_Frame::Ready_ChildPrototype(LEVEL eLevel)
 {
+	m_eLevel = eLevel;
+
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(eLevel), TEXT("Prototype_GameObject_UI_Hp"),
 		CHp_Player::Create(m_pGraphic_Device))))
 		return E_FAIL;
 
-	m_eLevel = eLevel;
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(eLevel), TEXT("Prototype_GameObject_UI_Mp"),
 		CMp_Player::Create(m_pGraphic_Device))))
 		return E_FAIL;
