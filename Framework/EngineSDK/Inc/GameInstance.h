@@ -51,16 +51,16 @@ public:
 
 #pragma region TIMER_MANAGER
 public:
-	_float	Get_TimeDelta(const _wstring& strTimerTag);
-	HRESULT	Add_Timer(const _wstring& strTimerTag);
-	void	Compute_TimeDelta(const _wstring& strTimerTag);
+	_float	Get_TimeDelta(const _wstring& strTimerTag);		// 마지막 Compute 호출로부터 경과한 시간을 반환 (초 단위)
+	HRESULT	Add_Timer(const _wstring& strTimerTag);			// 타이머 새로 추가
+	void	Compute_TimeDelta(const _wstring& strTimerTag);	// 타이머 갱신
 #pragma endregion
 
 #pragma region KEY_MANAGER
-	bool IsKeyDown(int iKey);                           // 지금 눌리고 있는가
-	bool IsKeyUp(int iKey);                             // 이번 프레임에 떼졌는가
-	bool IsKeyPressedOnce(int iKey);                    // 눌린 순간만 감지 (짧게)
-	bool IsKeyHeld(int iKey, float fHoldThresholdSec);   // 특정 시간 이상 눌렸는가
+	bool IsKeyDown(int key) const;   // 이번 프레임에 눌림
+	bool IsKeyUp(int key) const;     // 이번 프레임에 떼짐
+	bool IsKeyHold(int key) const;   // 계속 눌림
+	float GetKeyHoldTime(int key) const; // 눌린 시간 (선택사항)
 #pragma endregion
 
 #pragma region NETWORK_MANAGER

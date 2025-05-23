@@ -7,6 +7,7 @@ class CTexture;
 class CTransform;
 class CVIBuffer_Rect;
 class CPlayerStats;
+class CAnimator;
 END
 
 BEGIN(Client)
@@ -31,6 +32,7 @@ private:
 	CTransform*				m_pTransformCom = { nullptr };
 	CTexture*				m_pTextureCom = { nullptr };
 	CPlayerStats*			m_pPlayerStatsCom = { nullptr };
+	CAnimator*				m_pAnimatorCom = { nullptr };
 
 private:
 	HRESULT Ready_Components();

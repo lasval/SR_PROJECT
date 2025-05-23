@@ -33,20 +33,6 @@ HRESULT CMainApp::Initialize()
 		return E_FAIL;
 
 
-#ifdef _DEBUG
-
-	// 디버그용 콘솔창
-	if (::AllocConsole() == TRUE)
-	{
-		FILE* nfp[3];
-		freopen_s(nfp + 0, "CONOUT$", "rb", stdin);
-		freopen_s(nfp + 1, "CONOUT$", "wb", stdout);
-		freopen_s(nfp + 2, "CONOUT$", "wb", stderr);
-		std::ios::sync_with_stdio();
-	}
-
-#endif // _DEBUG
-
 	return S_OK;
 }
 
@@ -102,6 +88,11 @@ HRESULT CMainApp::Ready_Prototype_ForStatic()
 	/* Prototype_Component_PlayerStats */
 	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_PlayerStats"), CPlayerStats::Create(m_pGraphic_Device))))
 		return E_FAIL;
+
+	/* Prototype_Component_Animator  */
+	if (FAILED(m_pGameInstance->Add_Prototype(ENUM_CLASS(LEVEL::LEVEL_STATIC), TEXT("Prototype_Component_Animator"), CAnimator::Create(m_pGraphic_Device))))
+		return E_FAIL;
+
 	return S_OK;
 }
 
