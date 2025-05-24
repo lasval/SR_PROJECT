@@ -270,6 +270,9 @@
     <ClInclude Include="..\Public\Light_Manager.h">
       <Filter>01.Utility\06.Light\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Shader.h">
+      <Filter>01.Utility\05.Component\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -379,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="..\private\Light_Manager.cpp">
       <Filter>01.Utility\06.Light\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Shader.cpp">
+      <Filter>01.Utility\05.Component\Shader</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

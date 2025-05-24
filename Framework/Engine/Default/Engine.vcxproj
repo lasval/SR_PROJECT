@@ -186,6 +186,7 @@ call Copy.bat</Command>
     <ClInclude Include="..\Public\Renderer.h" />
     <ClInclude Include="..\Public\Room.h" />
     <ClInclude Include="..\Public\Room_Manager.h" />
+    <ClInclude Include="..\Public\Shader.h" />
     <ClInclude Include="..\public\Texture.h" />
     <ClInclude Include="..\Public\Timer.h" />
     <ClInclude Include="..\Public\Timer_Manager.h" />
@@ -215,6 +216,7 @@ call Copy.bat</Command>
     <ClCompile Include="..\private\ProgressBar.cpp" />
     <ClCompile Include="..\Private\Room.cpp" />
     <ClCompile Include="..\Private\Room_Manager.cpp" />
+    <ClCompile Include="..\Private\Shader.cpp" />
     <ClCompile Include="..\Private\UIObject.cpp" />
     <ClCompile Include="..\Private\VIBuffer_Cube.cpp" />
     <ClCompile Include="..\private\VIBuffer_Terrain.cpp" />
