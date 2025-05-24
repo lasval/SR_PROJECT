@@ -66,7 +66,7 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
     if (nullptr == m_pRoom_Manager)
         return E_FAIL;
 
-    m_pFont_Manager = CFont_Manager::Create(*ppOut);
+    m_pFont_Manager = CFont_Manager::Create();
     if (nullptr == m_pFont_Manager)
         return E_FAIL;
 
@@ -279,16 +279,27 @@ CRoom* CGameInstance::Get_RoomByID(_int iRoomID)
 {
     return m_pRoom_Manager->Get_RoomByID(iRoomID);
 }
+
 #pragma endregion
 
 #pragma region FONT_MANAGER
-HRESULT CGameInstance::Add_Font_FromFile(const _wstring& strTag, const _wstring& strFontPath, const _wstring& strFontName, int iFontSize)
+HRESULT CGameInstance::Ready_Font(LPDIRECT3DDEVICE9 pGraphicDev, 
+    const _wstring& strFontTag, 
+    const _wstring& strFontPath, 
+    const _wstring& strFontName, 
+    const _uint& iWidth, 
+    const _uint& iHeight, 
+    const _uint& iWeight)
 {
-    return m_pFont_Manager->Add_Font_FromFile(strTag, strFontPath, strFontName, iFontSize);
+    return m_pFont_Manager->Ready_Font(pGraphicDev, strFontTag, strFontPath, strFontName, iWidth, iHeight, iWeight);
 }
-void CGameInstance::Render_Text(const _wstring& strTag, const _wstring& strText, const RECT& rc, D3DCOLOR color, DWORD dwFormat)
+void CGameInstance::Render_Font(const wstring& strFontTag, 
+    const _wstring& strText, 
+    const _float2* pVec2Pos, 
+    D3DXCOLOR d3dxColor, 
+    DWORD dwFormat)
 {
-    return m_pFont_Manager->Render_Text(strTag, strText, rc, color, dwFormat);
+    m_pFont_Manager->Render_Font(strFontTag, strText, pVec2Pos, d3dxColor, dwFormat);
 }
 #pragma endregion
 
@@ -305,7 +316,9 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pKey_Manager);
     Safe_Release(m_pNetwork_Manager);
     Safe_Release(m_pPicking);
+    Safe_Release(m_pCollision_Manager);
     Safe_Release(m_pRoom_Manager);
+    Safe_Release(m_pFont_Manager);
 }
 
 void CGameInstance::Free()

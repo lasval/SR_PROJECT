@@ -88,17 +88,36 @@ public:
 #pragma endregion
 
 #pragma region FONT_MANAGER
-	HRESULT Add_Font_FromFile(
-		const _wstring& strTag,
+	HRESULT Ready_Font(LPDIRECT3DDEVICE9 pGraphicDev,
+		const _wstring& strFontTag,
 		const _wstring& strFontPath,
 		const _wstring& strFontName,
-		int iFontSize);
+		const _uint& iWidth,
+		const _uint& iHeight,
+		const _uint& iWeight);
 
-	void Render_Text(const _wstring& strTag,
+	void Render_Font(const wstring& strFontTag,
 		const _wstring& strText,
-		const RECT& rc,
-		D3DCOLOR color,
-		DWORD dwFormat = DT_LEFT | DT_TOP);
+		const _float2* pVec2Pos,
+		D3DXCOLOR d3dxColor,
+		DWORD dwFormat = DT_NOCLIP);
+
+	//사용법
+	/*CFont_Manager::GetInstance()->Ready_Font(
+		pGraphicDev,
+		L"TitleFont",
+		L"./Fonts/NanumSquare.ttf",
+		L"NanumSquare",
+		0, 28, FW_BOLD
+	);
+
+	CFont_Manager::GetInstance()->Render_Font(
+		L"TitleFont",
+		L"스테이지 클리어!",
+		&_float2{ 400.f, 100.f },
+		D3DXCOLOR(1.f, 1.f, 1.f, 1.f),
+		DT_CENTER | DT_TOP
+	);*/
 #pragma endregion
 
 private:

@@ -116,6 +116,8 @@ void CMainApp::Ready_Key_Setting()
 	m_pGameInstance->AddTrackingKey('V');
 	m_pGameInstance->AddTrackingKey('C');
 	m_pGameInstance->AddTrackingKey('P');
+	m_pGameInstance->AddTrackingKey('Q');
+	m_pGameInstance->AddTrackingKey('E');
 }
 
 HRESULT CMainApp::Start_Level(LEVEL eStartLevelID)

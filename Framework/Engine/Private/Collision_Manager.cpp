@@ -88,5 +88,6 @@ CCollision_Manager* CCollision_Manager::Create()
 
 void CCollision_Manager::Free()
 {
+	__super::Free();
 	Clear_Colliders();
 }

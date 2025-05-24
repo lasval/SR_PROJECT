@@ -1,59 +1,57 @@
 #include "Font_Manager.h"
+#include "Font.h"
 
-CFont_Manager::CFont_Manager(LPDIRECT3DDEVICE9 pGraphic_Device)
-    : m_pGraphic_Device{ pGraphic_Device }
+CFont_Manager::CFont_Manager()
 {
 }
 
-HRESULT CFont_Manager::Add_Font_FromFile(const _wstring& strTag, const _wstring& strFontPath, const _wstring& strFontName, int iFontSize)
+HRESULT CFont_Manager::Ready_Font(LPDIRECT3DDEVICE9 pGraphicDev,
+    const _wstring& strFontTag, 
+    const _wstring& strFontPath, 
+    const _wstring& strFontName, 
+    const _uint& iWidth,
+    const _uint& iHeight, 
+    const _uint& iWeight)
 {
-    // 이미 등록된 태그인지 확인
-    if (m_mFont.find(strTag) != m_mFont.end())
-        return S_OK; // 중복 등록 방지
-
-    // 시스템에 폰트 등록 (임시, 비공개)
-    if (AddFontResourceEx(strFontPath.c_str(), FR_PRIVATE, 0) == 0)
+    if (Find_Font(strFontTag) != nullptr)
         return E_FAIL;
 
-    D3DXFONT_DESC desc{};
-    desc.Height = iFontSize;
-    wcscpy_s(desc.FaceName, strFontName.c_str());
-    desc.Weight = FW_NORMAL;
-    desc.CharSet = DEFAULT_CHARSET;
-    desc.OutputPrecision = OUT_DEFAULT_PRECIS;
-    desc.Quality = DEFAULT_QUALITY;
-    desc.PitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
+    CFont* pFont = CFont::Create(pGraphicDev, strFontPath, strFontName, iWidth, iHeight, iWeight);
+    NULL_CHECK_RETURN(pFont, E_FAIL);
 
-    ID3DXFont* pFont = nullptr;
-    if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &desc, &pFont)))
-        return E_FAIL;
-
-    m_mFont[strTag] = pFont;
-    m_vLoadedFontPaths.push_back(strFontPath); // 나중에 해제용
+    m_mapFont.insert({ strFontTag, pFont });
 
     return S_OK;
 }
 
-void CFont_Manager::Render_Text(const _wstring& strTag, const _wstring& strText, const RECT& rc, D3DCOLOR color, DWORD dwFormat)
+void CFont_Manager::Render_Font(const wstring& strFontTag,
+    const _wstring& strText,
+    const _float2* pVec2Pos,
+    D3DXCOLOR d3dxColor,
+    DWORD dwFormat)
 {
-    auto it = m_mFont.find(strTag);
-    if (it != m_mFont.end() && it->second)
-        it->second->DrawTextW(nullptr, strText.c_str(), -1, const_cast<RECT*>(&rc), dwFormat, color);
+    CFont* pFont = Find_Font(strFontTag);
+    NULL_CHECK(pFont);
+
+    pFont->Render_Font(strText, pVec2Pos, d3dxColor, dwFormat);
 }
 
-CFont_Manager* CFont_Manager::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
+CFont* CFont_Manager::Find_Font(const wstring& strFontTag)
 {
-    return new CFont_Manager(pGraphic_Device);
+    auto iter = m_mapFont.find(strFontTag);
+    return (iter != m_mapFont.end()) ? iter->second : nullptr;
+}
+
+CFont_Manager* CFont_Manager::Create()
+{
+    return new CFont_Manager();
 }
 
 void CFont_Manager::Free()
 {
     __super::Free();
-    for (auto& font : m_mFont)
-    {
-        Safe_Release(font.second);
-    }
-    m_mFont.clear();
-    m_vLoadedFontPaths.clear();
-    Safe_Release(m_pGraphic_Device);
+    for (auto& pair : m_mapFont)
+        Safe_Release(pair.second);
+
+    m_mapFont.clear();
 }
