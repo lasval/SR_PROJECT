@@ -7,12 +7,11 @@ BEGIN(Engine)
 class CFont_Manager final : public CBase
 {
 private:
-    CFont_Manager();
+    CFont_Manager(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual ~CFont_Manager() = default;
 
 public:
-    HRESULT Ready_Font(LPDIRECT3DDEVICE9 pGraphicDev,
-        const _wstring& strFontTag,
+    HRESULT Ready_Font(const _wstring& strFontTag,
         const _wstring& strFontPath,
         const _wstring& strFontName,
         const _uint& iWidth,
@@ -29,8 +28,11 @@ private:
     class CFont* Find_Font(const wstring& strFontTag);
     map<wstring, class CFont*> m_mapFont;
 
+private:
+    LPDIRECT3DDEVICE9   m_pGraphic_Device;
+
 public:
-    static CFont_Manager* Create();
+    static CFont_Manager* Create(LPDIRECT3DDEVICE9 pGraphic_Device);
     virtual void Free() override;
 };
 

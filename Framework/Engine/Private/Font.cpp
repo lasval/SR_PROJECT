@@ -2,10 +2,10 @@
 
 USING(Engine)
 
-CFont::CFont(LPDIRECT3DDEVICE9 pGraphicDev)
-    : m_pGraphicDev(pGraphicDev)
+CFont::CFont(LPDIRECT3DDEVICE9 pGraphic_Device)
+    : m_pGraphic_Device(pGraphic_Device)
 {
-    m_pGraphicDev->AddRef();
+    Safe_AddRef(m_pGraphic_Device);
 }
 
 HRESULT CFont::Ready_Font(const _wstring& strFontPath, const _wstring& strFontName,
@@ -26,13 +26,13 @@ HRESULT CFont::Ready_Font(const _wstring& strFontPath, const _wstring& strFontNa
     tFontDesc.Weight = iWeight;
     lstrcpy(tFontDesc.FaceName, strFontName.c_str());
 
-    if (FAILED(D3DXCreateFontIndirect(m_pGraphicDev, &tFontDesc, &m_pFont)))
+    if (FAILED(D3DXCreateFontIndirect(m_pGraphic_Device, &tFontDesc, &m_pFont)))
     {
         MSG_BOX(L"Font Create Failed");
         return E_FAIL;
     }
 
-    if (FAILED(D3DXCreateSprite(m_pGraphicDev, &m_pSprite)))
+    if (FAILED(D3DXCreateSprite(m_pGraphic_Device, &m_pSprite)))
     {
         MSG_BOX(L"Sprite Create Failed");
         return E_FAIL;
@@ -74,5 +74,5 @@ void CFont::Free()
 
     Safe_Release(m_pFont);
     Safe_Release(m_pSprite);
-    Safe_Release(m_pGraphicDev);
+    Safe_Release(m_pGraphic_Device);
 }

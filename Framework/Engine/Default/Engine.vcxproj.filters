@@ -136,6 +136,12 @@
     <Filter Include="01.Utility\01.Level\Manager">
       <UniqueIdentifier>{cee517c0-9954-4a67-b86a-4ad48d44c093}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\06.Light">
+      <UniqueIdentifier>{8d460a8c-7b50-46b1-906c-7386f6a4c7a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\06.Light\Manager">
+      <UniqueIdentifier>{b0d7dcfb-ae27-4530-9df4-8fa8aa63c17f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Macro.h">
@@ -258,6 +264,12 @@
     <ClInclude Include="..\Public\Font.h">
       <Filter>00.System\05. Font</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Light.h">
+      <Filter>01.Utility\06.Light</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Light_Manager.h">
+      <Filter>01.Utility\06.Light\Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Private\Base.cpp">
@@ -361,6 +373,12 @@
     </ClCompile>
     <ClCompile Include="..\Private\Font.cpp">
       <Filter>00.System\05. Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Light.cpp">
+      <Filter>01.Utility\06.Light</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Light_Manager.cpp">
+      <Filter>01.Utility\06.Light\Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

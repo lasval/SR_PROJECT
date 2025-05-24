@@ -24,7 +24,7 @@ public:
     virtual void Free();
 
 private:
-    LPDIRECT3DDEVICE9   m_pGraphicDev = { nullptr };
+    LPDIRECT3DDEVICE9   m_pGraphic_Device = { nullptr };
     LPD3DXSPRITE        m_pSprite = { nullptr };
     LPD3DXFONT          m_pFont = { nullptr };
     _wstring             m_strFontPath;

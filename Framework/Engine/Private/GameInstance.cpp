@@ -12,6 +12,8 @@
 #include "Collision_Manager.h"
 #include "Room_Manager.h"
 #include "Font_Manager.h"
+#include "Light_Manager.h"
+
 IMPLEMENT_SINGLETON(CGameInstance)
 
 CGameInstance::CGameInstance()
@@ -66,8 +68,12 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
     if (nullptr == m_pRoom_Manager)
         return E_FAIL;
 
-    m_pFont_Manager = CFont_Manager::Create();
+    m_pFont_Manager = CFont_Manager::Create(*ppOut);
     if (nullptr == m_pFont_Manager)
+        return E_FAIL;
+
+    m_pLight_Manager = CLight_Manager::Create(*ppOut);
+    if (nullptr == m_pLight_Manager)
         return E_FAIL;
 
     return S_OK;
@@ -283,15 +289,14 @@ CRoom* CGameInstance::Get_RoomByID(_int iRoomID)
 #pragma endregion
 
 #pragma region FONT_MANAGER
-HRESULT CGameInstance::Ready_Font(LPDIRECT3DDEVICE9 pGraphicDev, 
-    const _wstring& strFontTag, 
+HRESULT CGameInstance::Ready_Font(const _wstring& strFontTag, 
     const _wstring& strFontPath, 
     const _wstring& strFontName, 
     const _uint& iWidth, 
     const _uint& iHeight, 
     const _uint& iWeight)
 {
-    return m_pFont_Manager->Ready_Font(pGraphicDev, strFontTag, strFontPath, strFontName, iWidth, iHeight, iWeight);
+    return m_pFont_Manager->Ready_Font(strFontTag, strFontPath, strFontName, iWidth, iHeight, iWeight);
 }
 void CGameInstance::Render_Font(const wstring& strFontTag, 
     const _wstring& strText, 
@@ -302,6 +307,11 @@ void CGameInstance::Render_Font(const wstring& strFontTag,
     m_pFont_Manager->Render_Font(strFontTag, strText, pVec2Pos, d3dxColor, dwFormat);
 }
 #pragma endregion
+
+HRESULT CGameInstance::Ready_Light(const D3DLIGHT9* pLightInfo, const _uint& iIndex)
+{
+    return m_pLight_Manager->Ready_Light(pLightInfo, iIndex);
+}
 
 void CGameInstance::Release_Engine()
 {
@@ -319,6 +329,7 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pCollision_Manager);
     Safe_Release(m_pRoom_Manager);
     Safe_Release(m_pFont_Manager);
+    Safe_Release(m_pLight_Manager);
 }
 
 void CGameInstance::Free()

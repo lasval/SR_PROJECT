@@ -1,12 +1,13 @@
 #include "Font_Manager.h"
 #include "Font.h"
 
-CFont_Manager::CFont_Manager()
+CFont_Manager::CFont_Manager(LPDIRECT3DDEVICE9 pGraphic_Device)
+    :m_pGraphic_Device { pGraphic_Device }
 {
+    Safe_AddRef(m_pGraphic_Device);
 }
 
-HRESULT CFont_Manager::Ready_Font(LPDIRECT3DDEVICE9 pGraphicDev,
-    const _wstring& strFontTag, 
+HRESULT CFont_Manager::Ready_Font(const _wstring& strFontTag, 
     const _wstring& strFontPath, 
     const _wstring& strFontName, 
     const _uint& iWidth,
@@ -16,7 +17,7 @@ HRESULT CFont_Manager::Ready_Font(LPDIRECT3DDEVICE9 pGraphicDev,
     if (Find_Font(strFontTag) != nullptr)
         return E_FAIL;
 
-    CFont* pFont = CFont::Create(pGraphicDev, strFontPath, strFontName, iWidth, iHeight, iWeight);
+    CFont* pFont = CFont::Create(m_pGraphic_Device, strFontPath, strFontName, iWidth, iHeight, iWeight);
     NULL_CHECK_RETURN(pFont, E_FAIL);
 
     m_mapFont.insert({ strFontTag, pFont });
@@ -42,9 +43,9 @@ CFont* CFont_Manager::Find_Font(const wstring& strFontTag)
     return (iter != m_mapFont.end()) ? iter->second : nullptr;
 }
 
-CFont_Manager* CFont_Manager::Create()
+CFont_Manager* CFont_Manager::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 {
-    return new CFont_Manager();
+    return new CFont_Manager(pGraphic_Device);
 }
 
 void CFont_Manager::Free()
@@ -54,4 +55,5 @@ void CFont_Manager::Free()
         Safe_Release(pair.second);
 
     m_mapFont.clear();
+    Safe_Release(m_pGraphic_Device);
 }

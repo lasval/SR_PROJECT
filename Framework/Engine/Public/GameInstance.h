@@ -88,8 +88,7 @@ public:
 #pragma endregion
 
 #pragma region FONT_MANAGER
-	HRESULT Ready_Font(LPDIRECT3DDEVICE9 pGraphicDev,
-		const _wstring& strFontTag,
+	HRESULT Ready_Font(const _wstring& strFontTag,
 		const _wstring& strFontPath,
 		const _wstring& strFontName,
 		const _uint& iWidth,
@@ -119,6 +118,10 @@ public:
 		DT_CENTER | DT_TOP
 	);*/
 #pragma endregion
+	
+#pragma region LIGHT_MANAGER
+	HRESULT	Ready_Light(const D3DLIGHT9* pLightInfo, const _uint& iIndex);
+#pragma endregion
 
 private:
 	class CGraphic_Device*		m_pGraphic_Device = { nullptr };
@@ -133,6 +136,7 @@ private:
 	class CCollision_Manager*	m_pCollision_Manager = { nullptr };
 	class CRoom_Manager*		m_pRoom_Manager = { nullptr };
 	class CFont_Manager*		m_pFont_Manager = { nullptr };
+	class CLight_Manager*		m_pLight_Manager = { nullptr };
 
 public:
 	void Release_Engine();
