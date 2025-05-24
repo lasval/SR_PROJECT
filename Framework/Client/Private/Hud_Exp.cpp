@@ -21,7 +21,7 @@ HRESULT CHud_Exp::Initialize(void* pArg)
 
     UIOBJECT_DESC Desc{};
     Desc.fSizeX = g_iWinSizeX;
-    Desc.fSizeY = 6;
+    Desc.fSizeY = 9;
     Desc.fX = 0;
     Desc.fY = 0;
     Desc.iWinSizeX = g_iWinSizeX;
@@ -124,7 +124,7 @@ CHud_Exp* CHud_Exp::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
     return pInstance;
 }
 
-CUIObject* CHud_Exp::Clone(void* pArg)
+CGameObject* CHud_Exp::Clone(void* pArg)
 {
     CHud_Exp* pInstance = new CHud_Exp(*this);
 

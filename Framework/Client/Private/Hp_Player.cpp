@@ -108,7 +108,7 @@ CHp_Player* CHp_Player::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
 	return pInstance;
 }
 
-CUIObject* CHp_Player::Clone(void* pArg)
+CGameObject* CHp_Player::Clone(void* pArg)
 {
 	CHp_Player* pInstance = new CHp_Player(*this);
 

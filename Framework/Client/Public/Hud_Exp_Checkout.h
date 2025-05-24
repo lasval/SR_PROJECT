@@ -34,7 +34,7 @@ private:
 
 public:
 	static CHud_Exp_Checkout*			Create(LPDIRECT3DDEVICE9 pGraphic_Device);
-	virtual CUIObject*				Clone(void* pArg) override;
+	virtual CGameObject*				Clone(void* pArg) override;
 	virtual void						Free() override;
 
 };

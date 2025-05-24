@@ -22,7 +22,7 @@ HRESULT CHud_Exp_Checkout::Initialize(void* pArg)
 
 
     Desc.fSizeX = 3;
-    Desc.fSizeY = 6;
+    Desc.fSizeY = 9;
     
     if (DescMy->fX <= -(g_iWinSizeX * 0.5))
         Desc.fX = (Desc.fSizeX * 0.5) - (g_iWinSizeX * 0.5);
@@ -103,7 +103,7 @@ CHud_Exp_Checkout* CHud_Exp_Checkout::Create(LPDIRECT3DDEVICE9 pGraphic_Device)
     return pInstance;
 }
 
-CUIObject* CHud_Exp_Checkout::Clone(void* pArg)
+CGameObject* CHud_Exp_Checkout::Clone(void* pArg)
 {
     CHud_Exp_Checkout* pInstance = new CHud_Exp_Checkout(*this);
 
