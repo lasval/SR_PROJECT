@@ -9,7 +9,9 @@
 #include "Timer_Manager.h"
 #include "Key_Manager.h"
 #include "Picking.h"
-
+#include "Collision_Manager.h"
+#include "Room_Manager.h"
+#include "Font_Manager.h"
 IMPLEMENT_SINGLETON(CGameInstance)
 
 CGameInstance::CGameInstance()
@@ -56,17 +58,33 @@ HRESULT CGameInstance::Initialize_Engine(const ENGINE_DESC& EngineDesc, LPDIRECT
     if (nullptr == m_pPicking)
         return E_FAIL;
 
+    m_pCollision_Manager = CCollision_Manager::Create();
+    if (nullptr == m_pCollision_Manager)
+        return E_FAIL;
+
+    m_pRoom_Manager = CRoom_Manager::Create();
+    if (nullptr == m_pRoom_Manager)
+        return E_FAIL;
+
+    m_pFont_Manager = CFont_Manager::Create(*ppOut);
+    if (nullptr == m_pFont_Manager)
+        return E_FAIL;
+
     return S_OK;
 }
 
 void CGameInstance::Update_Engine(_float fTimeDelta)
 {
     m_pObject_Manager->Priority_Update(fTimeDelta);
-    
+    m_pRoom_Manager->Priority_Update(fTimeDelta);
+
     m_pPicking->Update();
 
     m_pObject_Manager->Update(fTimeDelta);
+    m_pRoom_Manager->Update(fTimeDelta);
+
     m_pObject_Manager->Late_Update(fTimeDelta);
+    m_pRoom_Manager->Late_Update(fTimeDelta);
 
     m_pLevel_Manager->Update(fTimeDelta);
 
@@ -78,6 +96,8 @@ HRESULT CGameInstance::Clear_Resources(_uint iClearLevelID)
     m_pPrototype_Manager->Clear(iClearLevelID);
 
     m_pObject_Manager->Clear(iClearLevelID);
+
+    m_pRoom_Manager->Clear();
 
     return S_OK;
 }
@@ -187,21 +207,25 @@ void CGameInstance::Compute_TimeDelta(const _wstring& strTimerTag)
 #pragma endregion 
 
 #pragma region KEY_MANAGER
-bool CGameInstance::IsKeyDown(int key) const
+void CGameInstance::AddTrackingKey(int iKey)
 {
-    return m_pKey_Manager->IsKeyDown(key);
+    return m_pKey_Manager->AddTrackingKey(iKey);
 }
-bool CGameInstance::IsKeyUp(int key) const
+bool CGameInstance::IsKeyDown(int iKey) const
 {
-    return m_pKey_Manager->IsKeyUp(key);
+    return m_pKey_Manager->IsKeyDown(iKey);
 }
-bool CGameInstance::IsKeyHold(int key) const
+bool CGameInstance::IsKeyUp(int iKey) const
 {
-    return m_pKey_Manager->IsKeyHold(key);
+    return m_pKey_Manager->IsKeyUp(iKey);
 }
-float CGameInstance::GetKeyHoldTime(int key) const
+bool CGameInstance::IsKeyHold(int iKey) const
 {
-    return m_pKey_Manager->GetKeyHoldTime(key);
+    return m_pKey_Manager->IsKeyHold(iKey);
+}
+float CGameInstance::GetKeyHoldTime(int iKey) const
+{
+    return m_pKey_Manager->GetKeyHoldTime(iKey);
 }
 #pragma endregion
 
@@ -231,6 +255,43 @@ _bool CGameInstance::Picking_InLocal(_float3& vPickedPos, const _float3& vPointA
 }
 #pragma endregion
 
+#pragma region COLLISION_MANAGER
+HRESULT CGameInstance::Add_Collider(class CCollider* pCollider)
+{
+    return m_pCollision_Manager->Add_Collider(pCollider);
+}
+#pragma endregion
+
+#pragma region ROOM_MANAGER
+HRESULT CGameInstance::Add_Room(class CRoom* pRoom)
+{
+    return m_pRoom_Manager->Add_Room(pRoom);
+}
+HRESULT CGameInstance::Enter_Room(_int iRoomID)
+{
+    return m_pRoom_Manager->Enter_Room(iRoomID);
+}
+CRoom* CGameInstance::Get_CurrentRoom()
+{
+    return m_pRoom_Manager->Get_CurrentRoom();
+}
+CRoom* CGameInstance::Get_RoomByID(_int iRoomID)
+{
+    return m_pRoom_Manager->Get_RoomByID(iRoomID);
+}
+#pragma endregion
+
+#pragma region FONT_MANAGER
+HRESULT CGameInstance::Add_Font_FromFile(const _wstring& strTag, const _wstring& strFontPath, const _wstring& strFontName, int iFontSize)
+{
+    return m_pFont_Manager->Add_Font_FromFile(strTag, strFontPath, strFontName, iFontSize);
+}
+void CGameInstance::Render_Text(const _wstring& strTag, const _wstring& strText, const RECT& rc, D3DCOLOR color, DWORD dwFormat)
+{
+    return m_pFont_Manager->Render_Text(strTag, strText, rc, color, dwFormat);
+}
+#pragma endregion
+
 void CGameInstance::Release_Engine()
 {
     Release();
@@ -244,6 +305,7 @@ void CGameInstance::Release_Engine()
     Safe_Release(m_pKey_Manager);
     Safe_Release(m_pNetwork_Manager);
     Safe_Release(m_pPicking);
+    Safe_Release(m_pRoom_Manager);
 }
 
 void CGameInstance::Free()

@@ -121,6 +121,21 @@
     <Filter Include="01.Utility\05.Component\Animator">
       <UniqueIdentifier>{860e3e5c-8c0a-4c3c-a611-bac9b6f2db6c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01.Utility\03.GameObject\Room">
+      <UniqueIdentifier>{1ea77080-eead-4c49-a109-9c0cdf2debe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.GameObject\Room\Manager">
+      <UniqueIdentifier>{41604ee7-c0cd-4e02-8734-8658020c1b54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\05. Font">
+      <UniqueIdentifier>{3cbdcaa9-0bc8-401b-a256-a81d381958b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\05.Component\Shader">
+      <UniqueIdentifier>{198624d9-a9f4-4424-a55d-a8d47d0c98bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00.System\05. Font\Manager">
+      <UniqueIdentifier>{7b45e3f9-0c1e-4cea-bbd0-1ad367424a80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Macro.h">
@@ -195,9 +210,6 @@
     <ClInclude Include="..\Public\UIObject.h">
       <Filter>01.Utility\03.GameObject\UIObject</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Key_Manager.h">
-      <Filter>00.System\02.Key\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Camera.h">
       <Filter>01.Utility\03.GameObject\Camera</Filter>
     </ClInclude>
@@ -225,11 +237,26 @@
     <ClInclude Include="..\public\Collider_OBB.h">
       <Filter>01.Utility\05.Component\Collision\Collider\OBB</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\CollisionManager.h">
+    <ClInclude Include="..\public\Collision_Manager.h">
       <Filter>01.Utility\05.Component\Collision\Manager</Filter>
     </ClInclude>
     <ClInclude Include="..\public\Animator.h">
       <Filter>01.Utility\05.Component\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Room.h">
+      <Filter>01.Utility\03.GameObject\Room</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Room_Manager.h">
+      <Filter>01.Utility\03.GameObject\Room\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Key_Manager.h">
+      <Filter>00.System\02.Key\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Font_Manager.h">
+      <Filter>00.System\05. Font\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\Font.h">
+      <Filter>00.System\05. Font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,11 +344,23 @@
     <ClCompile Include="..\private\Collider_OBB.cpp">
       <Filter>01.Utility\05.Component\Collision\Collider\OBB</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\CCollisionManager.cpp">
+    <ClCompile Include="..\private\Collision_Manager.cpp">
       <Filter>01.Utility\05.Component\Collision\Manager</Filter>
     </ClCompile>
     <ClCompile Include="..\private\Animator.cpp">
       <Filter>01.Utility\05.Component\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Room.cpp">
+      <Filter>01.Utility\03.GameObject\Room</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Room_Manager.cpp">
+      <Filter>01.Utility\03.GameObject\Room\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Font_Manager.cpp">
+      <Filter>00.System\05. Font\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Font.cpp">
+      <Filter>00.System\05. Font</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
