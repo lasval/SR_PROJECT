@@ -5,13 +5,13 @@ CLight::CLight(LPDIRECT3DDEVICE9 pGraphic_Device)
     , m_iIndex(0)
 {
     Safe_AddRef(m_pGraphic_Device);
-    ZeroMemory(&m_tLightInfo, sizeof(D3DLIGHT9));
+    ZeroMemory(&m_LightDesc, sizeof(D3DLIGHT9));
 }
 
 
 HRESULT CLight::Ready_Light(const D3DLIGHT9* pLightInfo, const _uint& iIndex)
 {
-    memcpy(&m_tLightInfo, pLightInfo, sizeof(D3DLIGHT9));
+    memcpy(&m_LightDesc, pLightInfo, sizeof(D3DLIGHT9));
 
     m_iIndex = iIndex;
 

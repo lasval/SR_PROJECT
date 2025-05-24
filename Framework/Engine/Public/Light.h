@@ -16,7 +16,7 @@ public:
 private:
 	LPDIRECT3DDEVICE9		m_pGraphic_Device;
 
-	D3DLIGHT9				m_tLightInfo;
+	D3DLIGHT9				m_LightDesc;
 	_uint					m_iIndex;
 
 public:
